@@ -1,0 +1,24 @@
+.collapse-inner .collapse-item {
+  white-space: normal !important;
+}
+
+.dropdown-menu[class^=gc-dropdown-menu-] {
+  margin-top: 0 !important;
+}
+
+button[title=Columnas] {
+  display: none;
+}
+
+@font-face {
+  font-family: "MarkPro-Bold";
+  src: url("./src/fonts/MarkPro-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "effra";
+  src: url("./src/fonts/effra-regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "MarkPro-Light";
+  src: url("./src/fonts/MarkPro-Ligth.ttf") format("truetype");
+}

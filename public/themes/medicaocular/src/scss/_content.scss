@@ -1,0 +1,11 @@
+// Content
+
+// Fixing up GC bootstrap theme dropdown menu
+.dropdown-menu[class^="gc-dropdown-menu-"]  {
+    margin-top: 0!important;
+}
+
+// Hiding Columnas button
+button[title="Columnas"] {
+    display: none;
+}
