@@ -15,8 +15,7 @@ class Gerencia extends BaseController
             ->unsetDelete()
             ->setRead()
             ->where([
-                'registro_permisos.id_estado_permiso' => 1,
-                'u.id_jefe' => session()->get('user_id')
+                'registro_permisos.id_estado_permiso' => 1
             ])
             ->requiredFields(['id_estado_permiso'])
             ->readFields(['id_tipo_permiso', 'id_estado_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
