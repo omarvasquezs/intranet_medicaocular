@@ -53,6 +53,8 @@ abstract class BaseController extends Controller
     protected $usuarios_roles;
     protected $documentos;
 
+    protected $permisos;
+
     /**
      * @return void
      */
@@ -69,6 +71,7 @@ abstract class BaseController extends Controller
         $this->usuarios = new \App\Models\Usuarios();
         $this->usuarios_roles = new \App\Models\UsuariosRoles();
         $this->documentos = new \App\Models\Documentos();
+        $this->permisos = new \App\Models\Permisos();
         // Custom validation rules
         \Valitron\Validator::addRule('noSpacesBetweenLetters', function($field, $value, array $params, array $fields) {
 

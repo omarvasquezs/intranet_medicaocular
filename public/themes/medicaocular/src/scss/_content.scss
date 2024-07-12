@@ -1,11 +1,73 @@
 // Content
+body {
+    margin: 0;
+    font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #858796;
+    text-align: left;
+    background-color: #fff;
+}
+
+#wrapper #content-wrapper {
+    background-color: $white !important;
+}
 
 // Fixing up GC bootstrap theme dropdown menu
-.dropdown-menu[class^="gc-dropdown-menu-"]  {
-    margin-top: 0!important;
+.dropdown-menu[class^="gc-dropdown-menu-"] {
+    margin-top: 0 !important;
 }
 
 // Hiding Columnas button
-button[title="Columnas"] {
+/*button[title="Columnas"] {
+    display: none;
+}*/
+
+// Table bottom
+table.table-bordered.table-hover {
+    margin-bottom: 100px !important;
+}
+
+// Datepicker
+.react-datepicker__aria-live,
+.react-datepicker-ignore-onclickoutside {
     display: none;
 }
+
+// ::START LOGIN STYLES::
+body.login-page {
+    background-color: #00aeef;
+}
+
+.login-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 40px 40px 55px 40px;
+    /* Increased padding at top and bottom */
+    margin: 0 auto;
+    width: 100%;
+    max-width: 30rem;
+    margin-top: 100px;
+}
+
+.login-form {
+    margin-top: 20px;
+}
+
+.login-button {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+.login-form #username {
+    text-transform: uppercase;
+}
+
+// ::END LOGIN STYLES::

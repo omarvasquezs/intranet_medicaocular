@@ -12,22 +12,35 @@ class Auth extends BaseController
     }
     public function authenticate()
     {
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             // Handle user login here
             $data = $this->request->getPost();
-            $userModel = new \App\Models\Usuarios();
-            $user = $userModel->where('usuario', $data['username'])->first();
+            $user = $this->usuarios->where('usuario', $data['username'])->first();
 
             if (
                 $user && $user['estado'] == 1 &&
-                $user['pass'] === md5(sha1($data['password']))
+                $user['pass'] === $data['password']
             ) {
                 // Successful login
-                // Set user session or token
-                // Example for session:
-                session()->set('user_id', $user['id']);
-                session()->set('username', $user['username']);
-                session()->set('role_id', $user['role_id']);
+
+                // Fetch user roles
+                $roles = $this->usuarios_roles->where('id_usuario', $user['id'])->findAll();
+                $rolesArray = array_column($roles, 'id_rol');
+                
+                // Set user session or token and redirect to dashboard
+                session()->set([
+                    'user_id' => $user['id'],
+                    'nombres' => $user['nombres'],
+                    'usuario' => $user['usuario'],
+                    'dni' => $user['dni'],
+                    'birthday' => $user['birthday'],
+                    'id_cargo' => $user['id_cargo'],
+                    'id_area' => $user['id_area'],
+                    'id_jefe' => $user['id_jefe'],
+                    'fecha_creacion' => $user['fecha_creacion'],
+                    'fecha_actualizacion' => $user['fecha_actualizacion'],
+                    'roles' => $rolesArray
+                ]);
                 return redirect()->to('/');
             } else {
                 // Login failed, show errors or set an error message

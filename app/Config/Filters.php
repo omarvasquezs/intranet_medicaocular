@@ -34,6 +34,8 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'authcheck'     => \App\Filters\AuthCheck::class,
+        'loggedcheck'   => \App\Filters\AlreadyLoggedCheck::class,
     ];
 
     /**
@@ -103,5 +105,8 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'authcheck' => ['before' => ['/','users','users/*','cargos','cargos/*','areas','areas/*','documentos','documentos/*','registrar_permiso','registrar_permiso/*']],
+        'loggedcheck' => ['before' => ['login']],
+    ];
 }

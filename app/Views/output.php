@@ -38,201 +38,252 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon">
-                    <img width="58" height="58"
-                        src="<?=base_url()?>assets/eye.png">
+                    <img width="58" height="58" src="<?= base_url() ?>assets/eye.png">
                 </div>
-                <div class="sidebar-brand-text mx-3"><img width="100"
-                        src="<?=base_url()?>assets/medica_ocular.png" alt="Logo">
+                <div class="sidebar-brand-text mx-3"><img width="100" src="<?= base_url() ?>assets/medica_ocular.png"
+                        alt="Logo">
                 </div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>INICIO</span></a>
-            </li>
+            <?php if (array_intersect(session()->get('roles'), [3])): ?>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <!-- DASHBOARD BLOCK -->
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                General
-            </div>
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>INICIO</span></a>
+                </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-search"></i>
-                    <span>CONSULTAR</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">HISTORICO:</h6>
-                        <a class="collapse-item" href="/">Mis Boletas</a>
-                        <a class="collapse-item" href="/">Mis Permisos y Descansos</a>
-                    </div>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- END DASHBOARD BLOCK -->
+
+                <!-- BOLETAS & PERMISOS BLOCK -->
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    General
                 </div>
-            </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-pencil-alt"></i>
-                    <span>REGISTRAR</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/">Permiso o Descanso</a>
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fa fa-search"></i>
+                        <span>CONSULTAR</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">HISTORICO:</h6>
+                            <a class="collapse-item" href="/">Mis Boletas</a>
+                            <a class="collapse-item" href="<?= base_url() ?>registrar_permiso">Mis Permisos y Descansos</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Informativo
-            </div>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?=base_url()?>documentos">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>DOCUMENTOS</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-sitemap"></i>
-                    <span>DIRECTORIO</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Contabilidad
-            </div>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-upload"></i>
-                    <span>SUBIR BOLETA</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-exclamation-triangle"></i>
-                    <span>BOLETAS RECHAZADAS</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-history"></i>
-                    <span>H. BOLETAS</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Gerencia y/o Jefatura
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLMenu"
-                    aria-expanded="true" aria-controls="gerenciaSOLMenu">
-                    <i class="fa fa-fw fa-list"></i>
-                    <span>SOL. PENDIENTES</span>
-                </a>
-                <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Por aprobar:</h6>
-                        <a class="collapse-item" href="/">Boletas</a>
-                        <a class="collapse-item" href="/">Permisos y Descansos</a>
+                <!-- Nav Item - Utilities Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                        aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-pencil-alt"></i>
+                        <span>REGISTRAR</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="<?= base_url() ?>registrar_permiso/add">Permiso o Descanso</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLaproMenu"
-                    aria-expanded="true" aria-controls="gerenciaSOLaproMenu">
-                    <i class="fa fa-fw fa-check"></i>
-                    <span>SOL. APROBADAS</span>
-                </a>
-                <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/">Boletas Aprobadas</a>
-                        <a class="collapse-item" href="/">Permisos y Descansos Aprobadas</a>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- END BOLETAS & PERMISOS BLOCK -->
+
+                <!-- DOCUMENTOS & DIRECTORIO BLOCK -->
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Informativo
+                </div>
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url() ?>documentos">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>DOCUMENTOS</span></a>
+                </li>
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-sitemap"></i>
+                        <span>DIRECTORIO</span></a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- END DOCUMENTOS & DIRECTORIO BLOCK -->
+
+            <?php endif; ?>
+
+            <?php if (array_intersect(session()->get('roles'), [3])): ?>
+
+                <!-- CONTABILIDAD BLOCK -->
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Contabilidad
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-upload"></i>
+                        <span>SUBIR BOLETA</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-exclamation-triangle"></i>
+                        <span>BOLETAS RECHAZADAS</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-history"></i>
+                        <span>H. BOLETAS</span>
+                    </a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- END CONTABILIDAD -->
+
+            <?php endif; ?>
+
+            <?php if (array_intersect(session()->get('roles'), [1, 5])): ?>
+
+                <!-- GERENCIA AND JEFATURA BLOCK -->
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gerencia y/o Jefatura
+                </div>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLMenu"
+                        aria-expanded="true" aria-controls="gerenciaSOLMenu">
+                        <i class="fa fa-fw fa-list"></i>
+                        <span>SOL. PENDIENTES</span>
+                    </a>
+                    <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Por aprobar:</h6>
+                            <?php if (array_intersect(session()->get('roles'), [1])) { ?>
+                                <a class="collapse-item" href="/">Boletas</a>
+                            <?php }
+                            if (array_intersect(session()->get('roles'), [5])) { ?>
+                                <a class="collapse-item" href="<?=base_url()?>permisos_pendientes">Permisos y Descansos</a>
+                            <?php } ?>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLrechaMenu"
-                    aria-expanded="true" aria-controls="gerenciaSOLrechaMenu">
-                    <i class="fa fa-fw fa-times"></i>
-                    <span>SOL. RECHAZADAS</span>
-                </a>
-                <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/">Boletas Rechazadas</a>
-                        <a class="collapse-item" href="/">Permisos y Descansos Rechazadas</a>
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLaproMenu"
+                        aria-expanded="true" aria-controls="gerenciaSOLaproMenu">
+                        <i class="fa fa-fw fa-check"></i>
+                        <span>SOL. APROBADAS</span>
+                    </a>
+                    <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if (array_intersect(session()->get('roles'), [1])) { ?>
+                                <a class="collapse-item" href="/">Boletas Aprobadas</a>
+                            <?php }
+                            if (array_intersect(session()->get('roles'), [5])) { ?>
+                                <a class="collapse-item" href="/">Permisos y Descansos Aprobadas</a>
+                            <?php } ?>
+                        </div>
                     </div>
+                </li>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLrechaMenu"
+                        aria-expanded="true" aria-controls="gerenciaSOLrechaMenu">
+                        <i class="fa fa-fw fa-times"></i>
+                        <span>SOL. RECHAZADAS</span>
+                    </a>
+                    <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if (array_intersect(session()->get('roles'), [1])) { ?>
+                                <a class="collapse-item" href="/">Boletas Rechazadas</a>
+                            <?php }
+                            if (array_intersect(session()->get('roles'), [5])) { ?>
+                                <a class="collapse-item" href="/">Permisos y Descansos Rechazadas</a>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- END OF GERENCIA AND JEFATURA BLOCK -->
+
+            <?php endif; ?>
+
+            <?php if (array_intersect(session()->get('roles'), [3])): ?>
+
+                <!-- IT BLOCK -->
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Administrar
                 </div>
-            </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url() ?>users">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>USUARIOS</span>
+                    </a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Administrar
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url() ?>cargos">
+                        <i class="fa fa-medal"></i>
+                        <span>CARGOS</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url() ?>users">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>USUARIOS</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url() ?>areas">
+                        <i class="fa fa-id-card"></i>
+                        <span>ÁREAS</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url() ?>cargos">
-                    <i class="fa fa-medal"></i>
-                    <span>CARGOS</span>
-                </a>
-            </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url() ?>areas">
-                    <i class="fa fa-id-card"></i>
-                    <span>ÁREAS</span>
-                </a>
-            </li>
+                <!-- END OF IT BLOCK -->
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <?php endif; ?>
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -341,9 +392,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Juan Arana</span>
-                                <img class="img-profile rounded-circle"
-                                    src="<?= base_url() ?>themes/startbootstrap-sb-admin-2/img/undraw_profile.svg">
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small"><?= session()->get('nombres'); ?></span>
+                                <img class="img-profile rounded-circle" src="<?= base_url() ?>assets/eye.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -367,6 +418,22 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <?php if (session()->has('message')): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <?= session('message') ?>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (session()->has('error')): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?= session('error') ?>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
                     <!-- TO DO -->
                     <?php
                     if (!empty($output)) {
@@ -445,7 +512,7 @@
     <script src="<?= base_url() ?>themes/startbootstrap-sb-admin-2/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- end -->
     <!-- Custom scripts for all pages-->
-    <script src="<?= base_url() ?>themes/startbootstrap-sb-admin-2/js/sb-admin-2.min.js"></script>
+    <script src="<?= base_url() ?>themes/startbootstrap-sb-admin-2/js/sb-admin-2.js"></script>
     <!-- end -->
     <!-- Grocery Crud js files -->
     <?php

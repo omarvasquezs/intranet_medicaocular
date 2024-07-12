@@ -30,7 +30,7 @@ class Admin extends BaseController
             ->setRelation('id_cargo', 'cargos', 'cargo')
             ->setRelation('id_area', 'areas', 'area')
             ->setRelationNtoN('roles', 'usuarios_roles', 'roles', 'id_usuario', 'id_rol', 'rol')
-            // jefe inmediato field
+            // jefe inmediato field and its callbacks
             ->callbackAddField('id_jefe', function () {
                 $options = $this->usuarios->getUsersWithRole('JEFATURA');
                 $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, '', ['class' => 'form-control']);
@@ -41,6 +41,9 @@ class Admin extends BaseController
                 $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, $value, ['class' => 'form-control']);
                 return $dropdown;
             })
+            ->callbackReadField('id_jefe', function ($fieldValue, $primaryKeyValue) use ($usuarios) {
+                return $usuarios->find($fieldValue)['nombres'];
+            })
             // Custom action buttons
             ->setActionButton('Reiniciar Clave', 'fa fa-key', function ($row) {
                 return 'reset_pass/' . $row->id;
@@ -49,6 +52,7 @@ class Admin extends BaseController
             ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations())
             // Field type
             ->fieldType('estado', 'boolean')
+            ->fieldType('birthday', 'native_date')
             // Unique Fields
             ->uniqueFields(['usuario', 'dni'])
             // Unset things
@@ -57,6 +61,7 @@ class Admin extends BaseController
             ->unsetFilters()
             ->unsetExport()
             ->unsetPrint()
+            ->setRead()
             // Generate password after INSERT
             ->callbackAfterInsert(function ($stateParameters) use ($usuarios) {
                 $usuarios->updatePassword($stateParameters->insertId);
@@ -93,5 +98,21 @@ class Admin extends BaseController
         $output = $this->gc->render();
 
         return $this->_mainOutput($output);
+    }
+
+    public function reset_pass($userId)
+    {
+        // Retrieve the usuario value based on userId
+        $usuarioName = $this->usuarios->find($userId)['usuario'];
+
+        $passwordUpdateSuccess = $this->usuarios->update($userId, (object) ['pass' => "12345678"]);
+
+        if ($passwordUpdateSuccess) {
+            // Password update was successful
+            return redirect()->to('/users')->with('message', 'Se restableció la clave a 12345678 para el/la usuario: ' . $usuarioName);
+        } else {
+            // Password update failed
+            return redirect()->back()->with('error', 'No se puedo restablecer clave para el/la usuario: ' . $usuarioName);
+        }
     }
 }
