@@ -71,7 +71,7 @@ class GroceryCrud implements GroceryCrudInterface
      *
      * @var string
      */
-    const VERSION = "3.1.4";
+    const VERSION = "3.1.6";
 
     /**
      * Specifying if the current datagrid will be a master - detail grid.

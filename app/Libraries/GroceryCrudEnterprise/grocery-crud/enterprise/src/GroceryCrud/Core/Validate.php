@@ -74,8 +74,7 @@ class Validate implements ValidateInterface
     public function pre_render()
     {
         if ($this->_uniqueCallback !== null) {
-            //Validator::addRule('unique', $this->_uniqueCallback, 'must contain a unique value.');
-            Validator::addRule('unique', $this->_uniqueCallback, 'ya existe, intente con otro.');
+            Validator::addRule('unique', $this->_uniqueCallback, 'must contain a unique value.');
         }
 
         if ($this->_requiredUploadCallback !== null) {

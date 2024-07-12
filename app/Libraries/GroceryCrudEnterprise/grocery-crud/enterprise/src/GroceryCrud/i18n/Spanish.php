@@ -18,7 +18,7 @@ return [
     'confirm_delete' => '¿Esta seguro que quiere eliminar este registro?',
     'confirm_delete_multiple' => '¿Está seguro que quiere eliminar {items_amount} registros?',
     'drag_n_drop_file_multiple' => 'Drag and drop files here, or click to select files',
-    'drag_n_drop_file_one' => 'Arrastre aquí el archivo, o clic para seleccionar archivo',
+    'drag_n_drop_file_one' => 'Drag and drop file here, or click to select file',
     'edit' => 'Editar',
     'edit_item' => 'Editar {subject}',
     'enter_x_or_more_characters' => 'Por favor, introduzca {remaining_chars} o más caracteres',
