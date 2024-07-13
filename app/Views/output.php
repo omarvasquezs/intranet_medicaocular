@@ -191,12 +191,8 @@
                     <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Por aprobar:</h6>
-                            <?php if (array_intersect(session()->get('roles'), [1])) { ?>
-                                <a class="collapse-item" href="/">Boletas</a>
-                            <?php }
-                            if (array_intersect(session()->get('roles'), [5])) { ?>
-                                <a class="collapse-item" href="<?=base_url()?>permisos_pendientes">Permisos y Descansos</a>
-                            <?php } ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="/">Boletas</a>' : '' ?>
+                            <a class="collapse-item" href="<?= base_url() ?>permisos_pendientes">Permisos y Descansos</a>
                         </div>
                     </div>
                 </li>
@@ -211,12 +207,8 @@
                     <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?php if (array_intersect(session()->get('roles'), [1])) { ?>
-                                <a class="collapse-item" href="/">Boletas Aprobadas</a>
-                            <?php }
-                            if (array_intersect(session()->get('roles'), [5])) { ?>
-                                <a class="collapse-item" href="/">Permisos y Descansos Aprobadas</a>
-                            <?php } ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="/">Boletas Aprobadas</a>' : '' ?>
+                            <a class="collapse-item" href="/">Permisos y Descansos Aprobadas</a>
                         </div>
                     </div>
                 </li>
@@ -231,12 +223,8 @@
                     <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?php if (array_intersect(session()->get('roles'), [1])) { ?>
-                                <a class="collapse-item" href="/">Boletas Rechazadas</a>
-                            <?php }
-                            if (array_intersect(session()->get('roles'), [5])) { ?>
-                                <a class="collapse-item" href="/">Permisos y Descansos Rechazadas</a>
-                            <?php } ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="/">Boletas Rechazadas</a>' : '' ?>
+                            <a class="collapse-item" href="/">Permisos y Descansos Rechazadas</a>
                         </div>
                     </div>
                 </li>
