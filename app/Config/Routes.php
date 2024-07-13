@@ -50,3 +50,13 @@ $routes->get('permisos_pendientes', 'Gerencia::permisos_pendientes');
 $routes->get('permisos_pendientes/(:any)', 'Gerencia::permisos_pendientes/$1');
 $routes->post('permisos_pendientes', 'Gerencia::permisos_pendientes');
 $routes->post('permisos_pendientes/(:any)', 'Gerencia::permisos_pendientes');
+
+$routes->get('permisos_aprobados', 'Gerencia::permisos_aprobados');
+$routes->get('permisos_aprobados/(:any)', 'Gerencia::permisos_aprobados/$1');
+$routes->post('permisos_aprobados', 'Gerencia::permisos_aprobados');
+$routes->post('permisos_aprobados/(:any)', 'Gerencia::permisos_aprobados');
+
+$routes->get('permisos_rechazados', 'Gerencia::permisos_rechazados');
+$routes->get('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados/$1');
+$routes->post('permisos_rechazados', 'Gerencia::permisos_rechazados');
+$routes->post('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados');

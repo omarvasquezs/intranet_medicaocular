@@ -191,7 +191,7 @@
                     <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Por aprobar:</h6>
-                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="/">Boletas</a>' : '' ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'">Boletas</a>' : '' ?>
                             <a class="collapse-item" href="<?= base_url() ?>permisos_pendientes">Permisos y Descansos</a>
                         </div>
                     </div>
@@ -207,8 +207,8 @@
                     <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="/">Boletas Aprobadas</a>' : '' ?>
-                            <a class="collapse-item" href="/">Permisos y Descansos Aprobadas</a>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'">Boletas Aprobadas</a>' : '' ?>
+                            <a class="collapse-item" href="<?=base_url()?>permisos_aprobados">Permisos y Descansos Aprobados</a>
                         </div>
                     </div>
                 </li>
@@ -223,8 +223,8 @@
                     <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="/">Boletas Rechazadas</a>' : '' ?>
-                            <a class="collapse-item" href="/">Permisos y Descansos Rechazadas</a>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'">Boletas Rechazadas</a>' : '' ?>
+                            <a class="collapse-item" href="<?=base_url()?>permisos_rechazados">Permisos y Descansos Rechazados</a>
                         </div>
                     </div>
                 </li>
