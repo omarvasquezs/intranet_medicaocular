@@ -36,7 +36,6 @@ class Auth extends BaseController
                     'birthday' => $user['birthday'],
                     'id_cargo' => $user['id_cargo'],
                     'id_area' => $user['id_area'],
-                    'id_jefe' => $user['id_jefe'],
                     'fecha_creacion' => $user['fecha_creacion'],
                     'fecha_actualizacion' => $user['fecha_actualizacion'],
                     'roles' => $rolesArray

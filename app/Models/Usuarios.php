@@ -12,7 +12,7 @@ class Usuarios extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','nombres','usuario','pass','dni','id_cargo','id_area','estado','firma','id_jefe','fecha_creacion'];
+    protected $allowedFields    = ['id','nombres','usuario','pass','dni','id_cargo','id_area','estado','firma','fecha_creacion'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

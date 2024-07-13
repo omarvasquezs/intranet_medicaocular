@@ -19,7 +19,6 @@ class Admin extends BaseController
                 'dni' => 'DNI',
                 'id_cargo' => 'CARGO',
                 'id_area' => 'ÁREA',
-                'id_jefe' => 'JEFE DIRECTO',
                 'roles' => 'ROLES',
                 'birthday' => 'FECHA DE NACIMIENTO',
                 'firma' => 'FIRMA DIGITAL'
@@ -30,20 +29,6 @@ class Admin extends BaseController
             ->setRelation('id_cargo', 'cargos', 'cargo')
             ->setRelation('id_area', 'areas', 'area')
             ->setRelationNtoN('roles', 'usuarios_roles', 'roles', 'id_usuario', 'id_rol', 'rol')
-            // jefe inmediato field and its callbacks
-            ->callbackAddField('id_jefe', function () {
-                $options = $this->usuarios->getUsersWithRole('JEFATURA');
-                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, '', ['class' => 'form-control']);
-                return $dropdown;
-            })
-            ->callbackEditField('id_jefe', function ($value, $primaryKey) {
-                $options = $this->usuarios->getUsersWithRole('JEFATURA');
-                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, $value, ['class' => 'form-control']);
-                return $dropdown;
-            })
-            ->callbackReadField('id_jefe', function ($fieldValue, $primaryKeyValue) use ($usuarios) {
-                return $usuarios->find($fieldValue)['nombres'];
-            })
             // Custom action buttons
             ->setActionButton('Reiniciar Clave', 'fa fa-key', function ($row) {
                 return 'reset_pass/' . $row->id;
@@ -78,7 +63,9 @@ class Admin extends BaseController
     {
         $this->gc->setTable('cargos')
             ->setSubject('CARGO')
-            ->displayAs(['cargo' => 'CARGO'])
+            ->displayAs([
+                'cargo' => 'CARGO',
+            ])
             ->unsetExport()
             ->unsetPrint();
 
@@ -89,9 +76,28 @@ class Admin extends BaseController
     // AREAS
     public function areas()
     {
+        $usuarios = $this->usuarios;
         $this->gc->setTable('areas')
             ->setSubject('AREA')
-            ->displayAs(['area' => 'AREA'])
+            ->displayAs([
+                'area' => 'AREA',
+                'id_jefe' => 'JEFE INMEDIATO'
+            ])
+            ->setRelation('id_jefe', 'usuarios', 'nombres')
+            // jefe inmediato field and its callbacks
+            ->callbackAddField('id_jefe', function () {
+                $options = $this->usuarios->getUsersWithRole('JEFATURA');
+                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, '', ['class' => 'form-control']);
+                return $dropdown;
+            })
+            ->callbackEditField('id_jefe', function ($value, $primaryKey) {
+                $options = $this->usuarios->getUsersWithRole('JEFATURA');
+                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, $value, ['class' => 'form-control']);
+                return $dropdown;
+            })
+            ->callbackReadField('id_jefe', function ($fieldValue, $primaryKeyValue) use ($usuarios) {
+                return $usuarios->find($fieldValue)['nombres'];
+            })
             ->unsetExport()
             ->unsetPrint();
 
