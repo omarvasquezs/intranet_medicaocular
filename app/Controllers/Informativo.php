@@ -25,7 +25,7 @@ class Informativo extends BaseController
             
                 $filename = !empty($_FILES["data"]) ? $_FILES["data"]["name"][$fieldName][0] : '';
             
-                if (!preg_match('/\.(doc|docx|ppt|pptx|xls|xlsx|pdf|txt)$/',$filename)) {
+                if (!preg_match('/\.(doc|docx|ppt|pptx|xls|xlsx|pdf)$/',$filename)) {
                     return (new \GroceryCrud\Core\Error\ErrorMessage())
                         ->setMessage("La extension del archivo: '" . $filename. "'' no es soportada!");
                 }
