@@ -145,7 +145,7 @@
                 </div>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/">
+                    <a class="nav-link" href="<?=base_url()?>contabilidad_boletas/add">
                         <i class="fas fa-fw fa-upload"></i>
                         <span>SUBIR BOLETA</span>
                     </a>
@@ -159,7 +159,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/">
+                    <a class="nav-link" href="<?=base_url()?>contabilidad_boletas">
                         <i class="fas fa-fw fa-history"></i>
                         <span>H. BOLETAS</span>
                     </a>
