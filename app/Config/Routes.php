@@ -60,3 +60,9 @@ $routes->get('permisos_rechazados', 'Gerencia::permisos_rechazados');
 $routes->get('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados/$1');
 $routes->post('permisos_rechazados', 'Gerencia::permisos_rechazados');
 $routes->post('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados');
+
+// PERFIL
+$routes->get('perfil', 'Home::perfil');
+$routes->get('perfil/(:any)', 'Home::perfil/$1');
+$routes->post('perfil', 'Home::perfil');
+$routes->post('perfil/(:any)', 'Home::perfil');
