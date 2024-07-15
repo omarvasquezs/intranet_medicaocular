@@ -37,9 +37,6 @@ class Home extends BaseController
             ])
             // Columns
             ->columns(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday'])
-            // Edit fields
-            ->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'firma'])
-            ->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo'])
             // Upload sign
             ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations())
             // Relations
@@ -55,6 +52,15 @@ class Home extends BaseController
             ->unsetDelete()
             ->unsetSearchColumns(['nombres', 'usuario', 'dni', 'birthday', 'id_cargo'])
             ->setRule('usuario', 'noSpacesBetweenLetters');
+        
+        // Edit fields based on the rol
+        if (array_intersect(session()->get('roles'), [1])) {
+            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'firma']);
+        } else {
+            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday']);
+        }
+
+        $this->gc->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo']);
 
         // Rendering the CRUD
         $output = $this->gc->render();
