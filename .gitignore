@@ -131,3 +131,10 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 /.php-cs-fixer.php
+
+# Omit files from uploads
+/public/assets/uploads/boletas/*
+/public/assets/uploads/documentos/*
+/public/assets/uploads/files/*
+/public/assets/uploads/firmas/*
+/public/assets/uploads/permisos/*
