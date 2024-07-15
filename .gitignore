@@ -134,7 +134,12 @@ nb-configuration.xml
 
 # Omit files from uploads
 /public/assets/uploads/boletas/*
+!/public/assets/uploads/boletas/.gitkeep
 /public/assets/uploads/documentos/*
+!/public/assets/uploads/documentos/.gitkeep
 /public/assets/uploads/files/*
+!/public/assets/uploads/files/.gitkeep
 /public/assets/uploads/firmas/*
+!/public/assets/uploads/firmas/.gitkeep
 /public/assets/uploads/permisos/*
+!/public/assets/uploads/permisos/.gitkeep
