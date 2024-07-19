@@ -14,7 +14,6 @@ class Informativo extends BaseController
             ->unsetExport()
             ->unsetPrint()
             ->unsetColumns(['adjunto'])
-            //->unsetOperations()
             ->unsetFilters()
             ->unsetSettings()
             ->callbackColumn('titulo', function ($value, $row) {
@@ -33,6 +32,10 @@ class Informativo extends BaseController
                 // Don't forget to return the uploadData at the end
                 return $uploadData;
             });
+
+        if (!array_intersect(session()->get('roles'), [1, 2])) {
+            $this->gc->unsetOperations();
+        }
 
         $output = $this->gc->render();
 
