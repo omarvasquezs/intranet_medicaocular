@@ -24,9 +24,11 @@ class Contabilidad extends BaseController
                 'minUploadSize' => '1K', // 1 Kilo Byte
                 'allowedFileTypes' => ['pdf']
             ])
+            ->addFields(['id_usuario', 'adjunto'])
             ->unsetColumns(['subido_por', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
             ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por'])
+            ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones'])
             ->callbackBeforeInsert(function ($stateParameters) {
                 $stateParameters->data['subido_por'] = session()->get('user_id');
                 $stateParameters->data['id_estado_boleta'] = 1;
