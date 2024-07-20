@@ -223,7 +223,7 @@
                     <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'">Boletas Rechazadas</a>' : '' ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'contabilidad_boletas_rechazadas">Boletas Rechazadas</a>' : '' ?>
                             <a class="collapse-item" href="<?=base_url()?>permisos_rechazados">Permisos y Descansos Rechazados</a>
                         </div>
                     </div>
