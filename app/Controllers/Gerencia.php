@@ -176,4 +176,106 @@ class Gerencia extends BaseController
 
         return $this->_mainOutput($output);
     }
+    public function boletas_pendientes()
+    {
+        $this->gc->setTable("boletas")
+            ->setSubject("BOLETA PENDIENTE DE APROBACION", "BOLETAS PENDIENTES DE APROBACION")
+            ->defaultOrdering('boletas.fecha_creacion', 'desc')
+            ->unsetFilters()
+            ->unsetPrint()
+            ->unsetExport()
+            ->unsetAdd()
+            ->unsetDelete()
+            ->setRead()
+            ->where([
+                'boletas.id_estado_boleta' => 1
+            ])
+            ->requiredFields(['id_estado_boleta'])
+            ->editFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'observaciones'])
+            ->readFields(['id_usuario', 'fecha_creacion', 'adjunto', 'id_estado_boleta', 'observaciones', 'revisado_por'])
+            ->columns(['id_usuario', 'fecha_creacion', 'adjunto', 'id_estado_boleta'])
+            ->readOnlyEditFields(['id_usuario', 'fecha_creacion', 'adjunto'])
+            ->unsetEditFields(['revisado_por', 'fecha_creacion'])
+            ->unsetReadFields(['observaciones', 'revisado_por'])
+            ->callbackBeforeInsert(function ($stateParameters) {
+                $stateParameters->data['subido_por'] = session()->get('user_id');
+                $stateParameters->data['id_estado_boleta'] = 1;
+                return $stateParameters;
+            })
+            ->callbackBeforeUpdate(function ($stateParameters) {
+                $stateParameters->data['revisado_por'] = session()->get('user_id');
+                return $stateParameters;
+            })
+            ->displayAs('id_usuario', 'EMPLEADO')
+            ->displayAs('id_estado_boleta', 'ESTADO DE LA BOLETA')
+            ->displayAs('adjunto', 'BOLETA')
+            ->displayAs('observaciones', 'OBSERVACIONES')
+            ->displayAs('fecha_creacion', 'FECHA CREACION')
+            ->displayAs('revisado_por', 'REVISADO POR')
+            ->setRelation('id_usuario', 'usuarios', 'nombres')
+            ->setRelation('id_estado_boleta', 'estado_boletas', 'estado_boleta')
+            ->setRelation('revisado_por', 'usuarios', 'nombres')
+            ->fieldType('observaciones', 'text')
+            ->callbackColumn('adjunto', function ($value, $row) {
+                return "<a href='" . site_url('assets/uploads/boletas/'. $row->adjunto ) . "' target='"."_blank"."'>$row->adjunto</a>";
+            })
+            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue) {
+                return "<a href='" . site_url('assets/uploads/boletas/'. $fieldValue ) . "' target='"."_blank"."'>$fieldValue</a>";
+            });
+
+        $output = $this->gc->render();
+
+        return $this->_mainOutput($output);
+    }
+    public function boletas_aprobadas()
+    {
+        $this->gc->setTable("boletas")
+            ->setSubject("BOLETA ABONADA", "BOLETAS ABONADAS")
+            ->defaultOrdering('boletas.fecha_creacion', 'desc')
+            ->unsetFilters()
+            ->unsetPrint()
+            ->unsetExport()
+            ->unsetAdd()
+            ->unsetDelete()
+            ->unsetEdit()
+            ->setRead()
+            ->where([
+                'boletas.id_estado_boleta' => 2
+            ])
+            ->requiredFields(['id_estado_boleta'])
+            ->editFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'observaciones'])
+            ->readFields(['id_usuario', 'fecha_creacion', 'adjunto', 'id_estado_boleta', 'observaciones', 'revisado_por'])
+            ->columns(['id_usuario', 'fecha_creacion', 'adjunto', 'id_estado_boleta'])
+            ->readOnlyEditFields(['id_usuario', 'fecha_creacion', 'adjunto'])
+            ->unsetEditFields(['revisado_por', 'fecha_creacion'])
+            ->unsetReadFields(['observaciones', 'revisado_por'])
+            ->callbackBeforeInsert(function ($stateParameters) {
+                $stateParameters->data['subido_por'] = session()->get('user_id');
+                $stateParameters->data['id_estado_boleta'] = 1;
+                return $stateParameters;
+            })
+            ->callbackBeforeUpdate(function ($stateParameters) {
+                $stateParameters->data['revisado_por'] = session()->get('user_id');
+                return $stateParameters;
+            })
+            ->displayAs('id_usuario', 'EMPLEADO')
+            ->displayAs('id_estado_boleta', 'ESTADO DE LA BOLETA')
+            ->displayAs('adjunto', 'BOLETA')
+            ->displayAs('observaciones', 'OBSERVACIONES')
+            ->displayAs('fecha_creacion', 'FECHA CREACION')
+            ->displayAs('revisado_por', 'REVISADO POR')
+            ->setRelation('id_usuario', 'usuarios', 'nombres')
+            ->setRelation('id_estado_boleta', 'estado_boletas', 'estado_boleta')
+            ->setRelation('revisado_por', 'usuarios', 'nombres')
+            ->fieldType('observaciones', 'text')
+            ->setFieldUpload('adjunto', 'assets/uploads/boletas/', base_url() . 'assets/uploads/boletas/', [
+                'maxUploadSize' => '20M', // 20 Mega Bytes
+                'minUploadSize' => '1K', // 1 Kilo Byte
+                'allowedFileTypes' => ['pdf']
+            ]);
+
+        $output = $this->gc->render();
+
+        return $this->_mainOutput($output);
+    }
 }

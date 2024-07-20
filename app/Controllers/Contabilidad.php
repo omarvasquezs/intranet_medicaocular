@@ -7,7 +7,8 @@ class Contabilidad extends BaseController
     public function contabilidad_boletas()
     {
         $this->gc->setTable('boletas')
-            ->setSubject('BOLETA', 'SUBIR BOLETA')
+            ->setSubject('BOLETA', 'HISTORICO BOLETAS')
+            ->defaultOrdering('boletas.fecha_creacion', 'desc')
             ->unsetEdit()
             ->unsetDelete()
             ->unsetExport()
@@ -23,9 +24,9 @@ class Contabilidad extends BaseController
                 'minUploadSize' => '1K', // 1 Kilo Byte
                 'allowedFileTypes' => ['pdf']
             ])
-            ->unsetFields(['subido_por', 'revisado_por', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'observaciones'])
-            ->unsetColumns(['subido_por', 'id_estado_boleta', 'fecha_modificacion', 'observaciones'])
+            ->unsetColumns(['subido_por', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
+            ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por'])
             ->callbackBeforeInsert(function ($stateParameters) {
                 $stateParameters->data['subido_por'] = session()->get('user_id');
                 $stateParameters->data['id_estado_boleta'] = 1;
@@ -50,6 +51,7 @@ class Contabilidad extends BaseController
     {
         $this->gc->setTable('boletas')
             ->setSubject('BOLETA', 'BOLETAS RECHAZADAS')
+            ->defaultOrdering('boletas.fecha_creacion', 'desc')
             ->unsetEdit()
             ->unsetDelete()
             ->unsetExport()

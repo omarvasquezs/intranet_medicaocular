@@ -113,7 +113,9 @@ class General extends BaseController
             ->unsetFilters()
             ->unsetOperations()
             ->defaultOrdering('boletas.fecha_creacion', 'desc')
-            ->where(['id_usuario' => session()->get('user_id')])
+            ->where(['id_usuario' => session()->get('user_id'),
+                'id_estado_boleta' => 2
+            ])
             ->setFieldUpload('adjunto', 'assets/uploads/boletas/', base_url() . 'assets/uploads/boletas/', [
                 'maxUploadSize' => '20M', // 20 Mega Bytes
                 'minUploadSize' => '1K', // 1 Kilo Byte

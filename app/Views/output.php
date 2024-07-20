@@ -191,7 +191,7 @@
                     <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Por aprobar:</h6>
-                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'">Boletas</a>' : '' ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'boletas_pendientes">Boletas</a>' : '' ?>
                             <a class="collapse-item" href="<?= base_url() ?>permisos_pendientes">Permisos y Descansos</a>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                     <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'">Boletas Aprobadas</a>' : '' ?>
+                            <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="'. base_url() .'boletas_aprobadas">Boletas Aprobadas</a>' : '' ?>
                             <a class="collapse-item" href="<?=base_url()?>permisos_aprobados">Permisos y Descansos Aprobados</a>
                         </div>
                     </div>

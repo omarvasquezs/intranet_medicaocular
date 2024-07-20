@@ -45,7 +45,7 @@ $routes->get('logout','Auth::logout');
 $routes->get('login', 'Auth::login');
 $routes->post('authenticate', 'Auth::authenticate');
 
-// GERENCIA PERMISOS
+// GERENCIA PERMISOS & BOLETAS
 $routes->get('permisos_pendientes', 'Gerencia::permisos_pendientes');
 $routes->get('permisos_pendientes/(:any)', 'Gerencia::permisos_pendientes/$1');
 $routes->post('permisos_pendientes', 'Gerencia::permisos_pendientes');
@@ -60,6 +60,16 @@ $routes->get('permisos_rechazados', 'Gerencia::permisos_rechazados');
 $routes->get('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados/$1');
 $routes->post('permisos_rechazados', 'Gerencia::permisos_rechazados');
 $routes->post('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados');
+
+$routes->get('boletas_pendientes', 'Gerencia::boletas_pendientes');
+$routes->get('boletas_pendientes/(:any)', 'Gerencia::boletas_pendientes/$1');
+$routes->post('boletas_pendientes', 'Gerencia::boletas_pendientes');
+$routes->post('boletas_pendientes/(:any)', 'Gerencia::boletas_pendientes');
+
+$routes->get('boletas_aprobadas', 'Gerencia::boletas_aprobadas');
+$routes->get('boletas_aprobadas/(:any)', 'Gerencia::boletas_aprobadas/$1');
+$routes->post('boletas_aprobadas', 'Gerencia::boletas_aprobadas');
+$routes->post('boletas_aprobadas/(:any)', 'Gerencia::boletas_aprobadas');
 
 // PERFIL
 $routes->get('perfil', 'Home::perfil');
