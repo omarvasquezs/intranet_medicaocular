@@ -26,6 +26,11 @@ class Contabilidad extends BaseController
             ->unsetFields(['subido_por', 'revisado_por', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'observaciones'])
             ->unsetColumns(['subido_por', 'id_estado_boleta', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
+            ->callbackBeforeInsert(function ($stateParameters) {
+                $stateParameters->data['subido_por'] = session()->get('user_id');
+                $stateParameters->data['id_estado_boleta'] = 1;
+                return $stateParameters;
+            })
             ->displayAs([
                 'id_usuario' => 'EMPLEADO',
                 'fecha_creacion' => 'FECHA DE CREACION',
