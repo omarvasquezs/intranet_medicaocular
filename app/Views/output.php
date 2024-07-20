@@ -81,7 +81,7 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">HISTORICO:</h6>
-                            <a class="collapse-item" href="/">Mis Boletas</a>
+                            <a class="collapse-item" href="<?=base_url()?>mis_boletas">Mis Boletas</a>
                             <a class="collapse-item" href="<?= base_url() ?>registrar_permiso">Mis Permisos y Descansos</a>
                         </div>
                     </div>

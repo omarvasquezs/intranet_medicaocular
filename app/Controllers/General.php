@@ -104,4 +104,37 @@ class General extends BaseController
 
         return $this->_mainOutput($output);
     }
+    public function mis_boletas()
+    {
+        $this->gc->setTable('boletas')
+            ->setSubject('BOLETA', 'BOLETAS DE ' . session()->get('nombres'))
+            ->unsetExport()
+            ->unsetPrint()
+            ->unsetFilters()
+            ->unsetOperations()
+            ->defaultOrdering('boletas.fecha_creacion', 'desc')
+            ->where(['id_usuario' => session()->get('user_id')])
+            ->setFieldUpload('adjunto', 'assets/uploads/boletas/', base_url() . 'assets/uploads/boletas/', [
+                'maxUploadSize' => '20M', // 20 Mega Bytes
+                'minUploadSize' => '1K', // 1 Kilo Byte
+                'allowedFileTypes' => ['pdf']
+            ])
+            ->columns(['fecha_creacion', 'adjunto'])
+            ->unsetColumns(['id_usuario', 'subido_por', 'id_estado_boleta', 'fecha_modificacion', 'revisado_por', 'observaciones'])
+            ->unsetSearchColumns(['adjunto', 'fecha_creacion'])
+            ->displayAs([
+                'id_usuario' => 'EMPLEADO',
+                'fecha_creacion' => 'FECHA DE CREACION',
+                'adjunto' => 'BOLETA',
+                'id_estado_boleta' => 'ESTADO DE LA BOLETA',
+                'subido_por' => 'SUBIDO POR',
+                'fecha_modificacion' => 'FECHA DE MODIFICACION',
+                'revisado_por' => 'REVISADO POR',
+                'observaciones' => 'OBSERVACIONES'
+            ]);
+
+        // Rendering the CRUD
+        $output = $this->gc->render();
+        return $this->_mainOutput($output);
+    }
 }

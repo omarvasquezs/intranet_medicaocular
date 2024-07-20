@@ -67,6 +67,11 @@ $routes->get('perfil/(:any)', 'Home::perfil/$1');
 $routes->post('perfil', 'Home::perfil');
 $routes->post('perfil/(:any)', 'Home::perfil');
 
+$routes->get('mis_boletas', 'General::mis_boletas');
+$routes->get('mis_boletas/(:any)', 'General::mis_boletas/$1');
+$routes->post('mis_boletas', 'General::mis_boletas');
+$routes->post('mis_boletas/(:any)', 'General::mis_boletas');
+
 // CONTABILIDAD
 $routes->get('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->get('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas/$1');
