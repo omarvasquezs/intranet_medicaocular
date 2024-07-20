@@ -152,7 +152,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/">
+                    <a class="nav-link" href="<?=base_url()?>contabilidad_boletas_rechazadas">
                         <i class="fas fa-fw fa-exclamation-triangle"></i>
                         <span>BOLETAS RECHAZADAS</span>
                     </a>

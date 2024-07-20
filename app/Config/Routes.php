@@ -72,3 +72,8 @@ $routes->get('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->get('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas/$1');
 $routes->post('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->post('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas');
+
+$routes->get('contabilidad_boletas_rechazadas', 'Contabilidad::contabilidad_boletas_rechazadas');
+$routes->get('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabilidad_boletas_rechazadas/$1');
+$routes->post('contabilidad_boletas_rechazadas', 'Contabilidad::contabilidad_boletas_rechazadas');
+$routes->post('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabilidad_boletas_rechazadas');
