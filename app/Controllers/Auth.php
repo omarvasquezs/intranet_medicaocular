@@ -38,6 +38,7 @@ class Auth extends BaseController
                     'id_area' => $user['id_area'],
                     'fecha_creacion' => $user['fecha_creacion'],
                     'fecha_actualizacion' => $user['fecha_actualizacion'],
+                    'firma' => $user['firma'],
                     'roles' => $rolesArray
                 ]);
                 return redirect()->to('/');
