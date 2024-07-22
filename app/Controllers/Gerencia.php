@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PermisosGerenciaCustom;
+use setasign\Fpdi\Tcpdf\Fpdi;
 
 class Gerencia extends BaseController
 {
@@ -217,10 +218,68 @@ class Gerencia extends BaseController
             ->setRelation('revisado_por', 'usuarios', 'nombres')
             ->fieldType('observaciones', 'text')
             ->callbackColumn('adjunto', function ($value, $row) {
-                return "<a href='" . site_url('assets/uploads/boletas/'. $row->adjunto ) . "' target='"."_blank"."'>$row->adjunto</a>";
+                return "<a href='" . site_url('assets/uploads/boletas/' . $row->adjunto) . "' target='" . "_blank" . "'>$row->adjunto</a>";
             })
             ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue) {
-                return "<a href='" . site_url('assets/uploads/boletas/'. $fieldValue ) . "' target='"."_blank"."'>$fieldValue</a>";
+                return "<a href='" . site_url('assets/uploads/boletas/' . $fieldValue) . "' target='" . "_blank" . "'>$fieldValue</a>";
+            })
+            ->callbackAfterUpdate(function ($stateParameters) {
+                if ($stateParameters->data['id_estado_boleta'] == 2) {
+                    $existingPdfPath = FCPATH . 'assets/uploads/boletas/' . $this->boletas->find($stateParameters->primaryKeyValue)['adjunto'];
+
+                    // Create new FPDI instance
+                    $pdf = new Fpdi();
+
+                    // Disable automatic page break
+                    $pdf->SetAutoPageBreak(false, 0);
+
+                    $pdf->setPrintHeader(false);
+
+                    // Import the existing PDF
+                    $pdf->setSourceFile($existingPdfPath);
+
+                    // We'll only work with the first page
+                    $templateId = $pdf->importPage(1);
+                    $size = $pdf->getTemplateSize($templateId);
+
+                    // Add only one page
+                    $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
+
+                    // Use the template
+                    $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
+
+                    $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find(session()->get('user_id'))['firma'];
+
+                    if (is_file($firmaPath) && is_readable($firmaPath)) {
+                        // Get signature dimensions
+                        list($sigWidth, $sigHeight) = getimagesize($firmaPath);
+
+                        // Calculate scaling factor to fit within 20x10
+                        $scale = min(20 / $sigWidth, 10 / $sigHeight);
+                        $newWidth = $sigWidth * $scale;
+                        $newHeight = $sigHeight * $scale;
+
+                        $x = 54.5;  // Adjust this value to move left or right
+
+                        // First signature position (adjust as needed)
+                        $y1 = 122;  // Adjust this value to move up or down
+
+                        // Second signature position (adjust as needed)
+                        $y2 = 273; // Adjust this value to move up or down
+
+                        // Add the first signature image
+                        $pdf->Image($firmaPath, $x, $y1, $newWidth, $newHeight, 'PNG');
+
+                        // Add the second signature image
+                        $pdf->Image($firmaPath, $x, $y2, $newWidth, $newHeight, 'PNG');
+                    } else {
+                        log_message('error', 'Signature file not found or not readable: ' . $firmaPath);
+                    }
+
+                    // Save the modified PDF
+                    $pdf->Output($existingPdfPath, 'F');
+                }
+                return $stateParameters;
             });
 
         $output = $this->gc->render();
