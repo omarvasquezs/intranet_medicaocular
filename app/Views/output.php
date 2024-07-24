@@ -48,7 +48,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <?php if (array_intersect(session()->get('roles'), [3])): ?>
+            <?php if (array_intersect(session()->get('roles'), [4])): ?>
 
                 <!-- DASHBOARD BLOCK -->
 
