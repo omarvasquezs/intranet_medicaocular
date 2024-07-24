@@ -236,7 +236,7 @@
 
             <?php endif; ?>
 
-            <?php if (array_intersect(session()->get('roles'), [3])): ?>
+            <?php if (array_intersect(session()->get('roles'), [2])): ?>
 
                 <!-- IT BLOCK -->
 
