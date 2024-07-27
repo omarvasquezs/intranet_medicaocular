@@ -9,7 +9,7 @@ class Admin extends BaseController
     {
         $this->gc->setTable('usuarios')
             // Subject
-            ->setSubject('USUARIO')
+            ->setSubject('USUARIO', 'USUARIOS')
             // Labels
             ->displayAs([
                 'nombres' => 'NOMBRES',
@@ -74,7 +74,7 @@ class Admin extends BaseController
     public function cargos()
     {
         $this->gc->setTable('cargos')
-            ->setSubject('CARGO')
+            ->setSubject('CARGO', 'CARGOS')
             ->displayAs([
                 'cargo' => 'CARGO',
             ])
@@ -90,7 +90,7 @@ class Admin extends BaseController
     {
         $usuarios = $this->usuarios;
         $this->gc->setTable('areas')
-            ->setSubject('AREA')
+            ->setSubject('AREA', 'ÁREAS')
             ->displayAs([
                 'area' => 'AREA',
                 'id_jefe' => 'JEFE INMEDIATO'

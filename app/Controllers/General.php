@@ -8,7 +8,7 @@ class General extends BaseController
     {
         $usuarios = $this->usuarios;
         $this->gc->setTable("registro_permisos")
-            ->setSubject("REGISTRO / PERMISO")
+            ->setSubject("PERMISO", "PERMISOS")
             ->unsetFilters()
             ->unsetPrint()
             ->unsetExport()
