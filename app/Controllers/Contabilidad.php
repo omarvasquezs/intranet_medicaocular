@@ -10,7 +10,6 @@ class Contabilidad extends BaseController
             ->setSubject('BOLETA', 'HISTORICO BOLETAS')
             ->defaultOrdering('boletas.fecha_creacion', 'desc')
             ->unsetEdit()
-            ->unsetDelete()
             ->unsetExport()
             ->unsetPrint()
             ->unsetFilters()
