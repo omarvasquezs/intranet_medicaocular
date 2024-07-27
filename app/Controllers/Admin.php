@@ -20,7 +20,8 @@ class Admin extends BaseController
                 'id_area' => 'ÁREA',
                 'roles' => 'ROLES',
                 'birthday' => 'FECHA DE NACIMIENTO',
-                'firma' => 'FIRMA DIGITAL'
+                'firma' => 'FIRMA DIGITAL',
+                'categoria' => 'CATEGORÍA'
             ])
             // Columns
             ->columns(['nombres', 'usuario', 'dni', 'estado'])
@@ -41,12 +42,15 @@ class Admin extends BaseController
             ->uniqueFields(['usuario', 'dni'])
             // Unset things
             ->unsetFields(['fecha_creacion', 'fecha_actualizacion', 'pass'])
-            ->unsetSettings()
             ->unsetFilters()
             ->unsetExport()
             ->unsetPrint()
             ->setRead()
-            ->addFields(['nombres','usuario','dni','birthday','id_cargo','id_area','roles'])
+            ->fieldType('categoria', 'dropdown', [
+                'I' => 'INTERNO',
+                'E' => 'EXTERNO'
+            ])
+            ->addFields(['nombres','usuario','categoria','dni','birthday','id_cargo','id_area','roles'])
             // Generate password after INSERT
             ->callbackBeforeInsert(function ($stateParameters) {
                 $stateParameters->data['pass'] = '12345678';
