@@ -51,10 +51,16 @@ class Admin extends BaseController
                 'E' => 'EXTERNO'
             ])
             ->addFields(['nombres','usuario','categoria','dni','birthday','id_cargo','id_area','roles'])
-            // Generate password after INSERT
             ->callbackBeforeInsert(function ($stateParameters) {
+                $stateParameters->data['nombres'] = strtoupper($stateParameters->data['nombres']);
+                $stateParameters->data['usuario'] = strtoupper($stateParameters->data['usuario']);
                 $stateParameters->data['pass'] = '12345678';
                 $stateParameters->data['estado'] = 1;
+                return $stateParameters;
+            })
+            ->callbackBeforeUpdate(function ($stateParameters) {
+                $stateParameters->data['nombres'] = strtoupper($stateParameters->data['nombres']);
+                $stateParameters->data['usuario'] = strtoupper($stateParameters->data['usuario']);
                 return $stateParameters;
             })
             ->setRule('usuario', 'noSpacesBetweenLetters');
