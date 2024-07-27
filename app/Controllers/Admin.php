@@ -24,7 +24,7 @@ class Admin extends BaseController
                 'categoria' => 'CATEGORÍA'
             ])
             // Columns
-            ->columns(['nombres', 'usuario', 'dni', 'estado'])
+            ->columns(['nombres', 'usuario', 'dni', 'categoria', 'estado'])
             // Relations
             ->setRelation('id_cargo', 'cargos', 'cargo')
             ->setRelation('id_area', 'areas', 'area')
