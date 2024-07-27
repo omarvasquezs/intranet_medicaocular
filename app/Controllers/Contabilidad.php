@@ -20,15 +20,21 @@ class Contabilidad extends BaseController
             ->setRelation('revisado_por', 'usuarios', 'nombres')
             ->setFieldUpload('adjunto', 'assets/uploads/boletas/', base_url() . 'assets/uploads/boletas/', [
                 'maxUploadSize' => '20M', // 20 Mega Bytes
-                'minUploadSize' => '1K', // 1 Kilo Byte
-                'allowedFileTypes' => ['pdf']
+                'minUploadSize' => '1K' // 1 Kilo Byte
             ])
+            ->requiredFields(['id_usuario', 'adjunto'])
             ->addFields(['id_usuario', 'adjunto'])
             ->unsetColumns(['subido_por', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
             ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por'])
             ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones'])
             ->callbackBeforeInsert(function ($stateParameters) {
+                $filename = $stateParameters->data['adjunto'];
+                $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
+                if (strtolower($fileExtension) !== 'pdf') {
+                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
+                    return $errorMessage->setMessage("Solo puede subir PDFs!\n");
+                }
                 $currentMonth = date('Y-m');
                 $lastDayOfMonth = date('t', strtotime($currentMonth));
                 $existingBoleta = $this->boletas->where([
