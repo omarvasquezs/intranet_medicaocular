@@ -50,6 +50,7 @@ class Admin extends BaseController
                 'I' => 'INTERNO',
                 'E' => 'EXTERNO'
             ])
+            ->fieldType('dni', 'int')
             ->addFields(['nombres','usuario','categoria','dni','birthday','id_cargo','id_area','roles'])
             ->callbackBeforeInsert(function ($stateParameters) {
                 $stateParameters->data['nombres'] = strtoupper($stateParameters->data['nombres']);
