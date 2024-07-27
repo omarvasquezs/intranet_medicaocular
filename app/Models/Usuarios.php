@@ -58,9 +58,4 @@ class Usuarios extends Model
         }
         return $options;
     }
-    public function updatePassword($userId)
-    {
-        // Call the stored procedure
-        return $this->db->query("CALL update_password($userId)");
-    }
 }

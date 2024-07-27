@@ -7,7 +7,6 @@ class Admin extends BaseController
     // USUARIOS
     public function users()
     {
-        $usuarios = $this->usuarios;
         $this->gc->setTable('usuarios')
             // Subject
             ->setSubject('USUARIO')
@@ -47,9 +46,11 @@ class Admin extends BaseController
             ->unsetExport()
             ->unsetPrint()
             ->setRead()
+            ->addFields(['nombres','usuario','dni','birthday','id_cargo','id_area','roles'])
             // Generate password after INSERT
-            ->callbackAfterInsert(function ($stateParameters) use ($usuarios) {
-                $usuarios->updatePassword($stateParameters->insertId);
+            ->callbackBeforeInsert(function ($stateParameters) {
+                $stateParameters->data['pass'] = '12345678';
+                $stateParameters->data['estado'] = 1;
                 return $stateParameters;
             })
             ->setRule('usuario', 'noSpacesBetweenLetters');
