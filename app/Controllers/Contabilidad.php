@@ -30,6 +30,19 @@ class Contabilidad extends BaseController
             ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por'])
             ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones'])
             ->callbackBeforeInsert(function ($stateParameters) {
+                $currentMonth = date('Y-m');
+                $lastDayOfMonth = date('t', strtotime($currentMonth));
+                $existingBoleta = $this->boletas->where([
+                    'id_usuario' => $stateParameters->data['id_usuario'],
+                    'fecha_creacion >=' => $currentMonth . '-01',
+                    'fecha_creacion <=' => $currentMonth . '-' . $lastDayOfMonth,
+                    'id_estado_boleta !=' => 3
+                ])->countAllResults() > 0;
+                if ($existingBoleta) {
+                    // The error message as a return parameter is only available at Enterprise version
+                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
+                    return $errorMessage->setMessage("Ya hay boleta registrada de este mes para este usuario.\n");
+                }
                 $stateParameters->data['subido_por'] = session()->get('user_id');
                 $stateParameters->data['id_estado_boleta'] = 1;
                 return $stateParameters;
