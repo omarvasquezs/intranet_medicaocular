@@ -8,28 +8,28 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 // ADM. USUARIOS
-$routes->get('users','Admin::users');
-$routes->get('users/(:any)','Admin::users/$1');
-$routes->post('users','Admin::users');
-$routes->post('users/(:any)','Admin::users');
+$routes->get('users', 'Admin::users');
+$routes->get('users/(:any)', 'Admin::users/$1');
+$routes->post('users', 'Admin::users');
+$routes->post('users/(:any)', 'Admin::users');
 
 // ADM. CARGOS
-$routes->get('cargos','Admin::cargos');
-$routes->get('cargos/(:any)','Admin::cargos/$1');
-$routes->post('cargos','Admin::cargos');
-$routes->post('cargos/(:any)','Admin::cargos');
+$routes->get('cargos', 'Admin::cargos');
+$routes->get('cargos/(:any)', 'Admin::cargos/$1');
+$routes->post('cargos', 'Admin::cargos');
+$routes->post('cargos/(:any)', 'Admin::cargos');
 
 // ADM. AREAS
-$routes->get('areas','Admin::areas');
-$routes->get('areas/(:any)','Admin::areas/$1');
-$routes->post('areas','Admin::areas');
-$routes->post('areas/(:any)','Admin::areas');
+$routes->get('areas', 'Admin::areas');
+$routes->get('areas/(:any)', 'Admin::areas/$1');
+$routes->post('areas', 'Admin::areas');
+$routes->post('areas/(:any)', 'Admin::areas');
 
 // DOCUMENTOS
-$routes->get('documentos','Informativo::documentos');
-$routes->get('documentos/(:any)','Informativo::documentos/$1');
-$routes->post('documentos','Informativo::documentos');
-$routes->post('documentos/(:any)','Informativo::documentos');
+$routes->get('documentos', 'Informativo::documentos');
+$routes->get('documentos/(:any)', 'Informativo::documentos/$1');
+$routes->post('documentos', 'Informativo::documentos');
+$routes->post('documentos/(:any)', 'Informativo::documentos');
 
 // PASSWORD RESET
 $routes->get('reset_pass/(:num)', 'Admin::reset_pass/$1');
@@ -41,7 +41,7 @@ $routes->post('registrar_permiso', 'General::registrar_permiso');
 $routes->post('registrar_permiso/(:any)', 'General::registrar_permiso');
 
 // LOGIN + LOG OUT
-$routes->get('logout','Auth::logout');
+$routes->get('logout', 'Auth::logout');
 $routes->get('login', 'Auth::login');
 $routes->post('authenticate', 'Auth::authenticate');
 
@@ -92,3 +92,10 @@ $routes->get('contabilidad_boletas_rechazadas', 'Contabilidad::contabilidad_bole
 $routes->get('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabilidad_boletas_rechazadas/$1');
 $routes->post('contabilidad_boletas_rechazadas', 'Contabilidad::contabilidad_boletas_rechazadas');
 $routes->post('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabilidad_boletas_rechazadas');
+
+// 404
+if (ENVIRONMENT == 'production') {
+    $routes->set404Override(function () {
+        echo view('errors/html/custom_404');
+    });
+}
