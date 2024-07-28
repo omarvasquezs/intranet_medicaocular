@@ -15,7 +15,6 @@ class Home extends BaseController
     }
     public function perfil()
     {
-        $usuarios = $this->usuarios;
         $this->gc->setTable('usuarios')
             // Subject
             ->setSubject(session()->get('usuario'), 'PERFIL DE '.session()->get('usuario'))
@@ -33,7 +32,8 @@ class Home extends BaseController
                 'id_area' => 'ÁREA',
                 'roles' => 'ROLES',
                 'birthday' => 'FECHA DE NACIMIENTO',
-                'firma' => 'FIRMA DIGITAL'
+                'firma' => 'FIRMA DIGITAL',
+                'pass' => 'NUEVA CONTRASEÑA'
             ])
             // Columns
             ->columns(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday'])
@@ -44,20 +44,29 @@ class Home extends BaseController
             // Field type
             ->fieldType('birthday', 'native_date')
             // Unset things
-            ->unsetFields(['fecha_creacion', 'fecha_actualizacion', 'pass'])
+            ->unsetFields(['fecha_creacion', 'fecha_actualizacion'])
             ->unsetFilters()
             ->unsetExport()
             ->unsetPrint()
             ->unsetAdd()
             ->unsetDelete()
             ->unsetSearchColumns(['nombres', 'usuario', 'dni', 'birthday', 'id_cargo'])
+            ->callbackEditField('pass', function ($fieldValue, $primaryKeyValue, $rowData) {
+                return '<input class="form-control" name="pass" type="password" value=""  /><p>Dejar en blanco si no desea cambiar la contraseña</p>';
+            })
+            ->callbackBeforeUpdate(function ($stateParameters) {
+                if (empty($stateParameters->data['pass'])) {
+                    unset($stateParameters->data['pass']);
+                }
+                return $stateParameters;
+            })
             ->setRule('usuario', 'noSpacesBetweenLetters');
         
         // Edit fields based on the rol
         if (array_intersect(session()->get('roles'), [1])) {
-            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'firma']);
+            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass', 'firma']);
         } else {
-            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday']);
+            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass']);
         }
 
         $this->gc->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo']);
