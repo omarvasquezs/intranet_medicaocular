@@ -13,6 +13,8 @@
     <!-- END -->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SASS -->
+    <link href="<?= base_url() ?>themes/medicaocular/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +23,7 @@
             <div class="col-md-12 col-lg-5 mx-auto text-center">
                 <img class="img-fluid mb-4" src="<?= base_url() ?>/assets/eye.png" style="width: 30%;">
                 <h1 class="display-4 mb-5">La página que buscas no existe.</h1>
-                <p><a href="<?= base_url() ?>" class="btn btn-primary btn-lg">REGRESAR A LA INTRANET</a></p>
+                <p><a href="<?= base_url() ?>" class="login-button btn btn-info btn-lg rounded-0 text-white border-info">REGRESAR A LA INTRANET</a></p>
             </div>
         </div>
     </div>
