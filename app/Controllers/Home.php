@@ -17,7 +17,7 @@ class Home extends BaseController
     {
         $this->gc->setTable('usuarios')
             // Subject
-            ->setSubject(session()->get('usuario'), 'PERFIL DE '.session()->get('usuario'))
+            ->setSubject(session()->get('usuario'), 'PERFIL DE ' . session()->get('usuario'))
             // Where clause
             ->where([
                 'usuarios.id' => session()->get('user_id')
@@ -61,7 +61,7 @@ class Home extends BaseController
                 return $stateParameters;
             })
             ->setRule('usuario', 'noSpacesBetweenLetters');
-        
+
         // Edit fields based on the rol
         if (array_intersect(session()->get('roles'), [1])) {
             $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass', 'firma']);
