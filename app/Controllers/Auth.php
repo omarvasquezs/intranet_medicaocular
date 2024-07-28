@@ -17,16 +17,17 @@ class Auth extends BaseController
             $data = $this->request->getPost();
             $user = $this->usuarios->where('usuario', $data['username'])->first();
 
-            if (
-                $user && $user['estado'] == 1 &&
-                $user['pass'] === $data['password']
-            ) {
-                // Successful login
-
+            if (!$user) {
+                return redirect()->back()->with('error', 'Usuario no existe.');
+            } elseif ($user['estado'] != 1) {
+                return redirect()->back()->with('error', 'Usuario bloqueado.');
+            } elseif ($user['pass'] != $data['password']) {
+                return redirect()->back()->with('error', 'Contraseña Incorrecta.');
+            } else {
                 // Fetch user roles
                 $roles = $this->usuarios_roles->where('id_usuario', $user['id'])->findAll();
                 $rolesArray = array_column($roles, 'id_rol');
-                
+
                 // Set user session or token and redirect to dashboard
                 session()->set([
                     'user_id' => $user['id'],
@@ -42,9 +43,6 @@ class Auth extends BaseController
                     'roles' => $rolesArray
                 ]);
                 return redirect()->to('/');
-            } else {
-                // Login failed, show errors or set an error message
-                return redirect()->to('/login');
             }
         }
     }
