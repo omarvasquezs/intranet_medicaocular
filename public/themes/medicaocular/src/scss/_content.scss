@@ -58,12 +58,14 @@ body.login-page {
 }
 
 .login-button {
-    background-color: #007BFF;
+    background-color: #01adef;
     color: #fff;
+    transition: $transition;
 }
 
 .login-button:hover {
     background-color: #0056b3;
+    transition: $transition;
 }
 
 .login-form #username {
