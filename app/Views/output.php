@@ -285,7 +285,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom"
-                                title="INICIO / NOTICIAS"><i class="fas fa-home fa-lg"></i></a>
+                                title="INICIO / PUBLICACIONES"><i class="fas fa-home fa-lg"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= base_url() ?>mis_boletas" data-toggle="tooltip"
