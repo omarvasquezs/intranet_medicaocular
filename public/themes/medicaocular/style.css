@@ -36,6 +36,15 @@ small {
   padding: 0.25em 0.4em !important;
 }
 
+#page-top {
+  padding-top: 70px;
+}
+
+.custom-top-bar {
+  background-color: #4e73df;
+  background-size: cover;
+}
+
 body {
   margin: 0;
   font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
@@ -101,6 +110,56 @@ body.login-page {
 
 .login-form #username {
   text-transform: uppercase;
+}
+
+#sidebar-wrapper {
+  position: fixed;
+  top: 70px;
+  /* Adjust to match your navbar height */
+  left: 0;
+  /* Adjust as needed */
+  height: calc(100vh - 70px);
+  /* Viewport height minus navbar height */
+  overflow-y: auto;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+#accordionSidebar {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  /* This is crucial for the flex layout to work properly */
+}
+
+#accordionSidebar::-webkit-scrollbar {
+  width: 6px;
+  /* Adjust as needed */
+}
+
+#accordionSidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+#accordionSidebar {
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  /* For Firefox */
+}
+
+/* Hide scrollbar when not needed */
+#accordionSidebar {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+#content-wrapper {
+  margin-left: 230px;
+  /* Should match the width of the sidebar */
+  width: calc(100% - 230px);
 }
 
 @font-face {

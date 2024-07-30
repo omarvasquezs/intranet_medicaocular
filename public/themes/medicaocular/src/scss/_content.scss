@@ -73,3 +73,53 @@ body.login-page {
 }
 
 // ::END LOGIN STYLES::
+
+#sidebar-wrapper {
+    position: fixed;
+    top: 70px;
+    /* Adjust to match your navbar height */
+    left: 0;
+    /* Adjust as needed */
+    height: calc(100vh - 70px);
+    /* Viewport height minus navbar height */
+    overflow-y: auto;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+#accordionSidebar {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    /* This is crucial for the flex layout to work properly */
+}
+
+#accordionSidebar::-webkit-scrollbar {
+    width: 6px;
+    /* Adjust as needed */
+}
+
+#accordionSidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+#accordionSidebar {
+    scrollbar-width: thin;
+    /* For Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    /* For Firefox */
+}
+
+/* Hide scrollbar when not needed */
+#accordionSidebar {
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+#content-wrapper {
+    margin-left: 230px;
+    /* Should match the width of the sidebar */
+    width: calc(100% - 230px);
+}
