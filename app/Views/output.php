@@ -383,7 +383,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid pt-5">
+                <div class="container-fluid pt-3">
                     <?php if (session()->has('message')): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <?= session('message') ?>

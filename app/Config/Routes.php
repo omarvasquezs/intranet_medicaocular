@@ -99,3 +99,9 @@ if (ENVIRONMENT == 'production') {
         echo view('errors/html/custom_404');
     });
 }
+
+// PUBLICACIONES
+$routes->get('editar_publicaciones', 'Home::editar_publicaciones');
+$routes->get('editar_publicaciones/(:any)', 'Home::editar_publicaciones/$1');
+$routes->post('editar_publicaciones', 'Home::editar_publicaciones');
+$routes->post('editar_publicaciones/(:any)', 'Home::editar_publicaciones');

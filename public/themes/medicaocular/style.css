@@ -162,6 +162,15 @@ body.login-page {
   width: calc(100% - 230px);
 }
 
+.ql-container.ql-snow, .ql-editor.ql-blank {
+  height: 100%;
+  min-height: 200px;
+}
+
+button.ql-image {
+  display: none !important;
+}
+
 @font-face {
   font-family: "MarkPro-Bold";
   src: url("./src/fonts/MarkPro-Bold.ttf") format("truetype");

@@ -54,6 +54,7 @@ abstract class BaseController extends Controller
     protected $documentos;
     protected $permisos;
     protected $boletas;
+    protected $publicaciones;
 
     /**
      * @return void
@@ -73,6 +74,7 @@ abstract class BaseController extends Controller
         $this->documentos = new \App\Models\Documentos();
         $this->permisos = new \App\Models\Permisos();
         $this->boletas = new \App\Models\Boletas();
+        $this->publicaciones = new \App\Models\Publicaciones();
         // Custom validation rules
         \Valitron\Validator::addRule('noSpacesBetweenLetters', function($field, $value, array $params, array $fields) {
 
@@ -92,6 +94,15 @@ abstract class BaseController extends Controller
             exit;
         }
         return view('output', (array) $output);
+    }
+    protected function _mainOutputGC($output = null)
+    {
+        if (isset($output->isJSONResponse) && $output->isJSONResponse) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo $output->output;
+            exit;
+        }
+        return view('gc_output', (array) $output);
     }
     protected function _getDbData() {
         $db = (new ConfigDatabase())->default;

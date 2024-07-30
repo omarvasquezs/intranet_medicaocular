@@ -6,12 +6,48 @@ class Home extends BaseController
 {
     public function index()
     {
+        $data = [
+            'publicaciones' => $this->publicaciones
+                ->select('publicaciones.*, usuarios.nombres')
+                ->join('usuarios', 'publicaciones.id_usuario = usuarios.id')
+                ->orderBy('fecha_creacion', 'DESC')
+                ->findAll(5)
+        ];
+
         $output = (object) [
             'css_files' => [],
             'js_files' => [],
-            'output' => view('main')
+            'output' => view('main', $data)
         ];
         return $this->_mainOutput($output);
+    }
+    public function editar_publicaciones()
+    {
+        $this->gc->setTable('publicaciones')
+            ->setSubject('PUBLICACION', 'HISTORICO PUBLICACIONES')
+            ->defaultOrdering('publicaciones.fecha_creacion', 'desc')
+            ->unsetExport()
+            ->unsetPrint()
+            ->unsetFilters()
+            ->setRelation('id_usuario', 'usuarios', 'nombres')
+            ->requiredFields(['publicacion'])
+            ->addFields(['publicacion'])
+            ->editFields(['publicacion'])
+            ->setTexteditor(['publicacion', 'full_text'])
+            ->columns(['fecha_creacion', 'fecha_actualizacion', 'id_usuario'])
+            ->callbackBeforeInsert(function ($stateParameters) {
+                $stateParameters->data['id_usuario'] = session()->get('user_id');
+                return $stateParameters;
+            })
+            ->displayAs([
+                'id_usuario' => 'AUTOR',
+                'fecha_creacion' => 'CREACION',
+                'fecha_actualizacion' => 'ACTUALIZADO',
+                'publicacion' => 'PUBLICACION'
+            ]);
+
+        $output = $this->gc->render();
+        return $this->_mainOutputGC($output);
     }
     public function perfil()
     {
