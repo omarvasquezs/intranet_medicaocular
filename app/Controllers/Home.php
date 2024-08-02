@@ -73,8 +73,6 @@ class Home extends BaseController
             ])
             // Columns
             ->columns(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday'])
-            // Upload sign
-            ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations())
             // Relations
             ->setRelation('id_cargo', 'cargos', 'cargo')
             // Field type
@@ -100,7 +98,9 @@ class Home extends BaseController
 
         // Edit fields based on the rol
         if (array_intersect(session()->get('roles'), [1])) {
-            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass', 'firma']);
+            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass', 'firma'])
+                // Upload sign
+                ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations());
         } else {
             $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass']);
         }
