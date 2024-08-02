@@ -255,17 +255,17 @@ class Gerencia extends BaseController
                         list($sigWidth, $sigHeight) = getimagesize($firmaPath);
 
                         // Calculate scaling factor to fit within 20x10
-                        $scale = min(20 / $sigWidth, 10 / $sigHeight);
+                        $scale = min(40 / $sigWidth, 20 / $sigHeight);
                         $newWidth = $sigWidth * $scale;
                         $newHeight = $sigHeight * $scale;
 
-                        $x = 54.5;  // Adjust this value to move left or right
+                        $x = 47;  // Adjust this value to move left or right
 
                         // First signature position (adjust as needed)
-                        $y1 = 122;  // Adjust this value to move up or down
+                        $y1 = 118;  // Adjust this value to move up or down
 
                         // Second signature position (adjust as needed)
-                        $y2 = 273; // Adjust this value to move up or down
+                        $y2 = 269; // Adjust this value to move up or down
 
                         // Add the first signature image
                         $pdf->Image($firmaPath, $x, $y1, $newWidth, $newHeight, 'PNG');
