@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Clínica Médica Ocular - INTRANET</title>
+    <title>Cambiar Contraseña - Clínica Médica Ocular</title>
     <!-- ICONS -->
     <link rel="icon" href="https://medicaocular.pe/wp-content/uploads/2023/08/Icon-Medica-Ocular-150x150.png"
         sizes="32x32">
@@ -33,17 +33,18 @@
         <div class="login-container rounded-0">
             <img class="img-fluid mb-4"
                 src="https://medicaocular.pe/wp-content/uploads/2023/08/Logotipo-Medica-Ocular.png">
-            <form class="login-form" action="/authenticate" method="post">
+            <form class="login-form" action="<?= base_url('change-password') ?>" method="post">
                 <div class="mb-3">
-                    <input type="text" class="form-control rounded-0" id="username" name="username"
-                        placeholder="USUARIO" required>
+                    <input type="password" class="form-control rounded-0" id="new_password" name="new_password"
+                        placeholder="NUEVA CONTRASEÑA" required>
                 </div>
                 <div class="mb-5">
-                    <input type="password" class="form-control rounded-0" id="password" name="password"
-                        placeholder="CONTRASEÑA" required>
+                    <input type="password" class="form-control rounded-0" id="confirm_password" name="confirm_password"
+                        placeholder="CONFIRMAR CONTRASEÑA" required>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary login-button rounded-0 border-info">ACCEDER</button>
+                    <button type="submit" class="btn btn-primary login-button rounded-0 border-info">CAMBIAR
+                        CONTRASEÑA</button>
                 </div>
             </form>
         </div>

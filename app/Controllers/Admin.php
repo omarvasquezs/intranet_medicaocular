@@ -123,7 +123,10 @@ class Admin extends BaseController
         // Retrieve the usuario value based on userId
         $usuarioName = $this->usuarios->find($userId)['usuario'];
 
-        $passwordUpdateSuccess = $this->usuarios->update($userId, (object) ['pass' => "12345678"]);
+        $passwordUpdateSuccess = $this->usuarios->update($userId, (object) [
+            'pass' => "12345678",
+            'password_reset_required' => 1
+        ]);
 
         if ($passwordUpdateSuccess) {
             // Password update was successful

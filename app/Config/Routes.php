@@ -40,9 +40,11 @@ $routes->get('registrar_permiso/(:any)', 'General::registrar_permiso/$1');
 $routes->post('registrar_permiso', 'General::registrar_permiso');
 $routes->post('registrar_permiso/(:any)', 'General::registrar_permiso');
 
-// LOGIN + LOG OUT
+// LOGIN + LOG OUT + CHANGE PASSWORD
 $routes->get('logout', 'Auth::logout');
 $routes->get('login', 'Auth::login');
+$routes->get('change-password', 'Auth::changePassword');
+$routes->post('change-password', 'Auth::changePassword');
 $routes->post('authenticate', 'Auth::authenticate');
 
 // GERENCIA PERMISOS & BOLETAS
