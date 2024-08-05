@@ -41,7 +41,7 @@ class Admin extends BaseController
             // Unique Fields
             ->uniqueFields(['usuario', 'dni'])
             // Unset things
-            ->unsetFields(['fecha_creacion', 'fecha_actualizacion', 'pass'])
+            ->unsetFields(['fecha_creacion', 'fecha_actualizacion', 'pass', 'password_reset_required'])
             ->unsetFilters()
             ->unsetExport()
             ->unsetPrint()
