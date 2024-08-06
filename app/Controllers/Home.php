@@ -94,18 +94,13 @@ class Home extends BaseController
                 }
                 return $stateParameters;
             })
-            ->setRule('usuario', 'noSpacesBetweenLetters');
-
-        // Edit fields based on the rol
-        if (array_intersect(session()->get('roles'), [1])) {
-            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass', 'firma'])
-                // Upload sign
-                ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations());
-        } else {
-            $this->gc->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass']);
-        }
-
-        $this->gc->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo']);
+            ->setRule('usuario', 'noSpacesBetweenLetters')
+            // Available Fields on edit form
+            ->editFields(['nombres', 'usuario', 'dni', 'id_cargo', 'birthday', 'pass', 'firma'])
+            // Upload sign
+            ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations())
+            // Read-only fields on edit form
+            ->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo']);
 
         // Rendering the CRUD
         $output = $this->gc->render();
