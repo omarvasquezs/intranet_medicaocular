@@ -77,7 +77,7 @@ class General extends BaseController
                 $stateParameters->data['id_estado_permiso'] = 1;
                 $stateParameters->data['id_usuario'] = session()->get('user_id');
 
-                if (($stateParameters->data['id_tipo_permiso'] == 1 || $stateParameters->data['id_tipo_permiso'] == 3) && empty($stateParameters->data['adjunto'])) {
+                if (($stateParameters->data['id_tipo_permiso'] == 1 || $stateParameters->data['id_tipo_permiso'] == 2 || $stateParameters->data['id_tipo_permiso'] == 4) && empty($stateParameters->data['adjunto'])) {
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("Necesita añadir ADJUNTO para MATERNIDAD o DESCANSO MEDICO.\n");
                 }
