@@ -77,9 +77,9 @@ class General extends BaseController
                 $stateParameters->data['id_estado_permiso'] = 1;
                 $stateParameters->data['id_usuario'] = session()->get('user_id');
 
-                if (($stateParameters->data['id_tipo_permiso'] == 1 || $stateParameters->data['id_tipo_permiso'] == 2 || $stateParameters->data['id_tipo_permiso'] == 4) && empty($stateParameters->data['adjunto'])) {
+                if (in_array($stateParameters->data['id_tipo_permiso'], [1, 2, 4]) && empty($stateParameters->data['adjunto'])) {
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
-                    return $errorMessage->setMessage("Necesita añadir ADJUNTO para MATERNIDAD o DESCANSO MEDICO.\n");
+                    return $errorMessage->setMessage("NECESITA SUBIR ADJUNTO PARA: MATERNIDAD, DESCANSO MEDICO O PERMISO TEMPORAL\n");
                 }
 
                 if ($stateParameters->data['fecha_inicio'] < date('Y-m-d')) {
@@ -113,7 +113,8 @@ class General extends BaseController
             ->unsetFilters()
             ->unsetOperations()
             ->defaultOrdering('boletas.fecha_creacion', 'desc')
-            ->where(['id_usuario' => session()->get('user_id'),
+            ->where([
+                'id_usuario' => session()->get('user_id'),
                 'id_estado_boleta' => 2
             ])
             ->setFieldUpload('adjunto', 'assets/uploads/boletas/', base_url() . 'assets/uploads/boletas/', [
