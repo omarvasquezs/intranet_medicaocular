@@ -15,7 +15,6 @@ class Gerencia extends BaseController
             ->unsetPrint()
             ->unsetExport()
             ->unsetAdd()
-            ->unsetDelete()
             ->setRead()
             ->where([
                 'registro_permisos.id_estado_permiso' => 1
@@ -77,7 +76,6 @@ class Gerencia extends BaseController
             ->unsetPrint()
             ->unsetExport()
             ->unsetAdd()
-            ->unsetDelete()
             ->unsetEdit()
             ->setRead()
             ->where([
