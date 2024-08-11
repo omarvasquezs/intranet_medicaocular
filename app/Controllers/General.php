@@ -76,25 +76,34 @@ class General extends BaseController
             ->callbackBeforeInsert(function ($stateParameters) {
                 $stateParameters->data['id_estado_permiso'] = 1;
                 $stateParameters->data['id_usuario'] = session()->get('user_id');
+                $existingPermiso = $this->permisos->where('id_usuario', session()->get('user_id'))
+                    ->whereIn('id_estado_permiso', [1, 2])
+                    ->groupStart()
+                    ->where('fecha_inicio <=', $stateParameters->data['fecha_fin'])
+                    ->where('fecha_fin >=', $stateParameters->data['fecha_inicio'])
+                    ->groupEnd()
+                    ->countAllResults() > 0;
+
+                $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
 
                 if (in_array($stateParameters->data['id_tipo_permiso'], [1, 2, 4]) && empty($stateParameters->data['adjunto'])) {
-                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("NECESITA SUBIR ADJUNTO PARA: MATERNIDAD, DESCANSO MEDICO O PERMISO TEMPORAL\n");
                 }
 
                 if ($stateParameters->data['fecha_inicio'] < date('Y-m-d')) {
-                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("La fecha de inicio no puede ser anterior a hoy.\n");
                 }
 
                 if ($stateParameters->data['fecha_fin'] < date('Y-m-d')) {
-                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("La fecha de fin no puede ser anterior a hoy.\n");
                 }
 
                 if ($stateParameters->data['fecha_fin'] <= $stateParameters->data['fecha_inicio']) {
-                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("La fecha de fin debe ser posterior a la fecha de inicio.\n");
+                }
+
+                if ($existingPermiso) {
+                    return $errorMessage->setMessage("YA HAY UNA SOLICITUD PENDIENTE DE APROBACION O APROBADA PARA EL RANGO DE FECHAS, CONSULTE A SU JEFATURA.\n");
                 }
 
                 return $stateParameters;
