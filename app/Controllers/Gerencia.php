@@ -246,7 +246,7 @@ class Gerencia extends BaseController
                     // Use the template
                     $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
 
-                    $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find(session()->get('user_id'))['firma'];
+                    $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->select(['firma'])->where('id', session()->get('user_id'))->first()['firma'];
 
                     if (is_file($firmaPath) && is_readable($firmaPath)) {
                         // Get signature dimensions
