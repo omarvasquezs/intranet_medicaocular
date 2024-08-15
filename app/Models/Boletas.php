@@ -12,7 +12,7 @@ class Boletas extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['adjunto'];
+    protected $allowedFields    = ['adjunto', 'boleta_firmada'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
