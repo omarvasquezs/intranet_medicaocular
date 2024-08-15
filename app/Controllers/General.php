@@ -12,15 +12,16 @@ class General extends BaseController
             ->unsetFilters()
             ->unsetPrint()
             ->unsetExport()
-            ->unsetEdit()
-            ->unsetDelete()
-            ->setRead()
+            ->unsetDeleteMultiple()
             ->where([
                 'registro_permisos.id_usuario' => session()->get('user_id')
             ])
+            ->editFields(['id_usuario', 'id_tipo_permiso', 'id_estado_permiso', 'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto'])
+            ->readOnlyEditFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'id_estado_permiso'])
             ->requiredFields(['id_tipo_permiso', 'sustentacion', 'fecha_inicio', 'fecha_fin'])
+            ->requiredEditFields(['fecha_inicio', 'fecha_fin'])
             ->readFields(['id_tipo_permiso', 'id_estado_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
-            ->columns(['id_tipo_permiso', 'id_estado_permiso', 'fecha_creacion', 'rango', 'fecha_inicio'])
+            ->columns(['id_tipo_permiso', 'id_estado_permiso', 'rango', 'fecha_inicio', 'fecha_creacion'])
             ->fieldTypeColumn('rango', 'varchar')
             ->fieldTypeColumn('fecha_inicio', 'invisible')
             ->mapColumn('rango', 'fecha_fin')
@@ -73,6 +74,35 @@ class General extends BaseController
             ->callbackReadField('revisado_por', function ($fieldValue, $primaryKeyValue) use ($usuarios) {
                 return $usuarios->find($fieldValue)['nombres'];
             })
+            ->callbackBeforeUpdate(function ($stateParameters) {
+                $existingPermiso = $this->permisos->where('id_usuario', session()->get('user_id'))
+                    ->whereIn('id_estado_permiso', [1, 2])
+                    ->where('id !=', $stateParameters->primaryKeyValue)
+                    ->groupStart()
+                    ->where('fecha_inicio <=', $stateParameters->data['fecha_fin'])
+                    ->where('fecha_fin >=', $stateParameters->data['fecha_inicio'])
+                    ->groupEnd()
+                    ->countAllResults() > 0;
+
+                $id_tipo_permiso = $this->permisos->find($stateParameters->primaryKeyValue)['id_tipo_permiso'];
+                $id_estado_permiso = $this->permisos->find($stateParameters->primaryKeyValue)['id_estado_permiso'];
+
+                $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
+
+                if (in_array($id_tipo_permiso, [1, 2, 4]) && empty($stateParameters->data['adjunto'])) {
+                    return $errorMessage->setMessage("NECESITA SUBIR ADJUNTO PARA: MATERNIDAD, DESCANSO MEDICO O PERMISO TEMPORAL\n");
+                }
+
+                if (in_array($id_estado_permiso, [2, 3])) {
+                    return $errorMessage->setMessage("ESTE PERMISO ESTA APROBADO o RECHAZADO, YA NO SE PUEDE MODIFICAR.");
+                }
+
+                if ($existingPermiso) {
+                    return $errorMessage->setMessage("YA HAY UNA SOLICITUD PENDIENTE DE APROBACION O APROBADA PARA EL RANGO DE FECHAS, CONSULTE A SU JEFATURA.\n");
+                }
+
+                return $stateParameters;
+            })
             ->callbackBeforeInsert(function ($stateParameters) {
                 $stateParameters->data['id_estado_permiso'] = 1;
                 $stateParameters->data['id_usuario'] = session()->get('user_id');
@@ -106,6 +136,16 @@ class General extends BaseController
                     return $errorMessage->setMessage("YA HAY UNA SOLICITUD PENDIENTE DE APROBACION O APROBADA PARA EL RANGO DE FECHAS, CONSULTE A SU JEFATURA.\n");
                 }
 
+                return $stateParameters;
+            })
+            ->callbackDelete(function ($stateParameters) {
+                $id_estado_permiso = $this->permisos->find($stateParameters->primaryKeyValue)['id_estado_permiso'];
+                $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
+                if ($id_estado_permiso != 1) {
+                    return $errorMessage->setMessage("NO PUEDE BORRAR PERMISO YA APROBADO o RECHAZADO.\n");
+                } else {
+                    $this->permisos->where('id', $stateParameters->primaryKeyValue)->delete();
+                }
                 return $stateParameters;
             });
 
