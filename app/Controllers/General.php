@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use setasign\Fpdi\Tcpdf\Fpdi;
+
 class General extends BaseController
 {
     public function registrar_permiso()
@@ -183,10 +185,86 @@ class General extends BaseController
                 'fecha_modificacion' => 'FECHA DE MODIFICACION',
                 'revisado_por' => 'REVISADO POR',
                 'observaciones' => 'OBSERVACIONES'
-            ]);
+            ])
+            ->setActionButton('FIRMAR', 'fas fa-signature', function ($row) {
+                return '/firmar_boleta/' . $row->id;
+            }, false);
 
         // Rendering the CRUD
         $output = $this->gc->render();
         return $this->_mainOutput($output);
+    }
+    public function firmar_boleta()
+    {
+        if (!$this->usuarios->find(session()->get('user_id'))['firma']) {
+            return redirect()->back()->with('error', 'No tiene firma registrada en la intranet.');
+        }
+
+        if ($this->boletas->find($this->request->getUri()->getSegment(2))['boleta_firmada'] == 0) {
+            return redirect()->back()->with('error', 'Esta boleta ya esta firmada.');
+        }
+
+        if ($this->boletas->find($this->request->getUri()->getSegment(2))['id_usuario'] != session()->get('user_id')) {
+            return redirect()->back()->with('error', 'Esta boleta no le pertenece.');
+        }
+
+        $existingPdfPath = FCPATH . 'assets/uploads/boletas/' . $this->boletas->find($this->request->getUri()->getSegment(2))['adjunto'];
+
+        // Create new FPDI instance
+        $pdf = new Fpdi();
+
+        // Disable automatic page break
+        $pdf->SetAutoPageBreak(false, 0);
+
+        $pdf->setPrintHeader(false);
+
+        // Import the existing PDF
+        $pdf->setSourceFile($existingPdfPath);
+
+        // We'll only work with the first page
+        $templateId = $pdf->importPage(1);
+        $size = $pdf->getTemplateSize($templateId);
+
+        // Add only one page
+        $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
+
+        // Use the template
+        $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
+
+        $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find(session()->get('user_id'))['firma'];
+
+        if (is_file($firmaPath) && is_readable($firmaPath)) {
+            // Get signature dimensions
+            list($sigWidth, $sigHeight) = getimagesize($firmaPath);
+
+            // Calculate scaling factor to fit within 20x10
+            $scale = min(40 / $sigWidth, 20 / $sigHeight);
+            $newWidth = $sigWidth * $scale;
+            $newHeight = $sigHeight * $scale;
+
+            $x = 147;  // Adjust this value to move left or right
+
+            // First signature vertical position (adjust as needed)
+            $y1 = 118;  // Adjust this value to move up or down
+
+            // Second signature vertical position (adjust as needed)
+            $y2 = 269; // Adjust this value to move up or down
+
+            // Add the first signature image
+            $pdf->Image($firmaPath, $x, $y1, $newWidth, $newHeight, 'PNG');
+
+            // Add the second signature image
+            $pdf->Image($firmaPath, $x, $y2, $newWidth, $newHeight, 'PNG');
+
+            // Updating firma boleta_firmada
+            $this->boletas->set('boleta_firmada', 0)->where('id', $this->request->getUri()->getSegment(2))->update();
+        } else {
+            log_message('error', 'Signature file not found or not readable: ' . $firmaPath);
+        }
+
+        // Save the modified PDF
+        $pdf->Output($existingPdfPath, 'F');
+
+        return redirect()->back()->with('message', 'Se firma la boleta con éxito.');
     }
 }
