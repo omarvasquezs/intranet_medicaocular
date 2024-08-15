@@ -107,3 +107,7 @@ $routes->get('editar_publicaciones', 'Home::editar_publicaciones');
 $routes->get('editar_publicaciones/(:any)', 'Home::editar_publicaciones/$1');
 $routes->post('editar_publicaciones', 'Home::editar_publicaciones');
 $routes->post('editar_publicaciones/(:any)', 'Home::editar_publicaciones');
+
+// FIRMAR BOLETA
+$routes->get('firmar_boleta', 'General::firmar_boleta');
+$routes->get('firmar_boleta/(:any)', 'General::firmar_boleta/$1');
