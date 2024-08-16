@@ -173,9 +173,19 @@ class General extends BaseController
                 'minUploadSize' => '1K', // 1 Kilo Byte
                 'allowedFileTypes' => ['pdf']
             ])
-            ->columns(['fecha_creacion', 'adjunto'])
+            ->columns(['fecha_creacion', 'adjunto', 'boleta_firmada'])
             ->unsetColumns(['id_usuario', 'subido_por', 'id_estado_boleta', 'fecha_modificacion', 'revisado_por', 'observaciones'])
-            ->unsetSearchColumns(['adjunto', 'fecha_creacion'])
+            ->unsetSearchColumns(['adjunto', 'fecha_creacion', 'boleta_firmada'])
+            ->callbackColumn('boleta_firmada', function ($value, $row) {
+                switch ($value) {
+                    case 0:
+                        return "YA FIRMADO";
+                    case 1:
+                        return "AUN NO FIRMADO";
+                    default:
+                        return "NO DATA"; // You can customize this fallback value
+                }
+            })
             ->displayAs([
                 'id_usuario' => 'EMPLEADO',
                 'fecha_creacion' => 'FECHA DE CREACION',
@@ -184,7 +194,8 @@ class General extends BaseController
                 'subido_por' => 'SUBIDO POR',
                 'fecha_modificacion' => 'FECHA DE MODIFICACION',
                 'revisado_por' => 'REVISADO POR',
-                'observaciones' => 'OBSERVACIONES'
+                'observaciones' => 'OBSERVACIONES',
+                'boleta_firmada' => 'FIRMADA POR USUARIO'
             ])
             ->setActionButton('FIRMAR', 'fas fa-signature', function ($row) {
                 return '/firmar_boleta/' . $row->id;
@@ -197,15 +208,15 @@ class General extends BaseController
     public function firmar_boleta()
     {
         if (!$this->usuarios->find(session()->get('user_id'))['firma']) {
-            return redirect()->back()->with('error', 'No tiene firma registrada en la intranet.');
+            return redirect()->back()->with('error', 'DEBE SUBIR SU FIRMA PRIMERO ANTES DE FIRMAR SU BOLETA.');
         }
 
         if ($this->boletas->find($this->request->getUri()->getSegment(2))['boleta_firmada'] == 0) {
-            return redirect()->back()->with('error', 'Esta boleta ya esta firmada.');
+            return redirect()->back()->with('error', 'ESTA BOLETA YA ESTA FIRMADA.');
         }
 
         if ($this->boletas->find($this->request->getUri()->getSegment(2))['id_usuario'] != session()->get('user_id')) {
-            return redirect()->back()->with('error', 'Esta boleta no le pertenece.');
+            return redirect()->back()->with('error', 'NO PUEDE FIRMAR BOLETAS AJENAS.');
         }
 
         $existingPdfPath = FCPATH . 'assets/uploads/boletas/' . $this->boletas->find($this->request->getUri()->getSegment(2))['adjunto'];
