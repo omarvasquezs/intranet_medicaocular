@@ -36,7 +36,16 @@ class Admin extends BaseController
             // Upload sign
             ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations())
             // Field type
-            ->fieldType('estado', 'boolean')
+            ->callbackColumn('estado', function ($value, $row) {
+                switch ($value) {
+                    case 0:
+                        return "DESHABILITADO";
+                    case 1:
+                        return "HABILITADO";
+                    default:
+                        return "NO DATA"; // You can customize this fallback value
+                }
+            })
             ->fieldType('birthday', 'native_date')
             // Unique Fields
             ->uniqueFields(['usuario', 'dni'])
