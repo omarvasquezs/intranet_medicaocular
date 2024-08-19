@@ -122,10 +122,6 @@ class General extends BaseController
                     return $errorMessage->setMessage("NECESITA SUBIR ADJUNTO PARA: MATERNIDAD, DESCANSO MEDICO O PERMISO TEMPORAL\n");
                 }
 
-                if ($stateParameters->data['fecha_inicio'] < date('Y-m-d')) {
-                    return $errorMessage->setMessage("La fecha de inicio no puede ser anterior a hoy.\n");
-                }
-
                 if ($stateParameters->data['fecha_fin'] < date('Y-m-d')) {
                     return $errorMessage->setMessage("La fecha de fin no puede ser anterior a hoy.\n");
                 }
