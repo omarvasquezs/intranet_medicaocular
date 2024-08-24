@@ -450,8 +450,8 @@ class ClassLoader
             return false;
         }
         if (null !== $this->apcuPrefix) {
-            $file = apcu_fetch($this->apcuPrefix.$class, $hit);
-            if ($hit) {
+            $file = apcu_fetch($this->apcuPrefix.$class, isset($hit));
+            if (isset($hit)) {
                 return $file;
             }
         }
