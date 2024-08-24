@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Publishers;
+namespace App\Libraries\GroceryCrudEnterprise\GroceryCrud;
 
 use CodeIgniter\Publisher\Publisher;
 
