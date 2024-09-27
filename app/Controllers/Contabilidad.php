@@ -44,7 +44,6 @@ class Contabilidad extends BaseController
                     'id_estado_boleta !=' => 3
                 ])->countAllResults() > 0;
                 if ($existingBoleta) {
-                    // The error message as a return parameter is only available at Enterprise version
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("Ya hay boleta registrada de este mes para este usuario.\n");
                 }
