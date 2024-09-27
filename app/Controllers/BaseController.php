@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * BaseController
+ * php version 8.2
+ *
+ * @category Controllers
+ * @package  App\Controllers
+ * @author   Omar Vásquez <omarvs91@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @link     https://omarvasquezs.github.io
+ */
+
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
@@ -10,7 +21,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 // GROCERY CRUD
-include(APPPATH . 'Libraries/GroceryCrudEnterprise/autoload.php');
+require APPPATH . 'Libraries/GroceryCrudEnterprise/autoload.php';
 use Config\Database as ConfigDatabase;
 use Config\GroceryCrud as ConfigGroceryCrud;
 use GroceryCrud\Core\GroceryCrud;
@@ -24,6 +35,12 @@ use GroceryCrud\Core\GroceryCrud;
  *     class Home extends BaseController
  *
  * For security be sure to declare any new methods as protected or private.
+ *
+ * @category Controllers
+ * @package  App\Controllers
+ * @author   Omar Vásquez <omarvs91@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @link     https://github.com/omarvs91
  */
 abstract class BaseController extends Controller
 {
@@ -57,10 +74,19 @@ abstract class BaseController extends Controller
     protected $publicaciones;
 
     /**
+     * Handles the global variables.
+     *
+     * @param RequestInterface  $request  The request object.
+     * @param ResponseInterface $response The response object.
+     * @param LoggerInterface   $logger   The logger object.
+     *
      * @return void
      */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
+    public function initController(
+        RequestInterface $request,
+        ResponseInterface $response,
+        LoggerInterface $logger
+    ) {
         date_default_timezone_set('America/Lima');
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
@@ -68,7 +94,7 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
-        $this->gc = $this->_getGroceryCrudEnterprise();
+        $this->gc = $this->getGroceryCrudEnterprise();
         $this->usuarios = new \App\Models\Usuarios();
         $this->usuarios_roles = new \App\Models\UsuariosRoles();
         $this->documentos = new \App\Models\Documentos();
@@ -76,17 +102,27 @@ abstract class BaseController extends Controller
         $this->boletas = new \App\Models\Boletas();
         $this->publicaciones = new \App\Models\Publicaciones();
         // Custom validation rules
-        \Valitron\Validator::addRule('noSpacesBetweenLetters', function($field, $value, array $params, array $fields) {
+        \Valitron\Validator::addRule(
+            'noSpacesBetweenLetters',
+            function ($field, $value, array $params, array $fields) {
 
-            // Check if the value contains any spaces between letters
-            if (preg_match('/\s/', $value)) {
-                return false; // Return false if spaces are found
-            }
+                // Check if the value contains any spaces between letters
+                if (preg_match('/\s/', $value)) {
+                    return false; // Return false if spaces are found
+                }
 
-            return true; // Return true if no spaces between letters are found
-        }, 'no debe tener espacios.');
+                return true; // Return true if no spaces between letters are found
+            }, 'no debe tener espacios.'
+        );
     }
-    protected function _mainOutput($output = null)
+    /**
+     * Handles the main output for rendering.
+     * 
+     * @param $output output object for rendering
+     *
+     * @return mixed
+     */
+    protected function mainOutput($output = null)
     {
         if (isset($output->isJSONResponse) && $output->isJSONResponse) {
             header('Content-Type: application/json; charset=utf-8');
@@ -95,7 +131,14 @@ abstract class BaseController extends Controller
         }
         return view('output', (array) $output);
     }
-    protected function _mainOutputGC($output = null)
+    /**
+     * Handles the main output GC for rendering.
+     * 
+     * @param $output output object for rendering
+     *
+     * @return mixed
+     */
+    protected function mainOutputGC($output = null)
     {
         if (isset($output->isJSONResponse) && $output->isJSONResponse) {
             header('Content-Type: application/json; charset=utf-8');
@@ -104,7 +147,13 @@ abstract class BaseController extends Controller
         }
         return view('gc_output', (array) $output);
     }
-    protected function _getDbData() {
+    /**
+     * Handles the getDbData to manage database creds.
+     *
+     * @return mixed
+     */
+    protected function getDbData()
+    {
         $db = (new ConfigDatabase())->default;
         return [
             'adapter' => [
@@ -117,14 +166,29 @@ abstract class BaseController extends Controller
             ]
         ];
     }
-    protected function _getGroceryCrudEnterprise($bootstrap = true, $jquery = true) {
-        $db = $this->_getDbData();
+    /**
+     * Handles the getGroceryCrudEnterprise.
+     * 
+     * @param $bootstrap bootstrap theme on CRUD.
+     * @param $jquery    handles jQuery on CRUD.
+     *
+     * @return mixed
+     */
+    protected function getGroceryCrudEnterprise($bootstrap = true, $jquery = true)
+    {
+        $db = $this->getDbData();
         $config = (new ConfigGroceryCrud())->getDefaultConfig();
 
         $groceryCrud = new GroceryCrud($config, $db);
         return $groceryCrud;
     }
-    public function _uploadFirmaValidations() {
+    /**
+     * Handles the uploadFirmaValidations.
+     *
+     * @return mixed
+     */
+    public function uploadFirmaValidations()
+    {
         return [
             'maxUploadSize' => '20M', // 20 Mega Bytes
             'minUploadSize' => '1K', // 1 Kilo Byte
@@ -133,7 +197,13 @@ abstract class BaseController extends Controller
             ]
         ];
     }
-    public function _uploadDocumentoValidations() {
+    /**
+     * Handles the uploadDocumentoValidations.
+     *
+     * @return mixed
+     */
+    public function uploadDocumentoValidations()
+    {
         return [
             'maxUploadSize' => '20M', // 20 Mega Bytes
             'minUploadSize' => '1K', // 1 Kilo Byte

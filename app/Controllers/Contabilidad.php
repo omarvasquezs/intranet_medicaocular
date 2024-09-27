@@ -65,7 +65,7 @@ class Contabilidad extends BaseController
 
         // Rendering the CRUD
         $output = $this->gc->render();
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     public function contabilidad_boletas_rechazadas()
     {
@@ -104,6 +104,6 @@ class Contabilidad extends BaseController
 
         // Rendering the CRUD
         $output = $this->gc->render();
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
 }

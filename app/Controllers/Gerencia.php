@@ -66,7 +66,7 @@ class Gerencia extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     public function permisos_aprobados()
     {
@@ -119,7 +119,7 @@ class Gerencia extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     public function permisos_rechazados()
     {
@@ -173,7 +173,7 @@ class Gerencia extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     public function boletas_pendientes()
     {
@@ -282,7 +282,7 @@ class Gerencia extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     public function boletas_aprobadas()
     {
@@ -333,6 +333,6 @@ class Gerencia extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
 }

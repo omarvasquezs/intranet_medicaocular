@@ -34,7 +34,7 @@ class Admin extends BaseController
                 return 'reset_pass/' . $row->id;
             })
             // Upload sign
-            ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->_uploadFirmaValidations())
+            ->setFieldUpload('firma', 'assets/uploads/firmas/', base_url() . 'assets/uploads/firmas/', $this->uploadFirmaValidations())
             // Field type
             ->callbackColumn('estado', function ($value, $row) {
                 switch ($value) {
@@ -77,7 +77,7 @@ class Admin extends BaseController
 
         // Rendering the CRUD
         $output = $this->gc->render();
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     // CARGOS
     public function cargos()
@@ -92,7 +92,7 @@ class Admin extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
     // AREAS
     public function areas()
@@ -124,7 +124,7 @@ class Admin extends BaseController
 
         $output = $this->gc->render();
 
-        return $this->_mainOutput($output);
+        return $this->mainOutput($output);
     }
 
     public function reset_pass($userId)

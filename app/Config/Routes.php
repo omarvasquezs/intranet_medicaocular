@@ -1,8 +1,21 @@
 <?php
 
+/**
+ * Routes
+ * php version 8.2
+ *
+ * @category Routes
+ * @package  App\Config
+ * @author   Omar Vásquez <omarvs91@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @link     https://omarvasquezs.github.io
+ */
+
 use CodeIgniter\Router\RouteCollection;
 
 /**
+ * Routes
+ * 
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
@@ -35,10 +48,10 @@ $routes->post('documentos/(:any)', 'Informativo::documentos');
 $routes->get('reset_pass/(:num)', 'Admin::reset_pass/$1');
 
 // REGISTRAR PERMISO / DESCANSO
-$routes->get('registrar_permiso', 'General::registrar_permiso');
-$routes->get('registrar_permiso/(:any)', 'General::registrar_permiso/$1');
-$routes->post('registrar_permiso', 'General::registrar_permiso');
-$routes->post('registrar_permiso/(:any)', 'General::registrar_permiso');
+$routes->get('registrar_permiso', 'General::registrarPermiso');
+$routes->get('registrar_permiso/(:any)', 'General::registrarPermiso/$1');
+$routes->post('registrar_permiso', 'General::registrarPermiso');
+$routes->post('registrar_permiso/(:any)', 'General::registrarPermiso');
 
 // LOGIN + LOG OUT + CHANGE PASSWORD
 $routes->get('logout', 'Auth::logout');
@@ -79,10 +92,10 @@ $routes->get('perfil/(:any)', 'Home::perfil/$1');
 $routes->post('perfil', 'Home::perfil');
 $routes->post('perfil/(:any)', 'Home::perfil');
 
-$routes->get('mis_boletas', 'General::mis_boletas');
-$routes->get('mis_boletas/(:any)', 'General::mis_boletas/$1');
-$routes->post('mis_boletas', 'General::mis_boletas');
-$routes->post('mis_boletas/(:any)', 'General::mis_boletas');
+$routes->get('mis_boletas', 'General::misBoletas');
+$routes->get('mis_boletas/(:any)', 'General::misBoletas/$1');
+$routes->post('mis_boletas', 'General::misBoletas');
+$routes->post('mis_boletas/(:any)', 'General::misBoletas');
 
 // CONTABILIDAD
 $routes->get('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
@@ -97,17 +110,19 @@ $routes->post('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabili
 
 // 404
 if (ENVIRONMENT == 'production') {
-    $routes->set404Override(function () {
-        echo view('errors/html/custom_404');
-    });
+    $routes->set404Override(
+        function () {
+            echo view('errors/html/custom_404');
+        }
+    );
 }
 
 // PUBLICACIONES
-$routes->get('editar_publicaciones', 'Home::editar_publicaciones');
-$routes->get('editar_publicaciones/(:any)', 'Home::editar_publicaciones/$1');
-$routes->post('editar_publicaciones', 'Home::editar_publicaciones');
-$routes->post('editar_publicaciones/(:any)', 'Home::editar_publicaciones');
+$routes->get('editar_publicaciones', 'Home::editarPublicaciones');
+$routes->get('editar_publicaciones/(:any)', 'Home::editarPublicaciones/$1');
+$routes->post('editar_publicaciones', 'Home::editarPublicaciones');
+$routes->post('editar_publicaciones/(:any)', 'Home::editarPublicaciones');
 
 // FIRMAR BOLETA
-$routes->get('firmar_boleta', 'General::firmar_boleta');
-$routes->get('firmar_boleta/(:any)', 'General::firmar_boleta/$1');
+$routes->get('firmar_boleta', 'General::firmarBoleta');
+$routes->get('firmar_boleta/(:any)', 'General::firmarBoleta/$1');
