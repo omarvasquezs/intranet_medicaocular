@@ -169,7 +169,7 @@
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLMenu"
                             aria-expanded="true" aria-controls="gerenciaSOLMenu">
                             <i class="fa fa-fw fa-list"></i>
-                            <span>SOL. PENDIENTES</span>
+                            <span>PENDIENTES</span>
                         </a>
                         <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordionSidebar">
@@ -187,7 +187,7 @@
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLaproMenu"
                             aria-expanded="true" aria-controls="gerenciaSOLaproMenu">
                             <i class="fa fa-fw fa-check"></i>
-                            <span>SOL. APROBADAS</span>
+                            <span>APROBADAS</span>
                         </a>
                         <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordionSidebar">
@@ -204,7 +204,7 @@
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLrechaMenu"
                             aria-expanded="true" aria-controls="gerenciaSOLrechaMenu">
                             <i class="fa fa-fw fa-times"></i>
-                            <span>SOL. RECHAZADAS</span>
+                            <span>RECHAZADAS</span>
                         </a>
                         <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordionSidebar">
