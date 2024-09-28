@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use setasign\Fpdi\Tcpdf\Fpdi;
 
 class Contabilidad extends BaseController
 {
@@ -48,7 +49,64 @@ class Contabilidad extends BaseController
                     return $errorMessage->setMessage("Ya hay boleta registrada de este mes para este usuario.\n");
                 }
                 $stateParameters->data['subido_por'] = session()->get('user_id');
-                $stateParameters->data['id_estado_boleta'] = 1;
+                $stateParameters->data['id_estado_boleta'] = 2;
+                $stateParameters->data['revisado_por'] = 5;
+                return $stateParameters;
+            })
+            ->callbackAfterInsert(function ($stateParameters) {
+                $existingPdfPath = FCPATH . 'assets/uploads/boletas/' . $this->boletas->find($stateParameters->insertId)['adjunto'];
+
+                // Create new FPDI instance
+                $pdf = new Fpdi();
+
+                // Disable automatic page break
+                $pdf->SetAutoPageBreak(false, 0);
+
+                $pdf->setPrintHeader(false);
+
+                // Import the existing PDF
+                $pdf->setSourceFile($existingPdfPath);
+
+                // We'll only work with the first page
+                $templateId = $pdf->importPage(1);
+                $size = $pdf->getTemplateSize($templateId);
+
+                // Add only one page
+                $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
+
+                // Use the template
+                $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
+
+                $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find(5)['firma'];
+
+                if (is_file($firmaPath) && is_readable($firmaPath)) {
+                    // Get signature dimensions
+                    list($sigWidth, $sigHeight) = getimagesize($firmaPath);
+
+                    // Calculate scaling factor to fit within 20x10
+                    $scale = min(40 / $sigWidth, 20 / $sigHeight);
+                    $newWidth = $sigWidth * $scale;
+                    $newHeight = $sigHeight * $scale;
+
+                    $x = 47;  // Adjust this value to move left or right
+    
+                    // First signature position (adjust as needed)
+                    $y1 = 118;  // Adjust this value to move up or down
+    
+                    // Second signature position (adjust as needed)
+                    $y2 = 269; // Adjust this value to move up or down
+    
+                    // Add the first signature image
+                    $pdf->Image($firmaPath, $x, $y1, $newWidth, $newHeight, 'PNG');
+
+                    // Add the second signature image
+                    $pdf->Image($firmaPath, $x, $y2, $newWidth, $newHeight, 'PNG');
+                } else {
+                    log_message('error', 'Signature file not found or not readable: ' . $firmaPath);
+                }
+
+                // Save the modified PDF
+                $pdf->Output($existingPdfPath, 'F');
                 return $stateParameters;
             })
             ->displayAs([
