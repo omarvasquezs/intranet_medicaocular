@@ -135,16 +135,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>contabilidad_boletas_rechazadas">
-                            <i class="fas fa-fw fa-exclamation-triangle"></i>
-                            <span>BOLETAS RECHAZADAS</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
                         <a class="nav-link" href="<?= base_url() ?>contabilidad_boletas">
                             <i class="fas fa-fw fa-history"></i>
-                            <span>H. BOLETAS</span>
+                            <span>TODAS LAS BOLETAS</span>
                         </a>
                     </li>
 
@@ -175,7 +168,6 @@
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Por aprobar:</h6>
-                                <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="' . base_url() . 'boletas_pendientes">Boletas</a>' : '' ?>
                                 <a class="collapse-item" href="<?= base_url() ?>permisos_pendientes">Permisos y
                                     Descansos</a>
                             </div>
@@ -192,7 +184,6 @@
                         <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="' . base_url() . 'boletas_aprobadas">Boletas Aprobadas</a>' : '' ?>
                                 <a class="collapse-item" href="<?= base_url() ?>permisos_aprobados">Permisos y Descansos
                                     Aprobados</a>
                             </div>
@@ -209,7 +200,6 @@
                         <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <?= (array_intersect(session()->get('roles'), [1])) ? '<a class="collapse-item" href="' . base_url() . 'contabilidad_boletas_rechazadas">Boletas Rechazadas</a>' : '' ?>
                                 <a class="collapse-item" href="<?= base_url() ?>permisos_rechazados">Permisos y Descansos
                                     Rechazados</a>
                             </div>
