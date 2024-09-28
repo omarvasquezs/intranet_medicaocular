@@ -154,56 +154,31 @@
 
                     <!-- Heading -->
                     <div class="sidebar-heading">
-                        Gerencia y/o Jefatura
+                        Permisos y Descansos
                     </div>
 
                     <!-- Nav Item - Pages Collapse Menu -->
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLMenu"
-                            aria-expanded="true" aria-controls="gerenciaSOLMenu">
+                        <a class="nav-link" href="<?= base_url() ?>permisos_pendientes" data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-fw fa-list"></i>
                             <span>PENDIENTES</span>
                         </a>
-                        <div id="gerenciaSOLMenu" class="collapse" aria-labelledby="headingTwo"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Por aprobar:</h6>
-                                <a class="collapse-item" href="<?= base_url() ?>permisos_pendientes">Permisos y
-                                    Descansos</a>
-                            </div>
-                        </div>
                     </li>
 
                     <!-- Nav Item - Pages Collapse Menu -->
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLaproMenu"
-                            aria-expanded="true" aria-controls="gerenciaSOLaproMenu">
+                        <a class="nav-link" href="<?= base_url() ?>permisos_aprobados" data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-fw fa-check"></i>
-                            <span>APROBADAS</span>
+                            <span>APROBADOS</span>
                         </a>
-                        <div id="gerenciaSOLaproMenu" class="collapse" aria-labelledby="headingTwo"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="<?= base_url() ?>permisos_aprobados">Permisos y Descansos
-                                    Aprobados</a>
-                            </div>
-                        </div>
                     </li>
 
                     <!-- Nav Item - Pages Collapse Menu -->
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gerenciaSOLrechaMenu"
-                            aria-expanded="true" aria-controls="gerenciaSOLrechaMenu">
+                        <a class="nav-link" href="<?= base_url() ?>permisos_rechazados" data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-fw fa-times"></i>
-                            <span>RECHAZADAS</span>
+                            <span>RECHAZADOS</span>
                         </a>
-                        <div id="gerenciaSOLrechaMenu" class="collapse" aria-labelledby="headingTwo"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="<?= base_url() ?>permisos_rechazados">Permisos y Descansos
-                                    Rechazados</a>
-                            </div>
-                        </div>
                     </li>
 
                     <!-- Divider -->
