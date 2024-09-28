@@ -76,16 +76,6 @@ $routes->get('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados/$1');
 $routes->post('permisos_rechazados', 'Gerencia::permisos_rechazados');
 $routes->post('permisos_rechazados/(:any)', 'Gerencia::permisos_rechazados');
 
-$routes->get('boletas_pendientes', 'Gerencia::boletas_pendientes');
-$routes->get('boletas_pendientes/(:any)', 'Gerencia::boletas_pendientes/$1');
-$routes->post('boletas_pendientes', 'Gerencia::boletas_pendientes');
-$routes->post('boletas_pendientes/(:any)', 'Gerencia::boletas_pendientes');
-
-$routes->get('boletas_aprobadas', 'Gerencia::boletas_aprobadas');
-$routes->get('boletas_aprobadas/(:any)', 'Gerencia::boletas_aprobadas/$1');
-$routes->post('boletas_aprobadas', 'Gerencia::boletas_aprobadas');
-$routes->post('boletas_aprobadas/(:any)', 'Gerencia::boletas_aprobadas');
-
 // PERFIL
 $routes->get('perfil', 'Home::perfil');
 $routes->get('perfil/(:any)', 'Home::perfil/$1');
@@ -102,11 +92,6 @@ $routes->get('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->get('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas/$1');
 $routes->post('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->post('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas');
-
-$routes->get('contabilidad_boletas_rechazadas', 'Contabilidad::contabilidad_boletas_rechazadas');
-$routes->get('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabilidad_boletas_rechazadas/$1');
-$routes->post('contabilidad_boletas_rechazadas', 'Contabilidad::contabilidad_boletas_rechazadas');
-$routes->post('contabilidad_boletas_rechazadas/(:any)', 'Contabilidad::contabilidad_boletas_rechazadas');
 
 // 404
 if (ENVIRONMENT == 'production') {
