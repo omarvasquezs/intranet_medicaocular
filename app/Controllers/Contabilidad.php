@@ -36,18 +36,6 @@ class Contabilidad extends BaseController
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
                     return $errorMessage->setMessage("Solo puede subir PDFs!\n");
                 }
-                $currentMonth = date('Y-m');
-                $lastDayOfMonth = date('t', strtotime($currentMonth));
-                $existingBoleta = $this->boletas->where([
-                    'id_usuario' => $stateParameters->data['id_usuario'],
-                    'fecha_creacion >=' => $currentMonth . '-01',
-                    'fecha_creacion <=' => $currentMonth . '-' . $lastDayOfMonth,
-                    'id_estado_boleta !=' => 3
-                ])->countAllResults() > 0;
-                if ($existingBoleta) {
-                    $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
-                    return $errorMessage->setMessage("Ya hay boleta registrada de este mes para este usuario.\n");
-                }
                 $stateParameters->data['subido_por'] = session()->get('user_id');
                 $stateParameters->data['id_estado_boleta'] = 2;
                 $stateParameters->data['revisado_por'] = 5;
