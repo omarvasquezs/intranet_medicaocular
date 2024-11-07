@@ -167,10 +167,6 @@ body.login-page {
   min-height: 200px;
 }
 
-button.ql-image {
-  display: none !important;
-}
-
 @font-face {
   font-family: "MarkPro-Bold";
   src: url("./src/fonts/MarkPro-Bold.ttf") format("truetype");
