@@ -7,6 +7,9 @@
   "main": "",
   "private": true,
   "dependencies": {
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1",
+    "jquery-ui": "^1.14.1",
     "laravel-mix": "^6.0.49",
     "npm-check-updates": "^16.14.20",
     "path-to-regexp": "^0.1.11"

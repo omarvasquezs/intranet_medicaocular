@@ -1,9 +1,13 @@
-(function ($) {
+import $ from 'jquery';
+import 'jquery-ui/dist/jquery-ui.min.js';
+import 'bootstrap';
+
+$(function () {
     "use strict";
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#publicaciones-tab').on('click.theme', function () {
+        location.reload(true);
     });
-    $('#publicaciones-tab').on('click', function() {
-        location.reload();
-    });
-})(jQuery);
+});
