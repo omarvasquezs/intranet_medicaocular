@@ -111,3 +111,6 @@ $routes->post('editar_publicaciones/(:any)', 'Home::editarPublicaciones');
 // FIRMAR BOLETA
 $routes->get('firmar_boleta', 'General::firmarBoleta');
 $routes->get('firmar_boleta/(:any)', 'General::firmarBoleta/$1');
+
+// CKEDITOR
+$routes->post('upload', 'UploadController::index');
