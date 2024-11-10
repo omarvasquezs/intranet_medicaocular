@@ -445,68 +445,74 @@
         import coreTranslations from 'ckeditor5/translations/es.js';
         import premiumFeaturesTranslations from 'ckeditor5-premium-features/translations/es.js';
 
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                language: 'es', // Set language to Spanish
-                plugins: [
-                    SourceEditing, Essentials, Table, TableToolbar, Bold, Italic, Font, Paragraph,
-                    CKFinderUploadAdapter, Link, Image, AutoImage, PictureEditing,
-                    ImageToolbar, ImageInsert, ImageCaption, ImageStyle, ImageResize, ImageResizeEditing, ImageResizeHandles,
-                    LinkImage, ImageUpload, ImageUploadEditing, ImageUploadProgress, CloudServices, Heading, Indent, IndentBlock,
-                    BlockQuote, List, AutoLink, MediaEmbed, TodoList
-                ],
-                toolbar: [
-                    'undo', 'redo', '|',
-                    'heading',
-                    'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                    'insertImage', '|',
-                    'insertTable',
-                    'link',
-                    'mediaEmbed',
-                    'blockQuote',
-                    'bulletedList', 'numberedList', 'todoList',
-                    'outdent', 'indent',
-                    'SourceEditing'
-                ],
-                translations: [
-                    coreTranslations,
-                    premiumFeaturesTranslations
-                ],
-                ckfinder: {
-                    uploadUrl: '<?= base_url("upload") ?>',
-                    options: {
-                        resourceType: 'Images'
-                    }
-                },
-                image: {
+        const editorElement = document.querySelector('#editor');
+        if (editorElement) {
+            ClassicEditor
+                .create(document.querySelector('#editor'), {
+                    language: 'es', // Set language to Spanish
+                    plugins: [
+                        SourceEditing, Essentials, Table, TableToolbar, Bold, Italic, Font, Paragraph,
+                        CKFinderUploadAdapter, Link, Image, AutoImage, PictureEditing,
+                        ImageToolbar, ImageInsert, ImageCaption, ImageStyle, ImageResize, ImageResizeEditing, ImageResizeHandles,
+                        LinkImage, ImageUpload, ImageUploadEditing, ImageUploadProgress, CloudServices, Heading, Indent, IndentBlock,
+                        BlockQuote, List, AutoLink, MediaEmbed, TodoList
+                    ],
                     toolbar: [
-                        'toggleImageCaption',
-                        'imageTextAlternative',
-                        '|',  // Separator
-                        'imageStyle:Inline',
-                        'imageStyle:alignBlockLeft',
-                        'imageStyle:alignCenter',
-                        'imageStyle:alignBlockRight',
-                        '|',  // Separator
-                        'imageStyle:alignLeft',
-                        'imageStyle:alignRight',
-                    ]
-                },
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Párrafo', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Título 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Título 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Título 3', class: 'ck-heading_heading3' },
-                        { model: 'heading4', view: 'h4', title: 'Título 4', class: 'ck-heading_heading4' },
-                        { model: 'heading5', view: 'h5', title: 'Título 5', class: 'ck-heading_heading5' },
-                        { model: 'heading6', view: 'h6', title: 'Título 6', class: 'ck-heading_heading6' }
-                    ]
-                }
-            })
-            .then(editor => { console.log(editor); })
-            .catch(error => { console.error(error); });
+                        'undo', 'redo', '|',
+                        'heading',
+                        'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'insertImage', '|',
+                        'insertTable',
+                        'link',
+                        'mediaEmbed',
+                        'blockQuote',
+                        'bulletedList', 'numberedList', 'todoList',
+                        'outdent', 'indent',
+                        'SourceEditing'
+                    ],
+                    translations: [
+                        coreTranslations,
+                        premiumFeaturesTranslations
+                    ],
+                    ckfinder: {
+                        uploadUrl: '<?= base_url("upload") ?>',
+                        options: {
+                            resourceType: 'Images'
+                        }
+                    },
+                    image: {
+                        toolbar: [
+                            'toggleImageCaption',
+                            'imageTextAlternative',
+                            '|',  // Separator
+                            'imageStyle:Inline',
+                            'imageStyle:alignBlockLeft',
+                            'imageStyle:alignCenter',
+                            'imageStyle:alignBlockRight',
+                            '|',  // Separator
+                            'imageStyle:alignLeft',
+                            'imageStyle:alignRight',
+                        ]
+                    },
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Párrafo', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Título 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Título 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Título 3', class: 'ck-heading_heading3' },
+                            { model: 'heading4', view: 'h4', title: 'Título 4', class: 'ck-heading_heading4' },
+                            { model: 'heading5', view: 'h5', title: 'Título 5', class: 'ck-heading_heading5' },
+                            { model: 'heading6', view: 'h6', title: 'Título 6', class: 'ck-heading_heading6' }
+                        ]
+                    }
+                })
+                .then(editor => { console.log(editor); })
+                .catch(error => { console.error(error); });
+        } else {
+            console.log("No #editor element found.");
+        }
+
     </script>
 
     <script type="text/javascript" src="<?= base_url() ?>themes/medicaocular/theme.js"></script>
