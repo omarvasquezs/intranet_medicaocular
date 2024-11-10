@@ -93,7 +93,7 @@ class GroceryCrud extends BaseConfig
 
             // Publish external events to the frontend (e.g. when the user clicks at the edit button)
             // For security reasons the configuration is set to false by default.
-            'publish_events' => false,
+            'publish_events' => true,
 
             // Remember the sorting, the search and the paging upon refresh. The information is stored in the browser local storage
             'remember_state_upon_refresh' => true,
