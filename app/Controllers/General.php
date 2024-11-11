@@ -45,19 +45,19 @@ class General extends BaseController
             )
             ->editFields(
                 ['id_usuario', 'id_tipo_permiso', 'id_estado_permiso',
-                'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto']
+                'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto']
             )
             ->readOnlyEditFields(
                 ['id_usuario', 'id_tipo_permiso', 'fecha_creacion',
                 'id_estado_permiso']
             )
             ->requiredFields(
-                ['id_tipo_permiso', 'sustentacion', 'fecha_inicio', 'fecha_fin']
+                ['id_tipo_permiso', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno']
             )
-            ->requiredEditFields(['fecha_inicio', 'fecha_fin'])
+            ->requiredEditFields(['fecha_inicio', 'fecha_fin', 'fecha_retorno'])
             ->readFields(
                 ['id_tipo_permiso', 'id_estado_permiso', 'fecha_creacion',
-                'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto',
+                'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto',
                 'observaciones', 'revisado_por']
             )
             ->columns(
@@ -75,7 +75,7 @@ class General extends BaseController
             )
             ->addFields(
                 ['id_tipo_permiso', 'sustentacion', 'fecha_inicio',
-                'fecha_fin', 'adjunto']
+                'fecha_fin', 'fecha_retorno', 'adjunto']
             )
             ->displayAs('id_usuario', 'USUARIO')
             ->displayAs('id_tipo_permiso', 'TIPO DE PERMISO')
@@ -84,7 +84,8 @@ class General extends BaseController
             ->displayAs('observaciones', 'OBSERVACIONES DE JEFATURA')
             ->displayAs('fecha_creacion', 'FECHA CREACION')
             ->displayAs('fecha_inicio', 'FECHA DE INICIO')
-            ->displayAs('fecha_fin', 'FECHA DE RETORNO')
+            ->displayAs('fecha_fin', 'FECHA FIN')
+            ->displayAs('fecha_retorno', 'FECHA DE RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('adjunto', 'CITT (NO ES OBLIGATORIO PARA VACACIONES)')
             ->displayAs('rango', 'RANGO DE FECHAS')
@@ -121,6 +122,7 @@ class General extends BaseController
             ->fieldType('observaciones', 'text')
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date')
+            ->fieldType('fecha_retorno', 'native_date')
             ->callbackReadField(
                 'revisado_por',
                 function ($fieldValue, $primaryKeyValue) use ($usuarios) {
@@ -187,6 +189,7 @@ class General extends BaseController
                 function ($stateParameters) {
                     $fecha_inicio = $stateParameters->data['fecha_inicio'];
                     $fecha_fin = $stateParameters->data['fecha_fin'];
+                    $fecha_retorno = $stateParameters->data['fecha_retorno'];
 
                     $stateParameters->data['id_estado_permiso'] = 1;
                     $stateParameters->data['id_usuario'] = session()->get('user_id');
@@ -225,6 +228,13 @@ class General extends BaseController
                     if ($fecha_fin<=$fecha_inicio) {
                         return $errorMessage->setMessage(
                             "La fecha de fin debe ser posterior
+                            a la fecha de inicio.\n"
+                        );
+                    }
+
+                    if ($fecha_retorno<=$fecha_fin) {
+                        return $errorMessage->setMessage(
+                            "La fecha de retorno debe ser posterior
                             a la fecha de inicio.\n"
                         );
                     }
