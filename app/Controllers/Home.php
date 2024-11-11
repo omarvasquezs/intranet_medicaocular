@@ -68,7 +68,7 @@ class Home extends BaseController
         // Specify the table to be used
         $this->gc->setTable('publicaciones')
             // Set the subject for the CRUD interface
-            ->setSubject('PUBLICACION', 'HISTORICO PUBLICACIONES')
+            ->setSubject('PUBLICACION', 'PUBLICACIONES')
             // Set default ordering by creation date in descending order
             ->defaultOrdering('publicaciones.fecha_creacion', 'desc')
             // Disable the export functionality
@@ -97,26 +97,33 @@ class Home extends BaseController
                     return $stateParameters; // Return modified state parameters
                 }
             )
-        // Display field names in a user-friendly format
-        ->displayAs(
-            [
-            // Display 'id_usuario' as 'AUTOR'
-            'id_usuario' => 'AUTOR',
-            // Display 'fecha_creacion' as 'CREACION'
-            'fecha_creacion' => 'CREACION',
-            // Display 'fecha_actualizacion' as 'ACTUALIZADO'
-            'fecha_actualizacion' => 'ACTUALIZADO',
-            // Display 'publicacion' as 'PUBLICACION'
-            'publicacion' => 'PUBLICACION'
-            ]
-        );
+            // ckeditor 5
+            ->callbackAddField('publicacion', function ($fieldType, $fieldName) {
+                return '<textarea id="publicacion-editor" name="publicacion"></textarea>';
+            })
+            ->callbackEditField('publicacion', function ($fieldValue, $primaryKeyValue, $rowData) {
+                return '<textarea id="publicacion-editor" name="publicacion">' . $fieldValue . '</textarea>';
+            })
+            // Display field names in a user-friendly format
+            ->displayAs(
+                [
+                    // Display 'id_usuario' as 'AUTOR'
+                    'id_usuario' => 'AUTOR',
+                    // Display 'fecha_creacion' as 'CREACION'
+                    'fecha_creacion' => 'CREACION',
+                    // Display 'fecha_actualizacion' as 'ACTUALIZADO'
+                    'fecha_actualizacion' => 'ACTUALIZADO',
+                    // Display 'publicacion' as 'PUBLICACION'
+                    'publicacion' => 'PUBLICACION'
+                ]
+            );
 
         // Render the output for the CRUD interface
         // Generate the output based on the configured settings
         $output = $this->gc->render();
 
         // Return the main output for the Grocery CRUD interface
-        return $this->mainOutputGC($output);
+        return $this->mainOutput($output);
     }
     /**
      * Handles the main perfil form page.
@@ -135,32 +142,32 @@ class Home extends BaseController
             // Define the where clause to filter the user by their ID
             ->where(
                 [
-                'usuarios.id' => session()->get('user_id')
+                    'usuarios.id' => session()->get('user_id')
                 ]
             )
             // Set user-friendly labels for the fields
             ->displayAs(
                 [
-                // Display 'nombres' as 'NOMBRES'
-                'nombres' => 'NOMBRES',
-                // Display 'usuario' as 'USUARIO'
-                'usuario' => 'USUARIO',
-                // Display 'estado' as 'ESTADO'
-                'estado' => 'ESTADO',
-                // Display 'dni' as 'DNI'
-                'dni' => 'DNI',
-                // Display 'id_cargo' as 'CARGO'
-                'id_cargo' => 'CARGO',
-                // Display 'id_area' as 'ÁREA'
-                'id_area' => 'ÁREA',
-                // Display 'roles' as 'ROLES'
-                'roles' => 'ROLES',
-                // Display 'birthday' as 'FECHA DE NACIMIENTO'
-                'birthday' => 'FECHA DE NACIMIENTO',
-                // Display 'firma' as 'FIRMA DIGITAL'
-                'firma' => 'FIRMA DIGITAL',
-                // Display 'pass' as 'NUEVA CONTRASEÑA'
-                'pass' => 'NUEVA CONTRASEÑA'
+                    // Display 'nombres' as 'NOMBRES'
+                    'nombres' => 'NOMBRES',
+                    // Display 'usuario' as 'USUARIO'
+                    'usuario' => 'USUARIO',
+                    // Display 'estado' as 'ESTADO'
+                    'estado' => 'ESTADO',
+                    // Display 'dni' as 'DNI'
+                    'dni' => 'DNI',
+                    // Display 'id_cargo' as 'CARGO'
+                    'id_cargo' => 'CARGO',
+                    // Display 'id_area' as 'ÁREA'
+                    'id_area' => 'ÁREA',
+                    // Display 'roles' as 'ROLES'
+                    'roles' => 'ROLES',
+                    // Display 'birthday' as 'FECHA DE NACIMIENTO'
+                    'birthday' => 'FECHA DE NACIMIENTO',
+                    // Display 'firma' as 'FIRMA DIGITAL'
+                    'firma' => 'FIRMA DIGITAL',
+                    // Display 'pass' as 'NUEVA CONTRASEÑA'
+                    'pass' => 'NUEVA CONTRASEÑA'
                 ]
             )
             // Specify which columns to display in the table
@@ -194,32 +201,39 @@ class Home extends BaseController
                         <p>Dejar en blanco si no desea cambiar la contraseña</p>';
                 }
             )
-        // Callback to handle password field before updating
-        ->callbackBeforeUpdate(
-            function ($stateParameters) {
-                // If the password field is empty, unset it from the data
-                if (empty($stateParameters->data['pass'])) {
-                    unset($stateParameters->data['pass']);
+            // Callback to handle password field before updating
+            ->callbackBeforeUpdate(
+                function ($stateParameters) {
+                    // If the password field is empty, unset it from the data
+                    if (empty($stateParameters->data['pass'])) {
+                        unset($stateParameters->data['pass']);
+                    }
+                    return $stateParameters; // Return modified state parameters
                 }
-                return $stateParameters; // Return modified state parameters
-            }
-        )
-        // Set validation rule for 'usuario' to disallow spaces
-        ->setRule('usuario', 'noSpacesBetweenLetters')
-        // Specify available fields on the edit form
-        ->editFields(
-            ['nombres', 'usuario', 'dni', 'id_cargo',
-            'birthday', 'pass', 'firma']
-        )
-        // Configure file upload for the signature field
-        ->setFieldUpload(
-            'firma',
-            'assets/uploads/firmas/', // Directory for uploads
-            base_url() . 'assets/uploads/firmas/', // Public URL for uploads
-            $this->uploadFirmaValidations() // Validation rules for uploads
-        )
-        // Set fields to be read-only on the edit form
-        ->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo']);
+            )
+            // Set validation rule for 'usuario' to disallow spaces
+            ->setRule('usuario', 'noSpacesBetweenLetters')
+            // Specify available fields on the edit form
+            ->editFields(
+                [
+                    'nombres',
+                    'usuario',
+                    'dni',
+                    'id_cargo',
+                    'birthday',
+                    'pass',
+                    'firma'
+                ]
+            )
+            // Configure file upload for the signature field
+            ->setFieldUpload(
+                'firma',
+                'assets/uploads/firmas/', // Directory for uploads
+                base_url() . 'assets/uploads/firmas/', // Public URL for uploads
+                $this->uploadFirmaValidations() // Validation rules for uploads
+            )
+            // Set fields to be read-only on the edit form
+            ->readOnlyEditFields(['nombres', 'usuario', 'dni', 'id_cargo']);
 
         // Render the output for the CRUD interface
         // Generate the output based on the configured settings
