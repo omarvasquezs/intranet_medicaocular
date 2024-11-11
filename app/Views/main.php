@@ -2,7 +2,7 @@
     <div class="col-lg-9 col-md-12 mx-auto">
         <?php if (array_intersect(session()->get('roles'), [1, 2])): ?>
             <div>
-                <a href="<?= base_url('editar_publicaciones') ?>" class="btn btn-primary rounded-0">
+                <a href="<?= base_url('editar_publicaciones') ?>" class="btn btn-outline-dark">
                     <i class="fas fa-pencil-alt"></i> Editar Publicaciones
                 </a>
             </div>
