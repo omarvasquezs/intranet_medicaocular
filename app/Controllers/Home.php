@@ -85,8 +85,6 @@ class Home extends BaseController
             ->addFields(['publicacion'])
             // Specify 'publicacion' field for editing existing entries
             ->editFields(['publicacion'])
-            // Set a text editor for 'publicacion' and 'full_text' fields
-            ->setTexteditor(['publicacion', 'full_text'])
             // Define which columns to display in the table
             ->columns(['fecha_creacion', 'fecha_actualizacion', 'id_usuario'])
             // Set the 'id_usuario' field to
@@ -104,6 +102,7 @@ class Home extends BaseController
             ->callbackEditField('publicacion', function ($fieldValue, $primaryKeyValue, $rowData) {
                 return '<textarea id="publicacion-editor" name="publicacion">' . $fieldValue . '</textarea>';
             })
+            ->setDatagridButton('REGRESAR', 'step-backward', base_url())
             // Display field names in a user-friendly format
             ->displayAs(
                 [
