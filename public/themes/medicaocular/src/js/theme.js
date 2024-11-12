@@ -1,21 +1,47 @@
 import $ from 'jquery';
 import 'jquery-ui/dist/jquery-ui.min.js';
 import 'bootstrap';
+
+// Core editor
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
+
+// Essentials
+import { Essentials } from '@ckeditor/ckeditor5-essentials';
+import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
+
+// Basic formatting
+import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { FontFamily, FontSize, FontColor, FontBackgroundColor } from '@ckeditor/ckeditor5-font';
+import { Heading } from '@ckeditor/ckeditor5-heading';
+import { Alignment } from '@ckeditor/ckeditor5-alignment';
+import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
+import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
+import { List, TodoList } from '@ckeditor/ckeditor5-list';
+
+// Link and media
+import { Link, AutoLink } from '@ckeditor/ckeditor5-link';
+import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
+
+// Image functionality
 import {
-    ClassicEditor, Essentials, Bold, Italic, Font, Paragraph, SourceEditing, CKFinder, CKFinderUploadAdapter,
-    Link, Alignment, Image, ImageInsert, ImageCaption, AutoImage, ImageResize, ImageStyle, ImageResizeEditing,
-    ImageResizeHandles, ImageToolbar, ImageUpload, PictureEditing, CloudServices, Table, TableToolbar, LinkImage,
-    ImageUploadEditing, ImageUploadProgress, DecoupledEditor, Heading, HeadingButtonsUI, ParagraphButtonUI,
-    Indent, IndentBlock, BlockQuote, List, AutoLink, MediaEmbed, TodoList, ImageResizeButtons
-} from 'ckeditor5';
-import coreTranslations from 'ckeditor5/translations/es.js';
-import premiumFeaturesTranslations from 'ckeditor5-premium-features/translations/es.js';
+    Image,
+    ImageCaption,
+    ImageStyle,
+    ImageToolbar,
+    ImageUpload,
+    ImageResize,
+    PictureEditing,
+    ImageInsert
+} from '@ckeditor/ckeditor5-image';
+
+// Table functionality
+import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 
 $(function () {
     "use strict";
 
     const targetNode = document.body;
-
     const config = {
         childList: true,
         subtree: true,
@@ -24,39 +50,81 @@ $(function () {
     const callback = (mutationsList, observer) => {
         const editorElement = document.querySelector('#publicacion-editor');
         if (editorElement) {
-            console.log('Detected');
+            console.log('Editor element detected');
             ClassicEditor
                 .create(document.querySelector('#publicacion-editor'), {
-                    language: 'es', // Set language to Spanish
+                    language: 'es',
                     plugins: [
-                        SourceEditing, Essentials, Table, TableToolbar, Bold, Italic, Font, Paragraph,
-                        CKFinderUploadAdapter, Link, Image, AutoImage, PictureEditing,
-                        ImageToolbar, ImageInsert, ImageCaption, ImageStyle, ImageResize, ImageResizeEditing, ImageResizeHandles,
-                        LinkImage, ImageUpload, ImageUploadEditing, ImageUploadProgress, CloudServices, Heading, Indent, IndentBlock,
-                        BlockQuote, List, AutoLink, MediaEmbed, TodoList, Alignment, ImageResizeButtons
+                        // Essential plugins
+                        Essentials,
+                        Paragraph,
+                        SourceEditing,
+                        
+                        // Basic formatting
+                        Bold,
+                        Italic,
+                        FontFamily,
+                        FontSize,
+                        FontColor,
+                        FontBackgroundColor,
+                        Heading,
+                        Alignment,
+                        Indent,
+                        IndentBlock,
+                        BlockQuote,
+                        List,
+                        TodoList,
+                        
+                        // Link and media
+                        Link,
+                        AutoLink,
+                        MediaEmbed,
+                        
+                        // Image plugins
+                        Image,
+                        ImageCaption,
+                        ImageStyle,
+                        ImageToolbar,
+                        ImageUpload,
+                        ImageResize,
+                        PictureEditing,
+                        ImageInsert,
+                        
+                        // Table plugins
+                        Table,
+                        TableToolbar
                     ],
-                    toolbar: [
-                        'undo', 'redo', '|',
-                        'heading',
-                        'bold', 'italic', '|', 'alignment', '|', 'insertImage', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'insertTable',
-                        'link',
-                        'mediaEmbed',
-                        'blockQuote',
-                        'bulletedList', 'numberedList', 'todoList',
-                        'outdent', 'indent',
-                        'SourceEditing'
-                    ],
-                    translations: [
-                        coreTranslations,
-                        premiumFeaturesTranslations
-                    ],
-                    ckfinder: {
-                        uploadUrl: '/upload',
-                        options: {
-                            resourceType: 'Images'
-                        }
+                    toolbar: {
+                        items: [
+                            'undo', 'redo',
+                            '|',
+                            'heading',
+                            'bold', 'italic',
+                            '|',
+                            'alignment',
+                            '|',
+                            'imageUpload',
+                            'imageInsert',
+                            '|',
+                            'fontSize',
+                            'fontFamily',
+                            'fontColor',
+                            'fontBackgroundColor',
+                            '|',
+                            'insertTable',
+                            'link',
+                            'mediaEmbed',
+                            'blockQuote',
+                            'bulletedList',
+                            'numberedList',
+                            'todoList',
+                            '|',
+                            'outdent',
+                            'indent',
+                            '|',
+                            'sourceEditing'
+                        ],
+                        shouldNotGroupWhenFull: true
                     },
                     image: {
                         resizeUnit: 'px',
@@ -65,11 +133,6 @@ $(function () {
                                 name: 'resizeImage:original',
                                 value: null,
                                 icon: 'original'
-                            },
-                            {
-                                name: 'resizeImage:custom',
-                                value: 'custom',
-                                icon: 'custom'
                             },
                             {
                                 name: 'resizeImage:50',
@@ -83,22 +146,20 @@ $(function () {
                             }
                         ],
                         toolbar: [
-                            'toggleImageCaption',
                             'imageTextAlternative',
-                            '|',  // Separator
-                            'imageStyle:Inline',
-                            'imageStyle:alignBlockLeft',
-                            'imageStyle:alignCenter',
-                            'imageStyle:alignBlockRight',
-                            '|',  // Separator
+                            '|',
+                            'imageStyle:inline',
                             'imageStyle:alignLeft',
+                            'imageStyle:alignCenter',
                             'imageStyle:alignRight',
-                            '|',  // Separator
+                            '|',
                             'resizeImage:50',
                             'resizeImage:75',
                             'resizeImage:original',
-                            'resizeImage:custom'
-                        ]
+                        ],
+                        upload: {
+                            types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+                        }
                     },
                     heading: {
                         options: [
@@ -112,22 +173,27 @@ $(function () {
                         ]
                     }
                 })
-                .then(editor => { console.log(editor); })
-                .catch(error => { console.error(error); });
+                .then(editor => {
+                    console.log('Editor initialized', editor);
+                })
+                .catch(error => {
+                    console.error('Editor initialization error:', error);
+                });
 
-            observer.disconnect(); // Stop observing
+            observer.disconnect();
         }
     };
 
     const observer = new MutationObserver(callback);
-
     observer.observe(targetNode, config);
 
+    // Re-initialize observer on form events
     window.addEventListener('gcrud.form.add', () => {
         if (!document.querySelector('#publicacion-editor')) {
             observer.observe(targetNode, config);
         }
     });
+    
     window.addEventListener('gcrud.form.edit', () => {
         if (!document.querySelector('#publicacion-editor')) {
             observer.observe(targetNode, config);
