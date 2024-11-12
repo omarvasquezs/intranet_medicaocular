@@ -176,6 +176,11 @@ body.login-page {
   overflow-y: auto;
 }
 
+figure img {
+  width: 100%;
+  height: auto;
+}
+
 @font-face {
   font-family: "MarkPro-Bold";
   src: url("./src/fonts/MarkPro-Bold.ttf") format("truetype");
