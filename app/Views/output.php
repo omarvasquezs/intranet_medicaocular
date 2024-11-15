@@ -63,7 +63,7 @@
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">HISTORICO:</h6>
                                 <a class="collapse-item" href="<?= base_url() ?>mis_boletas">Mis Boletas</a>
-                                <a class="collapse-item" href="<?= base_url() ?>mis_cts">Mis Boletas CTS</a>
+                                <a class="collapse-item" href="<?= base_url() ?>mis_cts">Mis Depósitos CTS</a>
                                 <a class="collapse-item" href="<?= base_url() ?>registrar_permiso">Mis Permisos y
                                     Descansos</a>
                             </div>
@@ -138,7 +138,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url() ?>contabilidad_boletas_cts/add">
                             <i class="fas fa-fw fa-upload"></i>
-                            <span>SUBIR BOLETA CTS</span>
+                            <span>SUBIR DEPÓSITO CTS</span>
                         </a>
                     </li>
 
