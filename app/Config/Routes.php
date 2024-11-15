@@ -87,11 +87,21 @@ $routes->get('mis_boletas/(:any)', 'General::misBoletas/$1');
 $routes->post('mis_boletas', 'General::misBoletas');
 $routes->post('mis_boletas/(:any)', 'General::misBoletas');
 
+$routes->get('mis_cts', 'General::misBoletasCTS');
+$routes->get('mis_cts/(:any)', 'General::misBoletasCTS/$1');
+$routes->post('mis_cts', 'General::misBoletasCTS');
+$routes->post('mis_cts/(:any)', 'General::misBoletasCTS');
+
 // CONTABILIDAD
 $routes->get('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->get('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas/$1');
 $routes->post('contabilidad_boletas', 'Contabilidad::contabilidad_boletas');
 $routes->post('contabilidad_boletas/(:any)', 'Contabilidad::contabilidad_boletas');
+
+$routes->get('contabilidad_boletas_cts', 'Contabilidad::contabilidad_boletas_cts');
+$routes->get('contabilidad_boletas_cts/(:any)', 'Contabilidad::contabilidad_boletas_cts/$1');
+$routes->post('contabilidad_boletas_cts', 'Contabilidad::contabilidad_boletas_cts');
+$routes->post('contabilidad_boletas_cts/(:any)', 'Contabilidad::contabilidad_boletas_cts');
 
 // 404
 if (ENVIRONMENT == 'production') {
