@@ -126,7 +126,7 @@ class Contabilidad extends BaseController
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('subido_por', 'usuarios', 'nombres')
             ->setRelation('revisado_por', 'usuarios', 'nombres')
-            ->setFieldUpload('adjunto', 'assets/uploads/boletas/', base_url() . 'assets/uploads/boletas/', [
+            ->setFieldUpload('adjunto', 'assets/uploads/cts/', base_url() . 'assets/uploads/cts/', [
                 'maxUploadSize' => '20M', // 20 Mega Bytes
                 'minUploadSize' => '1K' // 1 Kilo Byte
             ])
@@ -149,7 +149,7 @@ class Contabilidad extends BaseController
                 return $stateParameters;
             })
             ->callbackAfterInsert(function ($stateParameters) {
-                $existingPdfPath = FCPATH . 'assets/uploads/cts/' . $this->boletas->find($stateParameters->insertId)['adjunto'];
+                $existingPdfPath = FCPATH . 'assets/uploads/cts/' . $this->cts->find($stateParameters->insertId)['adjunto'];
 
                 // Create new FPDI instance
                 $pdf = new Fpdi();
@@ -179,23 +179,17 @@ class Contabilidad extends BaseController
                     list($sigWidth, $sigHeight) = getimagesize($firmaPath);
 
                     // Calculate scaling factor to fit within 20x10
-                    $scale = min(40 / $sigWidth, 20 / $sigHeight);
+                    $scale = min(70 / $sigWidth, 30 / $sigHeight);
                     $newWidth = $sigWidth * $scale;
                     $newHeight = $sigHeight * $scale;
 
-                    $x = 47;  // Adjust this value to move left or right
-    
-                    // First signature position (adjust as needed)
-                    $y1 = 118;  // Adjust this value to move up or down
+                    $x = 40;  // Adjust this value to move left or right
     
                     // Second signature position (adjust as needed)
-                    $y2 = 269; // Adjust this value to move up or down
-    
-                    // Add the first signature image
-                    $pdf->Image($firmaPath, $x, $y1, $newWidth, $newHeight, 'PNG');
+                    $y = 218; // Adjust this value to move up or down
 
                     // Add the second signature image
-                    $pdf->Image($firmaPath, $x, $y2, $newWidth, $newHeight, 'PNG');
+                    $pdf->Image($firmaPath, $x, $y, $newWidth, $newHeight, 'PNG');
                 } else {
                     log_message('error', 'Signature file not found or not readable: ' . $firmaPath);
                 }
