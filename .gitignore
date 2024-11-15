@@ -143,6 +143,8 @@ nb-configuration.xml
 !/public/assets/uploads/firmas/.gitkeep
 /public/assets/uploads/permisos/*
 !/public/assets/uploads/permisos/.gitkeep
+/public/assets/uploads/cts/*
+!/public/assets/uploads/cts/.gitkeep
 
 # Compressed files
 *.+(zip|rar|7z|tar|gz|bz2|xz|lzma|lz4|zst)
