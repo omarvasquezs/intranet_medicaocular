@@ -40,42 +40,75 @@ class General extends BaseController
             ->unsetDeleteMultiple()
             ->where(
                 [
-                'registro_permisos.id_usuario' => session()->get('user_id')
+                    'registro_permisos.id_usuario' => session()->get('user_id')
                 ]
             )
             ->editFields(
-                ['id_usuario', 'id_tipo_permiso', 'id_estado_permiso',
-                'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto']
+                [
+                    'id_usuario',
+                    'id_tipo_permiso',
+                    'id_estado_permiso',
+                    'fecha_inicio',
+                    'fecha_fin',
+                    'fecha_retorno',
+                    'sustentacion',
+                    'adjunto'
+                ]
             )
             ->readOnlyEditFields(
-                ['id_usuario', 'id_tipo_permiso', 'fecha_creacion',
-                'id_estado_permiso']
+                [
+                    'id_usuario',
+                    'id_tipo_permiso',
+                    'fecha_creacion',
+                    'id_estado_permiso'
+                ]
             )
             ->requiredFields(
                 ['id_tipo_permiso', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno']
             )
             ->requiredEditFields(['fecha_inicio', 'fecha_fin', 'fecha_retorno'])
             ->readFields(
-                ['id_tipo_permiso', 'id_estado_permiso', 'fecha_creacion',
-                'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto',
-                'observaciones', 'revisado_por']
+                [
+                    'id_tipo_permiso',
+                    'id_estado_permiso',
+                    'fecha_creacion',
+                    'fecha_inicio',
+                    'fecha_fin',
+                    'fecha_retorno',
+                    'sustentacion',
+                    'adjunto',
+                    'observaciones',
+                    'revisado_por'
+                ]
             )
             ->columns(
-                ['id_tipo_permiso', 'id_estado_permiso', 'rango',
-                'fecha_inicio', 'fecha_creacion']
+                [
+                    'id_tipo_permiso',
+                    'id_estado_permiso',
+                    'rango',
+                    'fecha_inicio',
+                    'fecha_creacion'
+                ]
             )
             ->fieldTypeColumn('rango', 'varchar')
             ->fieldTypeColumn('fecha_inicio', 'invisible')
             ->mapColumn('rango', 'fecha_fin')
             ->callbackColumn(
-                'rango', function ($value, $row) {
+                'rango',
+                function ($value, $row) {
                     // the $value in our case is fecha_fin
                     return $row->fecha_inicio . ' - ' . $value;
                 }
             )
             ->addFields(
-                ['id_tipo_permiso', 'sustentacion', 'fecha_inicio',
-                'fecha_fin', 'fecha_retorno', 'adjunto']
+                [
+                    'id_tipo_permiso',
+                    'sustentacion',
+                    'fecha_inicio',
+                    'fecha_fin',
+                    'fecha_retorno',
+                    'adjunto'
+                ]
             )
             ->displayAs('id_usuario', 'USUARIO')
             ->displayAs('id_tipo_permiso', 'TIPO DE PERMISO')
@@ -95,27 +128,29 @@ class General extends BaseController
             ->setRelation('id_estado_permiso', 'estado_permisos', 'estado_permiso')
             ->setRelation('revisado_por', 'usuarios', 'nombres')
             ->setFieldUploadMultiple(
-                'adjunto', 'assets/uploads/permisos',
-                base_url() . 'assets/uploads/permisos/', [
-                'maxUploadSize' => '20M', // 20 Mega Bytes
-                'minUploadSize' => '1K', // 1 Kilo Byte
-                'allowedFileTypes' => [
-                    'gif',
-                    'jpeg',
-                    'jpg',
-                    'png',
-                    'tiff',
-                    'pdf',
-                    'doc',
-                    'docx',
-                    'xls',
-                    'xlsx',
-                    'ppt',
-                    'pptx',
-                    'txt',
-                    'zip',
-                    'rar'
-                ]
+                'adjunto',
+                'assets/uploads/permisos',
+                base_url() . 'assets/uploads/permisos/',
+                [
+                    'maxUploadSize' => '20M', // 20 Mega Bytes
+                    'minUploadSize' => '1K', // 1 Kilo Byte
+                    'allowedFileTypes' => [
+                        'gif',
+                        'jpeg',
+                        'jpg',
+                        'png',
+                        'tiff',
+                        'pdf',
+                        'doc',
+                        'docx',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'txt',
+                        'zip',
+                        'rar'
+                    ]
                 ]
             )
             ->fieldType('sustentacion', 'text')
@@ -158,7 +193,8 @@ class General extends BaseController
 
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
 
-                    if (in_array($id_tipo_permiso, [1, 2, 4])
+                    if (
+                        in_array($id_tipo_permiso, [1, 2, 4])
                         && empty($stateParameters->data['adjunto'])
                     ) {
                         return $errorMessage->setMessage(
@@ -198,19 +234,23 @@ class General extends BaseController
                         ->whereIn('id_estado_permiso', [1, 2])
                         ->groupStart()
                         ->where(
-                            'fecha_inicio <=', $stateParameters->data['fecha_fin']
+                            'fecha_inicio <=',
+                            $stateParameters->data['fecha_fin']
                         )
                         ->where(
-                            'fecha_fin >=', $stateParameters->data['fecha_inicio']
+                            'fecha_fin >=',
+                            $stateParameters->data['fecha_inicio']
                         )
                         ->groupEnd()
                         ->countAllResults() > 0;
 
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
 
-                    if (in_array(
-                        $stateParameters->data['id_tipo_permiso'], [1, 2, 4]
-                    )
+                    if (
+                        in_array(
+                            $stateParameters->data['id_tipo_permiso'],
+                            [1, 2, 4]
+                        )
                         && empty($stateParameters->data['adjunto'])
                     ) {
                         return $errorMessage->setMessage(
@@ -225,14 +265,14 @@ class General extends BaseController
                         );
                     }
 
-                    if ($fecha_fin<=$fecha_inicio) {
+                    if ($fecha_fin <= $fecha_inicio) {
                         return $errorMessage->setMessage(
                             "La fecha de fin debe ser posterior
                             a la fecha de inicio.\n"
                         );
                     }
 
-                    if ($fecha_retorno<=$fecha_fin) {
+                    if ($fecha_retorno <= $fecha_fin) {
                         return $errorMessage->setMessage(
                             "La fecha de retorno debe ser posterior
                             a la fecha de inicio.\n"
@@ -265,7 +305,8 @@ class General extends BaseController
                     } else {
                         $this->permisos
                             ->where(
-                                'id', $stateParameters->primaryKeyValue
+                                'id',
+                                $stateParameters->primaryKeyValue
                             )->delete();
                     }
                     return $stateParameters;
@@ -292,54 +333,146 @@ class General extends BaseController
             ->defaultOrdering('boletas.fecha_creacion', 'desc')
             ->where(
                 [
-                'id_usuario' => session()->get('user_id'),
-                'id_estado_boleta' => 2
+                    'id_usuario' => session()->get('user_id'),
+                    'id_estado_boleta' => 2
                 ]
             )
             ->setFieldUpload(
-                'adjunto', 'assets/uploads/boletas/',
+                'adjunto',
+                'assets/uploads/boletas/',
                 base_url() . 'assets/uploads/boletas/',
                 [
-                'maxUploadSize' => '20M', // 20 Mega Bytes
-                'minUploadSize' => '1K', // 1 Kilo Byte
-                'allowedFileTypes' => ['pdf']
+                    'maxUploadSize' => '20M', // 20 Mega Bytes
+                    'minUploadSize' => '1K', // 1 Kilo Byte
+                    'allowedFileTypes' => ['pdf']
                 ]
             )
             ->columns(['fecha_creacion', 'adjunto', 'boleta_firmada'])
             ->unsetColumns(
-                ['id_usuario', 'subido_por', 'id_estado_boleta',
-                'fecha_modificacion', 'revisado_por', 'observaciones']
+                [
+                    'id_usuario',
+                    'subido_por',
+                    'id_estado_boleta',
+                    'fecha_modificacion',
+                    'revisado_por',
+                    'observaciones'
+                ]
             )
             ->unsetSearchColumns(['adjunto', 'fecha_creacion', 'boleta_firmada'])
             ->callbackColumn(
-                'boleta_firmada', function ($value, $row) {
+                'boleta_firmada',
+                function ($value, $row) {
                     switch ($value) {
-                    case 0:
-                        return "YA FIRMADO";
-                    case 1:
-                        return "AUN NO FIRMADO";
-                    default:
-                        return "NO DATA";
+                        case 0:
+                            return "YA FIRMADO";
+                        case 1:
+                            return "AUN NO FIRMADO";
+                        default:
+                            return "NO DATA";
                     }
                 }
             )
             ->displayAs(
                 [
-                'id_usuario' => 'EMPLEADO',
-                'fecha_creacion' => 'FECHA DE CREACION',
-                'adjunto' => 'BOLETA',
-                'id_estado_boleta' => 'ESTADO DE LA BOLETA',
-                'subido_por' => 'SUBIDO POR',
-                'fecha_modificacion' => 'FECHA DE MODIFICACION',
-                'revisado_por' => 'REVISADO POR',
-                'observaciones' => 'OBSERVACIONES',
-                'boleta_firmada' => 'FIRMADA POR USUARIO'
+                    'id_usuario' => 'EMPLEADO',
+                    'fecha_creacion' => 'FECHA DE CREACION',
+                    'adjunto' => 'BOLETA',
+                    'id_estado_boleta' => 'ESTADO DE LA BOLETA',
+                    'subido_por' => 'SUBIDO POR',
+                    'fecha_modificacion' => 'FECHA DE MODIFICACION',
+                    'revisado_por' => 'REVISADO POR',
+                    'observaciones' => 'OBSERVACIONES',
+                    'boleta_firmada' => 'FIRMADA POR USUARIO'
                 ]
             )
             ->setActionButton(
-                'FIRMAR', 'fas fa-signature', function ($row) {
+                'FIRMAR',
+                'fas fa-signature',
+                function ($row) {
                     return '/firmar_boleta/' . $row->id;
-                }, false
+                },
+                false
+            );
+
+        // Rendering the CRUD
+        $output = $this->gc->render();
+        return $this->mainOutput($output);
+    }
+    /**
+     * Handles the mis_boletas page.
+     *
+     * @return mixed
+     */
+    public function misBoletasCTS()
+    {
+        $this->gc->setTable('boletas_cts')
+            ->setSubject('BOLETA DE CTS', 'BOLETAS DE CTS DE ' . session()->get('nombres'))
+            ->unsetExport()
+            ->unsetPrint()
+            ->unsetFilters()
+            ->unsetOperations()
+            ->defaultOrdering('boletas_cts.fecha_creacion', 'desc')
+            ->where(
+                [
+                    'id_usuario' => session()->get('user_id'),
+                    'id_estado_boleta' => 2
+                ]
+            )
+            ->setFieldUpload(
+                'adjunto',
+                'assets/uploads/cts/',
+                base_url() . 'assets/uploads/cts/',
+                [
+                    'maxUploadSize' => '20M', // 20 Mega Bytes
+                    'minUploadSize' => '1K', // 1 Kilo Byte
+                    'allowedFileTypes' => ['pdf']
+                ]
+            )
+            ->columns(['fecha_creacion', 'adjunto', 'boleta_firmada'])
+            ->unsetColumns(
+                [
+                    'id_usuario',
+                    'subido_por',
+                    'id_estado_boleta',
+                    'fecha_modificacion',
+                    'revisado_por',
+                    'observaciones'
+                ]
+            )
+            ->unsetSearchColumns(['adjunto', 'fecha_creacion', 'boleta_firmada'])
+            ->callbackColumn(
+                'boleta_firmada',
+                function ($value, $row) {
+                    switch ($value) {
+                        case 0:
+                            return "YA FIRMADO";
+                        case 1:
+                            return "AUN NO FIRMADO";
+                        default:
+                            return "NO DATA";
+                    }
+                }
+            )
+            ->displayAs(
+                [
+                    'id_usuario' => 'EMPLEADO',
+                    'fecha_creacion' => 'FECHA DE CREACION',
+                    'adjunto' => 'BOLETA',
+                    'id_estado_boleta' => 'ESTADO DE LA BOLETA',
+                    'subido_por' => 'SUBIDO POR',
+                    'fecha_modificacion' => 'FECHA DE MODIFICACION',
+                    'revisado_por' => 'REVISADO POR',
+                    'observaciones' => 'OBSERVACIONES',
+                    'boleta_firmada' => 'FIRMADA POR USUARIO'
+                ]
+            )
+            ->setActionButton(
+                'FIRMAR',
+                'fas fa-signature',
+                function ($row) {
+                    return '/firmar_boleta/' . $row->id;
+                },
+                false
             );
 
         // Rendering the CRUD
@@ -356,26 +489,30 @@ class General extends BaseController
         if (!$this->usuarios->find(session()->get('user_id'))['firma']) {
             return redirect()
                 ->back()->with(
-                    'error', 'DEBE SUBIR SU FIRMA PRIMERO
+                    'error',
+                    'DEBE SUBIR SU FIRMA PRIMERO
                 ANTES DE FIRMAR SU BOLETA.'
                 );
         }
 
-        if ($this->boletas->find(
-            $this->request->getUri()->getSegment(2)
-        )['boleta_firmada'] == 0
+        if (
+            $this->boletas->find(
+                $this->request->getUri()->getSegment(2)
+            )['boleta_firmada'] == 0
         ) {
             return redirect()
                 ->back()->with('error', 'ESTA BOLETA YA ESTA FIRMADA.');
         }
 
-        if ($this->boletas->find(
-            $this->request->getUri()->getSegment(2)
-        )['id_usuario'] != session()->get('user_id')
+        if (
+            $this->boletas->find(
+                $this->request->getUri()->getSegment(2)
+            )['id_usuario'] != session()->get('user_id')
         ) {
             return redirect()
                 ->back()->with(
-                    'error', 'NO PUEDE FIRMAR
+                    'error',
+                    'NO PUEDE FIRMAR
                 BOLETAS AJENAS.'
                 );
         }
@@ -435,11 +572,13 @@ class General extends BaseController
             // Updating firma boleta_firmada
             $this->boletas->set('boleta_firmada', 0)
                 ->where(
-                    'id', $this->request->getUri()->getSegment(2)
+                    'id',
+                    $this->request->getUri()->getSegment(2)
                 )->update();
         } else {
             log_message(
-                'error', 'Signature file not found or not readable: ' . $firmaPath
+                'error',
+                'Signature file not found or not readable: ' . $firmaPath
             );
         }
 
