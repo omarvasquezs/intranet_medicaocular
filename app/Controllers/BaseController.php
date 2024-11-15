@@ -72,6 +72,7 @@ abstract class BaseController extends Controller
     protected $permisos;
     protected $boletas;
     protected $publicaciones;
+    protected $cts;
 
     /**
      * Handles the global variables.
@@ -101,6 +102,7 @@ abstract class BaseController extends Controller
         $this->permisos = new \App\Models\Permisos();
         $this->boletas = new \App\Models\Boletas();
         $this->publicaciones = new \App\Models\Publicaciones();
+        $this->cts = new \App\Models\Cts();
         // Custom validation rules
         \Valitron\Validator::addRule(
             'noSpacesBetweenLetters',
