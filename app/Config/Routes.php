@@ -128,3 +128,14 @@ $routes->get('firmar_boleta_cts/(:any)', 'General::firmarBoletaCTS/$1');
 
 // CKEDITOR
 $routes->post('upload', 'UploadController::index');
+
+// AMONESTACIONES
+$routes->get('mis_amonestaciones', 'Amonestaciones::mis_amonestaciones');
+$routes->get('mis_amonestaciones/(:any)', 'Amonestaciones::mis_amonestaciones/$1');
+$routes->post('mis_amonestaciones', 'Amonestaciones::mis_amonestaciones');
+$routes->post('mis_amonestaciones/(:any)', 'Amonestaciones::mis_amonestaciones');
+
+$routes->get('amonestaciones', 'Amonestaciones::index');
+$routes->get('amonestaciones/(:any)', 'Amonestaciones::index/$1');
+$routes->post('amonestaciones', 'Amonestaciones::index');
+$routes->post('amonestaciones/(:any)', 'Amonestaciones::index');
