@@ -66,6 +66,7 @@
                                 <a class="collapse-item" href="<?= base_url() ?>mis_cts">Mis Depósitos CTS</a>
                                 <a class="collapse-item" href="<?= base_url() ?>registrar_permiso">Mis Permisos y
                                     Descansos</a>
+                                <a class="collapse-item" href="<?= base_url() ?>mis_amonestaciones">Mis Amonestaciones</a>
                             </div>
                         </div>
                     </li>
