@@ -258,23 +258,23 @@ class General extends BaseController
                             DESCANSO MEDICO O PERMISO TEMPORAL\n"
                         );
                     }
-
+                    /*
                     if ($fecha_fin < date('Y-m-d')) {
                         return $errorMessage->setMessage(
                             "La fecha de fin no puede ser anterior a hoy.\n"
                         );
                     }
-
-                    if ($fecha_fin <= $fecha_inicio) {
+                    */
+                    if ($fecha_fin < $fecha_inicio) {
                         return $errorMessage->setMessage(
-                            "La fecha de fin debe ser posterior
+                            "La fecha de fin debe ser igual o posterior
                             a la fecha de inicio.\n"
                         );
                     }
 
-                    if ($fecha_retorno <= $fecha_fin) {
+                    if ($fecha_retorno < $fecha_fin) {
                         return $errorMessage->setMessage(
-                            "La fecha de retorno debe ser posterior
+                            "La fecha de retorno debe ser igual o posterior
                             a la fecha de inicio.\n"
                         );
                     }
