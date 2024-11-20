@@ -166,6 +166,10 @@ class General extends BaseController
             )
             ->callbackBeforeUpdate(
                 function ($stateParameters) {
+                    $fecha_inicio = $stateParameters->data['fecha_inicio'];
+                    $fecha_fin = $stateParameters->data['fecha_fin'];
+                    $fecha_retorno = $stateParameters->data['fecha_retorno'];
+                    
                     $existingPermiso = $this->permisos
                         ->where('id_usuario', session()->get('user_id'))
                         ->whereIn('id_estado_permiso', [1, 2])
@@ -192,6 +196,20 @@ class General extends BaseController
                         )['id_estado_permiso'];
 
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
+
+                    if ($fecha_fin < $fecha_inicio) {
+                        return $errorMessage->setMessage(
+                            "La fecha de fin debe ser igual o posterior
+                            a la fecha de inicio.\n"
+                        );
+                    }
+
+                    if ($fecha_retorno < $fecha_fin) {
+                        return $errorMessage->setMessage(
+                            "La fecha de retorno debe ser igual o posterior
+                            a la fecha de inicio.\n"
+                        );
+                    }
 
                     if (
                         in_array($id_tipo_permiso, [1, 2, 4])
