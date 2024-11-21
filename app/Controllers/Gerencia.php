@@ -32,9 +32,6 @@ class Gerencia extends BaseController
                 // the $value in our case is fecha_fin
                 return $row->fecha_inicio . ' - ' . $value;
             })
-            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue) {
-                return '<a href="' . base_url() . 'assets/uploads/permisos/' . $fieldValue . '" target="_blank">' . $fieldValue . '</a>';
-            })
             ->callbackBeforeUpdate(function ($stateParameters) {
                 $stateParameters->data['revisado_por'] = session()->get('user_id');
                 return $stateParameters;
