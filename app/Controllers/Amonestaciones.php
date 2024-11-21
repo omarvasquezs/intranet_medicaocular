@@ -12,7 +12,6 @@ class Amonestaciones extends BaseController
             ->unsetEditFields(['fecha_creacion', 'revisado_por'])
             ->unsetPrint()
             ->unsetExport()
-            ->unsetSettings()
             ->unsetFilters()
             ->unsetDelete()
             ->setDeleteMultiple()
@@ -95,7 +94,7 @@ class Amonestaciones extends BaseController
                     return $stateParameters;
                 }
             )
-            ->columns(['id_usuario', 'fecha_creacion']);
+            ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'fecha_creacion']);
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
@@ -132,7 +131,7 @@ class Amonestaciones extends BaseController
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date')
             ->fieldType('fecha_retorno', 'native_date')
-            ->columns(['fecha_creacion'])
+            ->columns(['fecha_inicio', 'fecha_fin', 'fecha_retorno', 'fecha_creacion'])
             ->where(
                 [
                     'id_usuario' => session()->get('user_id')
