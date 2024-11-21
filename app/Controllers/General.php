@@ -87,6 +87,7 @@ class General extends BaseController
                     'id_estado_permiso',
                     'rango',
                     'fecha_inicio',
+                    'fecha_retorno',
                     'fecha_creacion'
                 ]
             )
