@@ -37,7 +37,8 @@ class General extends BaseController
             ->unsetFilters()
             ->unsetPrint()
             ->unsetExport()
-            ->unsetDeleteMultiple()
+            ->unsetDelete()
+            ->setRead()
             ->where(
                 [
                     'registro_permisos.id_usuario' => session()->get('user_id')
@@ -128,6 +129,7 @@ class General extends BaseController
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
             ->setRelation('id_estado_permiso', 'estado_permisos', 'estado_permiso')
             ->setRelation('revisado_por', 'usuarios', 'nombres')
+            ->setDeleteMultiple()
             ->setFieldUploadMultiple(
                 'adjunto',
                 'assets/uploads/permisos',
