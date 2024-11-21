@@ -20,7 +20,7 @@ class Gerencia extends BaseController
             ])
             ->requiredFields(['id_estado_permiso'])
             ->editFields(['id_usuario', 'id_tipo_permiso', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'id_estado_permiso', 'observaciones'])
-            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
+            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
             ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno'])
             ->readOnlyEditFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion'])
             ->unsetEditFields(['revisado_por', 'fecha_creacion', 'adjunto', 'sustentacion'])
