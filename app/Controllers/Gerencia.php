@@ -14,8 +14,6 @@ class Gerencia extends BaseController
             ->unsetPrint()
             ->unsetExport()
             ->unsetAdd()
-            ->unsetDelete()
-            ->setDeleteMultiple()
             ->setFieldUploadMultiple(
                 'adjunto',
                 'assets/uploads/permisos',
@@ -155,7 +153,6 @@ class Gerencia extends BaseController
             ->unsetPrint()
             ->unsetExport()
             ->unsetAdd()
-            ->unsetDelete()
             ->unsetEdit()
             ->setRead()
             ->where([
