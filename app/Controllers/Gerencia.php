@@ -14,6 +14,18 @@ class Gerencia extends BaseController
             ->unsetPrint()
             ->unsetExport()
             ->unsetAdd()
+            ->callbackEditField('adjunto', function ($fieldValue, $primaryKeyValue, $rowData) {
+                if ($fieldValue !== null) {
+                    $links = [];
+                    foreach (explode(',', $fieldValue) as $file) {
+                        $links[] = anchor(base_url() . 'assets/uploads/permisos/' . trim($file), trim($file), ['target' => '_blank', 'rel' => 'noopener noreferrer']);
+                    }
+                    $output = implode('<br>', $links) . '<input type="hidden" name="adjunto" value="' . $fieldValue . '">';
+                    return $output;
+                } else {
+                    return '<span style="color: #999;">NO APLICA.</span><input type="hidden" name="adjunto" value="">';
+                }
+            })
             ->setFieldUploadMultiple(
                 'adjunto',
                 'assets/uploads/permisos',
@@ -45,17 +57,16 @@ class Gerencia extends BaseController
                 'registro_permisos.id_estado_permiso' => 1
             ])
             ->requiredFields(['id_estado_permiso'])
-            ->editFields(['id_usuario', 'id_tipo_permiso', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'id_estado_permiso', 'observaciones'])
+            ->editFields(['id_usuario', 'id_tipo_permiso', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'id_estado_permiso', 'observaciones', 'adjunto'])
             ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
             ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno'])
             ->readOnlyEditFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion'])
-            ->unsetEditFields(['revisado_por', 'fecha_creacion', 'adjunto', 'sustentacion'])
+            ->unsetEditFields(['revisado_por', 'fecha_creacion', 'sustentacion'])
             ->unsetReadFields(['observaciones', 'revisado_por'])
             ->fieldTypeColumn('rango', 'varchar')
             ->fieldTypeColumn('fecha_inicio', 'invisible')
             ->mapColumn('rango', 'fecha_fin')
             ->callbackColumn('rango', function ($value, $row) {
-                // the $value in our case is fecha_fin
                 return $row->fecha_inicio . ' - ' . $value;
             })
             ->callbackBeforeUpdate(function ($stateParameters) {
@@ -72,7 +83,7 @@ class Gerencia extends BaseController
             ->displayAs('fecha_fin', 'FECHA FIN')
             ->displayAs('fecha_retorno', 'FECHA DE RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
-            ->displayAs('adjunto', 'CITT')
+            ->displayAs('adjunto', 'CITT o ADJUNTOS')
             ->displayAs('rango', 'DURACION DEL PERMISO')
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
@@ -100,6 +111,32 @@ class Gerencia extends BaseController
             ->unsetExport()
             ->unsetAdd()
             ->unsetEdit()
+            ->setFieldUploadMultiple(
+                'adjunto',
+                'assets/uploads/permisos',
+                base_url() . 'assets/uploads/permisos/',
+                [
+                    'maxUploadSize' => '20M', // 20 Mega Bytes
+                    'minUploadSize' => '1K', // 1 Kilo Byte
+                    'allowedFileTypes' => [
+                        'gif',
+                        'jpeg',
+                        'jpg',
+                        'png',
+                        'tiff',
+                        'pdf',
+                        'doc',
+                        'docx',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'txt',
+                        'zip',
+                        'rar'
+                    ]
+                ]
+            )
             ->setRead()
             ->where([
                 'registro_permisos.id_estado_permiso' => 2
@@ -113,9 +150,6 @@ class Gerencia extends BaseController
                 // the $value in our case is fecha_fin
                 return $row->fecha_inicio . ' - ' . $value;
             })
-            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue) {
-                return '<a href="' . base_url() . 'assets/uploads/permisos/' . $fieldValue . '" target="_blank">' . $fieldValue . '</a>';
-            })
             ->displayAs('id_usuario', 'SOLICITADO POR')
             ->displayAs('id_tipo_permiso', 'TIPO DE PERMISO')
             ->displayAs('id_estado_permiso', 'ESTADO DEL PERMISO')
@@ -126,7 +160,7 @@ class Gerencia extends BaseController
             ->displayAs('fecha_fin', 'FECHA FIN')
             ->displayAs('fecha_retorno', 'FECHA RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
-            ->displayAs('adjunto', 'CITT')
+            ->displayAs('adjunto', 'CITT o ADJUNTO')
             ->displayAs('rango', 'DURACION DEL PERMISO')
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
@@ -154,6 +188,32 @@ class Gerencia extends BaseController
             ->unsetExport()
             ->unsetAdd()
             ->unsetEdit()
+            ->setFieldUploadMultiple(
+                'adjunto',
+                'assets/uploads/permisos',
+                base_url() . 'assets/uploads/permisos/',
+                [
+                    'maxUploadSize' => '20M', // 20 Mega Bytes
+                    'minUploadSize' => '1K', // 1 Kilo Byte
+                    'allowedFileTypes' => [
+                        'gif',
+                        'jpeg',
+                        'jpg',
+                        'png',
+                        'tiff',
+                        'pdf',
+                        'doc',
+                        'docx',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'txt',
+                        'zip',
+                        'rar'
+                    ]
+                ]
+            )
             ->setRead()
             ->where([
                 'registro_permisos.id_estado_permiso' => 3
@@ -166,9 +226,6 @@ class Gerencia extends BaseController
             ->callbackColumn('rango', function ($value, $row) {
                 // the $value in our case is fecha_fin
                 return $row->fecha_inicio . ' - ' . $value;
-            })
-            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue) {
-                return '<a href="' . base_url() . 'assets/uploads/permisos/' . $fieldValue . '" target="_blank">' . $fieldValue . '</a>';
             })
             ->displayAs('id_usuario', 'SOLICITADO POR')
             ->displayAs('id_tipo_permiso', 'TIPO DE PERMISO')
