@@ -94,7 +94,7 @@ class Amonestaciones extends BaseController
                     return $stateParameters;
                 }
             )
-            ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'fecha_creacion']);
+            ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_creacion',]);
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
