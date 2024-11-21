@@ -81,8 +81,8 @@ class Gerencia extends BaseController
             ->where([
                 'registro_permisos.id_estado_permiso' => 2
             ])
-            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
-            ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio'])
+            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
+            ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno'])
             ->fieldTypeColumn('rango', 'varchar')
             ->fieldTypeColumn('fecha_inicio', 'invisible')
             ->mapColumn('rango', 'fecha_fin')
@@ -100,7 +100,8 @@ class Gerencia extends BaseController
             ->displayAs('observaciones', 'OBSERVACIONES DE JEFATURA')
             ->displayAs('fecha_creacion', 'FECHA CREACION')
             ->displayAs('fecha_inicio', 'FECHA DE INICIO')
-            ->displayAs('fecha_fin', 'FECHA DE RETORNO')
+            ->displayAs('fecha_fin', 'FECHA FIN')
+            ->displayAs('fecha_retorno', 'FECHA RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('adjunto', 'CITT')
             ->displayAs('rango', 'DURACION DEL PERMISO')
