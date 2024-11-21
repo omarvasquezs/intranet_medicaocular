@@ -37,7 +37,6 @@ class General extends BaseController
             ->unsetFilters()
             ->unsetPrint()
             ->unsetExport()
-            ->unsetDelete()
             ->setRead()
             ->where(
                 [
