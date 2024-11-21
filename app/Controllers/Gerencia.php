@@ -16,6 +16,32 @@ class Gerencia extends BaseController
             ->unsetAdd()
             ->unsetDelete()
             ->setDeleteMultiple()
+            ->setFieldUploadMultiple(
+                'adjunto',
+                'assets/uploads/permisos',
+                base_url() . 'assets/uploads/permisos/',
+                [
+                    'maxUploadSize' => '20M', // 20 Mega Bytes
+                    'minUploadSize' => '1K', // 1 Kilo Byte
+                    'allowedFileTypes' => [
+                        'gif',
+                        'jpeg',
+                        'jpg',
+                        'png',
+                        'tiff',
+                        'pdf',
+                        'doc',
+                        'docx',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'txt',
+                        'zip',
+                        'rar'
+                    ]
+                ]
+            )
             ->setRead()
             ->where([
                 'registro_permisos.id_estado_permiso' => 1
