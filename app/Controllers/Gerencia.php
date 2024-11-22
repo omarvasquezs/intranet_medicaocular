@@ -26,6 +26,18 @@ class Gerencia extends BaseController
                     return '<span style="color: #999;">NO APLICA.</span><input type="hidden" name="adjunto" value="">';
                 }
             })
+            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue, $rowData) {
+                if ($fieldValue !== null) {
+                    $links = [];
+                    foreach (explode(',', $fieldValue) as $file) {
+                        $links[] = anchor(base_url() . 'assets/uploads/permisos/' . trim($file), trim($file), ['target' => '_blank', 'rel' => 'noopener noreferrer']);
+                    }
+                    $output = implode('<br>', $links) . '<input type="hidden" name="adjunto" value="' . $fieldValue . '">';
+                    return $output;
+                } else {
+                    return '<span style="color: #999;">NO APLICA.</span><input type="hidden" name="adjunto" value="">';
+                }
+            })
             ->setFieldUploadMultiple(
                 'adjunto',
                 'assets/uploads/permisos',
@@ -138,6 +150,18 @@ class Gerencia extends BaseController
                 ]
             )
             ->setRead()
+            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue, $rowData) {
+                if ($fieldValue !== null) {
+                    $links = [];
+                    foreach (explode(',', $fieldValue) as $file) {
+                        $links[] = anchor(base_url() . 'assets/uploads/permisos/' . trim($file), trim($file), ['target' => '_blank', 'rel' => 'noopener noreferrer']);
+                    }
+                    $output = implode('<br>', $links) . '<input type="hidden" name="adjunto" value="' . $fieldValue . '">';
+                    return $output;
+                } else {
+                    return '<span style="color: #999;">NO APLICA.</span><input type="hidden" name="adjunto" value="">';
+                }
+            })
             ->where([
                 'registro_permisos.id_estado_permiso' => 2
             ])
@@ -188,6 +212,18 @@ class Gerencia extends BaseController
             ->unsetExport()
             ->unsetAdd()
             ->unsetEdit()
+            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue, $rowData) {
+                if ($fieldValue !== null) {
+                    $links = [];
+                    foreach (explode(',', $fieldValue) as $file) {
+                        $links[] = anchor(base_url() . 'assets/uploads/permisos/' . trim($file), trim($file), ['target' => '_blank', 'rel' => 'noopener noreferrer']);
+                    }
+                    $output = implode('<br>', $links) . '<input type="hidden" name="adjunto" value="' . $fieldValue . '">';
+                    return $output;
+                } else {
+                    return '<span style="color: #999;">NO APLICA.</span><input type="hidden" name="adjunto" value="">';
+                }
+            })
             ->setFieldUploadMultiple(
                 'adjunto',
                 'assets/uploads/permisos',

@@ -155,6 +155,18 @@ class General extends BaseController
                     ]
                 ]
             )
+            ->callbackReadField('adjunto', function ($fieldValue, $primaryKeyValue, $rowData) {
+                if ($fieldValue !== null) {
+                    $links = [];
+                    foreach (explode(',', $fieldValue) as $file) {
+                        $links[] = anchor(base_url() . 'assets/uploads/permisos/' . trim($file), trim($file), ['target' => '_blank', 'rel' => 'noopener noreferrer']);
+                    }
+                    $output = implode('<br>', $links) . '<input type="hidden" name="adjunto" value="' . $fieldValue . '">';
+                    return $output;
+                } else {
+                    return '<span style="color: #999;">NO APLICA.</span><input type="hidden" name="adjunto" value="">';
+                }
+            })
             ->fieldType('sustentacion', 'text')
             ->fieldType('observaciones', 'text')
             ->fieldType('fecha_inicio', 'native_date')
