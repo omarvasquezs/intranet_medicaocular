@@ -147,4 +147,16 @@ nb-configuration.xml
 !/public/assets/uploads/cts/.gitkeep
 
 # Compressed files
-*.+(zip|rar|7z|tar|gz|bz2|xz|lzma|lz4|zst)
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.xz
+*.lzma
+*.lz4
+*.zst
+
+# database dump file
+*.sql
