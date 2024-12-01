@@ -24,6 +24,7 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url() ?>themes/startbootstrap-sb-admin-2/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>themes/medicaocular/style.css" rel="stylesheet">
+    <link href="<?= base_url() ?>themes/medicaocular/node_modules/ckeditor5/dist/ckeditor5.css" rel="stylesheet">
     <!-- end -->
 </head>
 
