@@ -15,7 +15,11 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <p class="card-text"><?php echo $publicacion['publicacion']; ?></p>
+                                    <div class="d-flex card-text ck-content">
+                                        <div class="flex-fill">
+                                            <?php echo $publicacion['publicacion']; ?>
+                                        </div>
+                                    </div>
                                     <div class="card-footer">
                                         <div><small class="text-muted">Publicado:
                                                 <?php echo $publicacion['fecha_creacion']; ?></small></div>
