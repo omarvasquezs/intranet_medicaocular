@@ -208,6 +208,14 @@
                         </a>
                     </li>
 
+                    <!-- Amonestaciones -->
+                    <li class="nav-item">
+                        <a href="<?= base_url() ?>amonestaciones" class="nav-link">
+                            <i class="fas fa-fw fa-angry"></i>
+                            <span>AMONESTACIONES</span>
+                        </a>
+                    </li>
+
                     <!-- Divider -->
                     <hr class="sidebar-divider">
 
