@@ -13,7 +13,6 @@ class Amonestaciones extends BaseController
             ->unsetPrint()
             ->unsetExport()
             ->unsetFilters()
-            ->unsetDelete()
             ->setDeleteMultiple()
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('revisado_por', 'usuarios', 'nombres')
