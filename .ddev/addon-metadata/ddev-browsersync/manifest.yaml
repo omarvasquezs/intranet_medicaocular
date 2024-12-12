@@ -1,7 +1,7 @@
 name: ddev-browsersync
 repository: ddev/ddev-browsersync
 version: "2.9"
-install_date: "2024-11-11T20:29:35-05:00"
+install_date: "2024-12-12T11:39:11-05:00"
 project_files:
     - config.browsersync.yaml
     - web-build/Dockerfile.ddev-browsersync
