@@ -49,17 +49,17 @@ class Amonestaciones extends BaseController
 
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
 
-                    if ($fecha_fin <= $fecha_inicio) {
+                    if ($fecha_fin < $fecha_inicio) {
                         return $errorMessage->setMessage(
-                            "La fecha de fin debe ser posterior
+                            "La fecha fin no debe ser menor
                             a la fecha de inicio.\n"
                         );
                     }
 
-                    if ($fecha_retorno <= $fecha_fin) {
+                    if ($fecha_retorno < $fecha_fin) {
                         return $errorMessage->setMessage(
-                            "La fecha de retorno debe ser posterior
-                            a la fecha de inicio.\n"
+                            "La fecha de retorno no debe ser menor
+                            a la fecha fin.\n"
                         );
                     }
 
@@ -76,17 +76,17 @@ class Amonestaciones extends BaseController
 
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
 
-                    if ($fecha_fin <= $fecha_inicio) {
+                    if ($fecha_fin < $fecha_inicio) {
                         return $errorMessage->setMessage(
-                            "La fecha de fin debe ser posterior
+                            "La fecha fin no debe ser menor
                             a la fecha de inicio.\n"
                         );
                     }
 
-                    if ($fecha_retorno <= $fecha_fin) {
+                    if ($fecha_retorno < $fecha_fin) {
                         return $errorMessage->setMessage(
-                            "La fecha de retorno debe ser posterior
-                            a la fecha de inicio.\n"
+                            "La fecha de retorno no debe ser menor
+                            a la fecha fin.\n"
                         );
                     }
 
