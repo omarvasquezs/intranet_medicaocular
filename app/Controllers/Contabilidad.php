@@ -27,8 +27,35 @@ class Contabilidad extends BaseController
             ->addFields(['id_usuario', 'adjunto'])
             ->unsetColumns(['subido_por', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
-            ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por'])
-            ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones'])
+            ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por', 'boleta_firmada', 'visto'])
+            ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones', 'boleta_firmada', 'visto'])
+            ->callbackColumn(
+                'boleta_firmada',
+                function ($value, $row) {
+                    switch ($value) {
+                        case 0:
+                            return "<span class='badge badge-success'>SI</span>";
+                        case 1:
+                            return "<span class='badge badge-warning'>NO</span>";
+                        default:
+                            return "<span class='badge badge-secondary'>NO DATA</span>";
+                    }
+                }
+            )
+            ->callbackColumn(
+                'visto',
+                function ($value, $row) {
+                    switch ($value) {
+                        case 1:
+                            return "<span class='badge badge-success'>SI</span>";
+                        case 0:
+                        case null:
+                            return "<span class='badge badge-danger'>NO</span>";
+                        default:
+                            return "<span class='badge badge-secondary'>NO DATA</span>";
+                    }
+                }
+            )
             ->callbackBeforeInsert(function ($stateParameters) {
                 $filename = $stateParameters->data['adjunto'];
                 $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -39,6 +66,8 @@ class Contabilidad extends BaseController
                 $stateParameters->data['subido_por'] = session()->get('user_id');
                 $stateParameters->data['id_estado_boleta'] = 2;
                 $stateParameters->data['revisado_por'] = 5;
+                $stateParameters->data['boleta_firmada'] = 1; // Not signed yet
+                $stateParameters->data['visto'] = 0; // Not viewed yet
                 return $stateParameters;
             })
             ->callbackAfterInsert(function ($stateParameters) {
@@ -105,13 +134,16 @@ class Contabilidad extends BaseController
                 'subido_por' => 'SUBIDO POR',
                 'fecha_modificacion' => 'FECHA DE MODIFICACION',
                 'revisado_por' => 'REVISADO POR',
-                'observaciones' => 'OBSERVACIONES'
+                'observaciones' => 'OBSERVACIONES',
+                'boleta_firmada' => 'FIRMADA',
+                'visto' => 'VISTO'
             ]);
 
         // Rendering the CRUD
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
+    
     public function contabilidad_boletas_cts()
     {
         $this->gc->setTable('boletas_cts')
@@ -134,8 +166,35 @@ class Contabilidad extends BaseController
             ->addFields(['id_usuario', 'adjunto'])
             ->unsetColumns(['subido_por', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
-            ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por'])
-            ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones'])
+            ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por', 'boleta_firmada', 'visto'])
+            ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones', 'boleta_firmada', 'visto'])
+            ->callbackColumn(
+                'boleta_firmada',
+                function ($value, $row) {
+                    switch ($value) {
+                        case 0:
+                            return "<span class='badge badge-success'>SI</span>";
+                        case 1:
+                            return "<span class='badge badge-warning'>NO</span>";
+                        default:
+                            return "<span class='badge badge-secondary'>NO DATA</span>";
+                    }
+                }
+            )
+            ->callbackColumn(
+                'visto',
+                function ($value, $row) {
+                    switch ($value) {
+                        case 1:
+                            return "<span class='badge badge-success'>SI</span>";
+                        case 0:
+                        case null:
+                            return "<span class='badge badge-danger'>NO</span>";
+                        default:
+                            return "<span class='badge badge-secondary'>NO DATA</span>";
+                    }
+                }
+            )
             ->callbackBeforeInsert(function ($stateParameters) {
                 $filename = $stateParameters->data['adjunto'];
                 $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -146,6 +205,8 @@ class Contabilidad extends BaseController
                 $stateParameters->data['subido_por'] = session()->get('user_id');
                 $stateParameters->data['id_estado_boleta'] = 2;
                 $stateParameters->data['revisado_por'] = 5;
+                $stateParameters->data['boleta_firmada'] = 1; // Not signed yet
+                $stateParameters->data['visto'] = 0; // Not viewed yet
                 return $stateParameters;
             })
             ->callbackAfterInsert(function ($stateParameters) {
@@ -206,7 +267,9 @@ class Contabilidad extends BaseController
                 'subido_por' => 'SUBIDO POR',
                 'fecha_modificacion' => 'FECHA DE MODIFICACION',
                 'revisado_por' => 'REVISADO POR',
-                'observaciones' => 'OBSERVACIONES'
+                'observaciones' => 'OBSERVACIONES',
+                'boleta_firmada' => 'FIRMADA',
+                'visto' => 'VISTO'
             ]);
 
         // Rendering the CRUD
