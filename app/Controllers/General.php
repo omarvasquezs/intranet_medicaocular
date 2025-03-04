@@ -551,10 +551,13 @@ class General extends BaseController
                 }
                 
                 if ($hasVistoField) {
-                    // Update the visto field to 1
-                    $data = ['visto' => 1];
-                    $this->boletas->update($id, $data);
-                    log_message('info', 'Boleta visto updated successfully for ID: ' . $id);
+                    // Check if the 'visto' field is already set to 1
+                    if ($boleta['visto'] != 1) {
+                        // Update the visto field to 1
+                        $data = ['visto' => 1];
+                        $this->boletas->update($id, $data);
+                        log_message('info', 'Boleta visto updated successfully for ID: ' . $id);
+                    }
                 } else {
                     log_message('warning', 'The visto field does not exist in the boletas table');
                 }
@@ -601,10 +604,13 @@ class General extends BaseController
                 }
                 
                 if ($hasVistoField) {
-                    // Update the visto field to 1
-                    $data = ['visto' => 1];
-                    $this->cts->update($id, $data);
-                    log_message('info', 'Boleta CTS visto updated successfully for ID: ' . $id);
+                    // Check if the 'visto' field is already set to 1
+                    if ($boleta['visto'] != 1) {
+                        // Update the visto field to 1
+                        $data = ['visto' => 1];
+                        $this->cts->update($id, $data);
+                        log_message('info', 'Boleta CTS visto updated successfully for ID: ' . $id);
+                    }
                 } else {
                     log_message('warning', 'The visto field does not exist in the boletas_cts table');
                 }
