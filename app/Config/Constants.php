@@ -93,7 +93,7 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
-$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'ameval.ddev.site';
+$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'medicaocular.ddev.site';
 $http_https = isset($_SERVER['HTTPS']) ? "https://" : "http://";
 $baseURL = $http_https . $host;
 define('BASE_URL', $baseURL);
