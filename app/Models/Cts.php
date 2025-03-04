@@ -12,7 +12,7 @@ class Cts extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['adjunto', 'boleta_firmada'];
+    protected $allowedFields    = ['adjunto', 'boleta_firmada', 'visto'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

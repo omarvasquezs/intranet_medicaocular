@@ -404,6 +404,13 @@ class General extends BaseController
                     }
                 }
             )
+            ->callbackColumn(
+                'adjunto',
+                function ($value, $row) {
+                    return '<a href="' . base_url('updateBoletaVisto/' . $row->id) . 
+                           '" target="_blank" rel="noopener noreferrer">' . $value . '</a>';
+                }
+            )
             ->displayAs(
                 [
                     'id_usuario' => 'EMPLEADO',
@@ -485,6 +492,13 @@ class General extends BaseController
                     }
                 }
             )
+            ->callbackColumn(
+                'adjunto',
+                function ($value, $row) {
+                    return '<a href="' . base_url('updateBoletaCTSVisto/' . $row->id) . 
+                           '" target="_blank" rel="noopener noreferrer">' . $value . '</a>';
+                }
+            )
             ->displayAs(
                 [
                     'id_usuario' => 'EMPLEADO',
@@ -511,6 +525,107 @@ class General extends BaseController
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
+
+    /**
+     * Updates the 'visto' field to 1 for a regular boleta and redirects to the PDF file
+     *
+     * @param int $id The ID of the boleta
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
+    public function updateBoletaVisto($id)
+    {
+        $boleta = $this->boletas->find($id);
+        
+        if ($boleta && $boleta['id_usuario'] == session()->get('user_id')) {
+            try {
+                // Check if the database has the 'visto' field
+                $db = \Config\Database::connect();
+                $fields = $db->getFieldData('boletas');
+                $hasVistoField = false;
+                
+                foreach ($fields as $field) {
+                    if ($field->name === 'visto') {
+                        $hasVistoField = true;
+                        break;
+                    }
+                }
+                
+                if ($hasVistoField) {
+                    // Update the visto field to 1
+                    $data = ['visto' => 1];
+                    $this->boletas->update($id, $data);
+                    log_message('info', 'Boleta visto updated successfully for ID: ' . $id);
+                } else {
+                    log_message('warning', 'The visto field does not exist in the boletas table');
+                }
+            } catch (\Exception $e) {
+                // Log any errors that occur
+                log_message('error', 'Error updating boleta visto: ' . $e->getMessage());
+            }
+        } else {
+            // Log if boleta not found or not owned by user
+            log_message('warning', 'Boleta not found or unauthorized access for ID: ' . $id);
+        }
+        
+        // Redirect to the actual PDF file
+        if ($boleta && isset($boleta['adjunto'])) {
+            return redirect()->to(base_url('assets/uploads/boletas/' . $boleta['adjunto']));
+        } else {
+            // Redirect back if no boleta found
+            return redirect()->back()->with('error', 'Boleta no encontrada');
+        }
+    }
+
+    /**
+     * Updates the 'visto' field to 1 for a CTS boleta and redirects to the PDF file
+     *
+     * @param int $id The ID of the boleta_cts
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
+    public function updateBoletaCTSVisto($id)
+    {
+        $boleta = $this->cts->find($id);
+        
+        if ($boleta && $boleta['id_usuario'] == session()->get('user_id')) {
+            try {
+                // Check if the database has the 'visto' field
+                $db = \Config\Database::connect();
+                $fields = $db->getFieldData('boletas_cts');
+                $hasVistoField = false;
+                
+                foreach ($fields as $field) {
+                    if ($field->name === 'visto') {
+                        $hasVistoField = true;
+                        break;
+                    }
+                }
+                
+                if ($hasVistoField) {
+                    // Update the visto field to 1
+                    $data = ['visto' => 1];
+                    $this->cts->update($id, $data);
+                    log_message('info', 'Boleta CTS visto updated successfully for ID: ' . $id);
+                } else {
+                    log_message('warning', 'The visto field does not exist in the boletas_cts table');
+                }
+            } catch (\Exception $e) {
+                // Log any errors that occur
+                log_message('error', 'Error updating boleta CTS visto: ' . $e->getMessage());
+            }
+        } else {
+            // Log if boleta not found or not owned by user
+            log_message('warning', 'Boleta CTS not found or unauthorized access for ID: ' . $id);
+        }
+        
+        // Redirect to the actual PDF file
+        if ($boleta && isset($boleta['adjunto'])) {
+            return redirect()->to(base_url('assets/uploads/cts/' . $boleta['adjunto']));
+        } else {
+            // Redirect back if no boleta found
+            return redirect()->back()->with('error', 'Boleta CTS no encontrada');
+        }
+    }
+
     /**
      * Handles the firmar_boleta page.
      *

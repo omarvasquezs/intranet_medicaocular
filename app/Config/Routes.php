@@ -139,3 +139,7 @@ $routes->get('amonestaciones', 'Amonestaciones::index');
 $routes->get('amonestaciones/(:any)', 'Amonestaciones::index/$1');
 $routes->post('amonestaciones', 'Amonestaciones::index');
 $routes->post('amonestaciones/(:any)', 'Amonestaciones::index');
+
+// Add these new routes for the visto updating methods
+$routes->get('updateBoletaVisto/(:num)', 'General::updateBoletaVisto/$1');
+$routes->get('updateBoletaCTSVisto/(:num)', 'General::updateBoletaCTSVisto/$1');
