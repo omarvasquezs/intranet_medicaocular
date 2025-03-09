@@ -24,7 +24,10 @@ class Amonestaciones extends BaseController
             ->displayAs('fecha_retorno', 'FECHA DE RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('goce_haber', 'GOCE DE HABER')
-            ->fieldType('goce_haber', 'boolean')
+            ->fieldType('goce_haber', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->setRead()
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date')
