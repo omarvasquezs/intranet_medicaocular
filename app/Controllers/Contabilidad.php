@@ -27,35 +27,16 @@ class Contabilidad extends BaseController
             ->addFields(['id_usuario', 'adjunto'])
             ->unsetColumns(['subido_por', 'fecha_modificacion', 'observaciones'])
             ->unsetSearchColumns(['adjunto'])
-            ->columns(['id_usuario', 'adjunto', 'fecha_creacion', 'revisado_por', 'boleta_firmada', 'visto'])
-            ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones', 'boleta_firmada', 'visto'])
-            ->callbackColumn(
-                'boleta_firmada',
-                function ($value, $row) {
-                    switch ($value) {
-                        case 0:
-                            return "<span class='badge badge-success'>SI</span>";
-                        case 1:
-                            return "<span class='badge badge-warning'>NO</span>";
-                        default:
-                            return "<span class='badge badge-secondary'>NO DATA</span>";
-                    }
-                }
-            )
-            ->callbackColumn(
-                'visto',
-                function ($value, $row) {
-                    switch ($value) {
-                        case 1:
-                            return "<span class='badge badge-success'>SI</span>";
-                        case 0:
-                        case null:
-                            return "<span class='badge badge-danger'>NO</span>";
-                        default:
-                            return "<span class='badge badge-secondary'>NO DATA</span>";
-                    }
-                }
-            )
+            ->columns(['id_usuario', 'adjunto', 'fecha_creacion', 'boleta_firmada', 'visto'])
+            ->readFields(['id_usuario', 'adjunto', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'boleta_firmada', 'visto'])
+            ->fieldType('boleta_firmada', 'dropdown_search', [
+                1 => 'NO',
+                0 => 'SI'
+            ])
+            ->fieldType('visto', 'dropdown_search', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->callbackBeforeInsert(function ($stateParameters) {
                 $filename = $stateParameters->data['adjunto'];
                 $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -143,7 +124,7 @@ class Contabilidad extends BaseController
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
-    
+
     public function contabilidad_boletas_cts()
     {
         $this->gc->setTable('boletas_cts')
@@ -168,33 +149,14 @@ class Contabilidad extends BaseController
             ->unsetSearchColumns(['adjunto'])
             ->columns(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'revisado_por', 'boleta_firmada', 'visto'])
             ->readFields(['id_usuario', 'adjunto', 'id_estado_boleta', 'fecha_creacion', 'fecha_modificacion', 'subido_por', 'revisado_por', 'observaciones', 'boleta_firmada', 'visto'])
-            ->callbackColumn(
-                'boleta_firmada',
-                function ($value, $row) {
-                    switch ($value) {
-                        case 0:
-                            return "<span class='badge badge-success'>SI</span>";
-                        case 1:
-                            return "<span class='badge badge-warning'>NO</span>";
-                        default:
-                            return "<span class='badge badge-secondary'>NO DATA</span>";
-                    }
-                }
-            )
-            ->callbackColumn(
-                'visto',
-                function ($value, $row) {
-                    switch ($value) {
-                        case 1:
-                            return "<span class='badge badge-success'>SI</span>";
-                        case 0:
-                        case null:
-                            return "<span class='badge badge-danger'>NO</span>";
-                        default:
-                            return "<span class='badge badge-secondary'>NO DATA</span>";
-                    }
-                }
-            )
+            ->fieldType('boleta_firmada', 'dropdown_search', [
+                1 => 'NO',
+                0 => 'SI'
+            ])
+            ->fieldType('visto', 'dropdown_search', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->callbackBeforeInsert(function ($stateParameters) {
                 $filename = $stateParameters->data['adjunto'];
                 $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -248,7 +210,7 @@ class Contabilidad extends BaseController
     
                     // Second signature position (adjust as needed)
                     $y = 218; // Adjust this value to move up or down
-
+    
                     // Add the second signature image
                     $pdf->Image($firmaPath, $x, $y, $newWidth, $newHeight, 'PNG');
                 } else {
