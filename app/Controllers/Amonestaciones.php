@@ -33,7 +33,7 @@ class Amonestaciones extends BaseController
             ->fieldType('fecha_fin', 'native_date')
             ->fieldType('fecha_retorno', 'native_date')
             ->requiredFields(
-                ['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno']
+                ['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber']
             )
             ->requiredEditFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno'])
             ->callbackReadField(
