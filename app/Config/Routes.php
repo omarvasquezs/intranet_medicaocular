@@ -148,6 +148,7 @@ $routes->post('amonestaciones/(:any)', 'Amonestaciones::index');
 
 // Route for generating PDF for amonestaciones
 $routes->get('generate_amonestacion_pdf/(:num)', 'Amonestaciones::generatePdf/$1');
+$routes->get('firmar_amonestacion/(:num)', 'Amonestaciones::firmarAmonestacion/$1');
 
 // Add these new routes for the visto updating methods
 $routes->get('updateBoletaVisto/(:num)', 'General::updateBoletaVisto/$1');

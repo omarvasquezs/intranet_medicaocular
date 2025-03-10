@@ -211,6 +211,44 @@ class Amonestaciones extends BaseController
         return "$dayName $day de $month $year";
     }
 
+    /**
+     * Handle document signing
+     * 
+     * @param int $id Amonestacion ID
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
+    public function firmarAmonestacion($id)
+    {
+        // Check if the user has permission to sign this amonestacion
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM amonestaciones WHERE id = ? AND id_usuario = ?", 
+            [$id, session()->get('user_id')]);
+        $amonestacion = $query->getRow();
+        
+        if (!$amonestacion) {
+            return redirect()->to(base_url('mis_amonestaciones'))
+                ->with('error', 'No tiene acceso a esta amonestación');
+        }
+        
+        if ($amonestacion->firmado == 1) {
+            return redirect()->to(base_url('mis_amonestaciones'))
+                ->with('warning', 'Este documento ya ha sido firmado');
+        }
+        
+        // Check if user has a signature
+        $usuario = $this->usuarios->find(session()->get('user_id'));
+        if (empty($usuario['firma'])) {
+            return redirect()->to(base_url('mis_amonestaciones'))
+                ->with('error', 'No tiene una firma registrada. Por favor registre su firma primero.');
+        }
+        
+        // Update firmado status
+        $db->query("UPDATE amonestaciones SET firmado = 1 WHERE id = ?", [$id]);
+        
+        return redirect()->to(base_url('mis_amonestaciones'))
+            ->with('success', 'Documento firmado exitosamente');
+    }
+
     public function generatePdf($id)
     {
         // Debug the ID to make sure it's being passed correctly
@@ -353,6 +391,27 @@ class Amonestaciones extends BaseController
                     error_log("Successfully loaded firma from: " . $firmaPath);
                 } else {
                     error_log("Firma file not found at: " . $firmaPath);
+                }
+            }
+            
+            // Add employee's signature if document is signed
+            if ($amonestacion->firmado == 1) {
+                $firmaEmpleado = $this->usuarios->find($amonestacion->id_usuario);
+                
+                if ($firmaEmpleado && !empty($firmaEmpleado['firma'])) {
+                    $firmaPath = FCPATH . 'assets/uploads/firmas/' . $firmaEmpleado['firma'];
+                    
+                    // Save current position for signature placement
+                    $currentX = $pdf->GetX();
+                    $currentY = $pdf->GetY();
+                    
+                    // Position the signature image above the line, centered in the employee section
+                    if (file_exists($firmaPath)) {
+                        $pdf->Image($firmaPath, $currentX + 115, $currentY - 20, 40); // Adjust positioning as needed
+                        error_log("Successfully loaded firma empleado from: " . $firmaPath);
+                    } else {
+                        error_log("Firma empleado file not found at: " . $firmaPath);
+                    }
                 }
             }
             

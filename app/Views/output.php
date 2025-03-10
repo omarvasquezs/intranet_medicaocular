@@ -440,6 +440,7 @@
                     <iframe id="pdfFrame" width="100%" height="600px" frameborder="0"></iframe>
                 </div>
                 <div class="modal-footer">
+                    <a id="signPdfBtn" href="#" class="btn btn-success">Firmar Documento</a>
                     <a id="downloadPdfBtn" href="#" class="btn btn-primary" download>Descargar PDF</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
