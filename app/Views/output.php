@@ -426,6 +426,27 @@
         </div>
     </div>
 
+    <!-- PDF Viewer Modal -->
+    <div class="modal fade" id="pdfViewerModal" tabindex="-1" role="dialog" aria-labelledby="pdfViewerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfViewerModalLabel">Vista de Amonestación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="pdfFrame" width="100%" height="600px" frameborder="0"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <a id="downloadPdfBtn" href="#" class="btn btn-primary" download>Descargar PDF</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url() ?>themes/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js"></script>
     <script

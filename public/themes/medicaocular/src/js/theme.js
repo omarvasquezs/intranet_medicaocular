@@ -7,21 +7,37 @@ $(function () {
  * Handle PDF viewer for amonestaciones
  */
 $(document).ready(function() {
-    // Add event delegation for PDF buttons in amonestaciones
-    $(document).on('click', '.gc-action-button[href*="generate_amonestacion_pdf"]', function(e) {
+    // Add event delegation for PDF buttons in amonestaciones using our custom class
+    $(document).on('click', '.view-pdf', function(e) {
+        e.preventDefault();
+        
+        const pdfUrl = $(this).data('pdf-url');
+        console.log("Opening PDF URL:", pdfUrl);
+        
+        // Set the iframe source to the PDF URL
+        $('#pdfFrame').attr('src', pdfUrl);
+        
+        // Set the download link
+        $('#downloadPdfBtn').attr('href', pdfUrl.replace('?view=inline', ''));
+        
+        // Show the modal
+        $('#pdfViewerModal').modal('show');
+    });
+
+    // Also listen for standard GroceryCRUD action buttons as a fallback
+    $(document).on('click', 'a.btn-outline-dark[href*="generate_amonestacion_pdf"]', function(e) {
         e.preventDefault();
         
         const pdfUrl = $(this).attr('href');
-        console.log("Opening PDF URL:", pdfUrl);
+        console.log("Opening PDF URL (fallback):", pdfUrl);
         
-        // Open in a new tab with target="_blank"
-        const newWindow = window.open(pdfUrl, '_blank');
+        // Set the iframe source to the PDF URL
+        $('#pdfFrame').attr('src', pdfUrl);
         
-        // If popup blocked, fallback to direct location change
-        if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-            console.log("Popup may be blocked, trying direct approach");
-            // Fallback: Try to navigate directly
-            window.location.href = pdfUrl;
-        }
+        // Set the download link
+        $('#downloadPdfBtn').attr('href', pdfUrl.replace('?view=inline', ''));
+        
+        // Show the modal
+        $('#pdfViewerModal').modal('show');
     });
 });
