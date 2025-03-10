@@ -7,6 +7,11 @@ class Contabilidad extends BaseController
 {
     public function contabilidad_boletas()
     {
+        // Get the signature user ID from configuration
+        $configModel = model('ConfiguracionModel');
+        $config = $configModel->first();
+        $firmaUserId = $config['id_usuario_doc_firma'] ?? 5; // Fallback to 5 if not found
+
         $this->gc->setTable('boletas')
             ->setSubject('BOLETA', 'HISTORICO BOLETAS')
             ->defaultOrdering('boletas.fecha_creacion', 'desc')
@@ -46,7 +51,7 @@ class Contabilidad extends BaseController
                 return ($value == '0') ? 'NO' : 'SI';
             });
         }
-        $this->gc->callbackBeforeInsert(function ($stateParameters) {
+        $this->gc->callbackBeforeInsert(function ($stateParameters) use ($firmaUserId) {
             $filename = $stateParameters->data['adjunto'];
             $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
             if (strtolower($fileExtension) !== 'pdf') {
@@ -55,12 +60,12 @@ class Contabilidad extends BaseController
             }
             $stateParameters->data['subido_por'] = session()->get('user_id');
             $stateParameters->data['id_estado_boleta'] = 2;
-            $stateParameters->data['revisado_por'] = 5;
+            $stateParameters->data['revisado_por'] = $firmaUserId;
             $stateParameters->data['boleta_firmada'] = 1; // Not signed yet
             $stateParameters->data['visto'] = 0; // Not viewed yet
             return $stateParameters;
         })
-            ->callbackAfterInsert(function ($stateParameters) {
+            ->callbackAfterInsert(function ($stateParameters) use ($firmaUserId) {
                 $existingPdfPath = FCPATH . 'assets/uploads/boletas/' . $this->boletas->find($stateParameters->insertId)['adjunto'];
 
                 // Create new FPDI instance
@@ -84,7 +89,7 @@ class Contabilidad extends BaseController
                 // Use the template
                 $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
 
-                $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find(5)['firma'];
+                $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find($firmaUserId)['firma'];
 
                 if (is_file($firmaPath) && is_readable($firmaPath)) {
                     // Get signature dimensions
@@ -136,6 +141,11 @@ class Contabilidad extends BaseController
 
     public function contabilidad_boletas_cts()
     {
+        // Get the signature user ID from configuration
+        $configModel = model('ConfiguracionModel');
+        $config = $configModel->first();
+        $firmaUserId = $config['id_usuario_doc_firma'] ?? 5; // Fallback to 5 if not found
+
         $this->gc->setTable('boletas_cts')
             ->setSubject('CTS', 'HISTORICO CTS')
             ->defaultOrdering('boletas_cts.fecha_creacion', 'desc')
@@ -175,7 +185,7 @@ class Contabilidad extends BaseController
                 return ($value == '0') ? 'NO' : 'SI';
             });
         }
-        $this->gc->callbackBeforeInsert(function ($stateParameters) {
+        $this->gc->callbackBeforeInsert(function ($stateParameters) use ($firmaUserId) {
             $filename = $stateParameters->data['adjunto'];
             $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
             if (strtolower($fileExtension) !== 'pdf') {
@@ -184,12 +194,12 @@ class Contabilidad extends BaseController
             }
             $stateParameters->data['subido_por'] = session()->get('user_id');
             $stateParameters->data['id_estado_boleta'] = 2;
-            $stateParameters->data['revisado_por'] = 5;
+            $stateParameters->data['revisado_por'] = $firmaUserId;
             $stateParameters->data['boleta_firmada'] = 1; // Not signed yet
             $stateParameters->data['visto'] = 0; // Not viewed yet
             return $stateParameters;
         })
-        ->callbackAfterInsert(function ($stateParameters) {
+        ->callbackAfterInsert(function ($stateParameters) use ($firmaUserId) {
             $existingPdfPath = FCPATH . 'assets/uploads/cts/' . $this->cts->find($stateParameters->insertId)['adjunto'];
 
             // Create new FPDI instance
@@ -213,7 +223,7 @@ class Contabilidad extends BaseController
             // Use the template
             $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
 
-            $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find(5)['firma'];
+            $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find($firmaUserId)['firma'];
 
             if (is_file($firmaPath) && is_readable($firmaPath)) {
                 // Get signature dimensions

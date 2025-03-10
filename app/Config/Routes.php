@@ -38,6 +38,12 @@ $routes->get('areas/(:any)', 'Admin::areas/$1');
 $routes->post('areas', 'Admin::areas');
 $routes->post('areas/(:any)', 'Admin::areas');
 
+// ADM. CONFIGURACION
+$routes->get('configuracion', 'Admin::configuracion');
+$routes->get('configuracion/(:any)', 'Admin::configuracion/$1');
+$routes->post('configuracion', 'Admin::configuracion');
+$routes->post('configuracion/(:any)', 'Admin::configuracion');
+
 // DOCUMENTOS
 $routes->get('documentos', 'Informativo::documentos');
 $routes->get('documentos/(:any)', 'Informativo::documentos/$1');

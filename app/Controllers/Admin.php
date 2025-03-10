@@ -109,12 +109,12 @@ class Admin extends BaseController
             // jefe inmediato field and its callbacks
             ->callbackAddField('id_jefe', function () {
                 $options = $this->usuarios->getUsersWithRole('JEFATURA');
-                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, '', ['class' => 'form-control']);
+                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, '', ['class' => 'form-select']);
                 return $dropdown;
             })
             ->callbackEditField('id_jefe', function ($value, $primaryKey) {
                 $options = $this->usuarios->getUsersWithRole('JEFATURA');
-                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, $value, ['class' => 'form-control']);
+                $dropdown = form_dropdown('id_jefe', ['' => 'SELECCIONAR JEFE DIRECTO'] + $options, $value, ['class' => 'form-select']);
                 return $dropdown;
             })
             ->callbackReadField('id_jefe', function ($fieldValue, $primaryKeyValue) use ($usuarios) {
@@ -128,6 +128,37 @@ class Admin extends BaseController
         return $this->mainOutput($output);
     }
 
+    public function configuracion()
+    {
+        $usuarios = $this->usuarios;
+        $this->gc->setTable('configuracion')
+            ->setSubject('CONFIGURACIÓN', 'CONFIGURACIONES')
+            ->displayAs([
+                'id_usuario_doc_firma' => 'USUARIO PARA FIRMA DE DOCUMENTOS'
+            ])
+            ->setRelation('id_usuario_doc_firma', 'usuarios', 'nombres')
+            ->editFields(['id_usuario_doc_firma'])
+            ->callbackEditField('id_usuario_doc_firma', function ($value) {
+                $options = $this->usuarios->getUsersWithRole('GERENCIA');
+                $dropdown = form_dropdown('id_usuario_doc_firma', ['' => 'SELECCIONAR USUARIO PARA FIRMA DE DOCUMENTOS'] + $options, $value, ['class' => 'form-select']);
+                return $dropdown;
+            })
+            ->columns(['id_usuario_doc_firma'])
+            ->unsetExport()
+            ->unsetPrint()
+            ->unsetAdd()
+            ->unsetPrint()
+            ->unsetFilters()
+            ->unsetSearchColumns(['id_usuario_doc_firma'])
+            ->unsetSortingColumns(['id_usuario_doc_firma'])
+            ->unsetSettings()
+            ->unsetDelete();
+
+        $output = $this->gc->render();
+
+        return $this->mainOutput($output);
+    }
+    
     public function reset_pass($userId)
     {
         // Retrieve the usuario value based on userId
