@@ -336,6 +336,26 @@ class Amonestaciones extends BaseController
             $pdf->Cell(30, 0, '', 0, 0, 'C'); // Space between lines
             $pdf->Cell(70, 0, '', 'T', 1, 'C'); // Line for TRABAJADOR
             
+            // Get gerente's signature
+            $firmaUserId = $amonestacion->revisado_por;
+            $firmaGerente = $this->usuarios->find($firmaUserId);
+            
+            if ($firmaGerente && !empty($firmaGerente['firma'])) {
+                $firmaPath = FCPATH . 'assets/uploads/firmas/' . $firmaGerente['firma'];
+                
+                // Save current position for signature placement
+                $currentX = $pdf->GetX();
+                $currentY = $pdf->GetY();
+                
+                // Position the signature image above the line, centered
+                if (file_exists($firmaPath)) {
+                    $pdf->Image($firmaPath, $currentX + 15, $currentY - 20, 40); // Adjust positioning as needed
+                    error_log("Successfully loaded firma from: " . $firmaPath);
+                } else {
+                    error_log("Firma file not found at: " . $firmaPath);
+                }
+            }
+            
             // Reduce space between line and text from 10mm to 3mm
             $pdf->Ln(3);
             
