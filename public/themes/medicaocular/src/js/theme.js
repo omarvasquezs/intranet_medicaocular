@@ -53,20 +53,52 @@ $(document).ready(function() {
         // Set the download link
         $('#downloadPdfBtn').attr('href', pdfUrl.replace('?view=inline', ''));
         
-        // Set up sign button if we have an ID and we're in mis_amonestaciones
+        // Check if we're in mis_amonestaciones page and have an ID
         if (amonestacionId && window.location.href.includes('mis_amonestaciones')) {
+            // Create a sign URL for the button
             const signUrl = window.location.origin + '/firmar_amonestacion/' + amonestacionId;
-            $('#signPdfBtn').attr('href', signUrl).show();
+            $('#signPdfBtn').attr('href', signUrl);
             
-            // Only show sign button if the document isn't already signed
-            // We'll try to determine this by looking at the firmado column in the table
+            // Check if this document is already signed by looking for firmado status in the row
             const $row = $(this).closest('tr');
-            const firmadoText = $row.find('td:contains("firmado"), td:contains("FIRMADO")').text();
+            let docIsSigned = false;
             
-            if (firmadoText && firmadoText.toLowerCase().includes('si')) {
+            // First try to find a cell that explicitly says "firmado"
+            $row.find('td').each(function(index) {
+                const cellText = $(this).text().trim().toLowerCase();
+                // Look for a cell with value "SI" that corresponds to firmado
+                if ((cellText === 'si') && 
+                    ($row.closest('table').find('th').eq(index).text().toLowerCase().includes('firmado'))) {
+                    docIsSigned = true;
+                    return false; // break the loop
+                }
+            });
+            
+            // If we couldn't determine it from column headers, check if this is an API response
+            if (!docIsSigned && $row.data('firmado') === 1) {
+                docIsSigned = true;
+            }
+            
+            // Now check a direct AJAX query to get the latest firmado status
+            $.ajax({
+                url: window.location.origin + '/check_amonestacion_status/' + amonestacionId,
+                method: 'GET',
+                async: false, // Make this synchronous for simplicity
+                success: function(response) {
+                    if (response && response.firmado === 1) {
+                        docIsSigned = true;
+                    }
+                }
+            });
+            
+            // Show or hide the sign button based on signed status
+            if (docIsSigned) {
                 $('#signPdfBtn').hide();
+            } else {
+                $('#signPdfBtn').show();
             }
         } else {
+            // Not in mis_amonestaciones or no ID, hide sign button
             $('#signPdfBtn').hide();
         }
         
@@ -78,4 +110,26 @@ $(document).ready(function() {
     $('#pdfViewerModal').on('hidden.bs.modal', function () {
         $('#pdfFrame').attr('src', '');
     });
+    
+    // If there's no status checking endpoint, fall back to checking the database directly
+    // Make the AJAX check optional with a try/catch
+    function checkAmonestacionStatus(id) {
+        try {
+            let isSigned = false;
+            $.ajax({
+                url: window.location.origin + '/check_amonestacion_status/' + id,
+                method: 'GET',
+                async: false,
+                success: function(data) {
+                    if (data && data.firmado === 1) {
+                        isSigned = true;
+                    }
+                }
+            });
+            return isSigned;
+        } catch (e) {
+            console.warn("Could not check amonestacion status:", e);
+            return false;
+        }
+    }
 });

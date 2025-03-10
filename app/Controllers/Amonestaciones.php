@@ -448,4 +448,34 @@ class Amonestaciones extends BaseController
             return redirect()->to(base_url('mis_amonestaciones'))->with('error', 'Error generating PDF: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Check status of an amonestacion for AJAX calls
+     * 
+     * @param int $id Amonestacion ID
+     * @return \CodeIgniter\HTTP\Response
+     */
+    public function checkAmonestacionStatus($id)
+    {
+        // Check if the request is AJAX
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403)->setBody('Direct access not allowed');
+        }
+        
+        // Get the amonestacion record
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT id, firmado FROM amonestaciones WHERE id = ? AND id_usuario = ?", 
+            [$id, session()->get('user_id')]);
+        $amonestacion = $query->getRow();
+        
+        if (!$amonestacion) {
+            return $this->response->setJSON(['error' => 'Amonestacion not found']);
+        }
+        
+        // Return the firmado status
+        return $this->response->setJSON([
+            'id' => $amonestacion->id,
+            'firmado' => (int)$amonestacion->firmado
+        ]);
+    }
 }
