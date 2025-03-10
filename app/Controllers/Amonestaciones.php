@@ -120,7 +120,7 @@ class Amonestaciones extends BaseController
                 }
             )
             ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_creacion', 'firmado', 'visto'])
-            ->addFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_retorno']);
+            ->addFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'goce_haber', 'fecha_retorno']);
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
@@ -225,6 +225,12 @@ class Amonestaciones extends BaseController
             if (!$amonestacion) {
                 error_log("Amonestacion not found for ID: " . $id);
                 return redirect()->to(base_url('mis_amonestaciones'));
+            }
+            
+            // If the current user is viewing their own amonestacion, update visto to 1 if not already marked
+            if ($amonestacion->id_usuario == session()->get('user_id') && $amonestacion->visto != 1) {
+                $db->query("UPDATE amonestaciones SET visto = 1 WHERE id = ?", [$id]);
+                error_log("Updated visto status to 1 for amonestacion ID: " . $id);
             }
             
             $usuarioQuery = $db->query("SELECT * FROM usuarios WHERE id = ?", [$amonestacion->id_usuario]);
