@@ -11,9 +11,9 @@ class Amonestaciones extends BaseController
         $this->gc->setTable('amonestaciones')
             ->setSubject('AMONESTACION', 'AMONESTACIONES')
             ->unsetAddFields(['fecha_creacion', 'revisado_por'])
-            ->unsetEditFields(['fecha_creacion', 'revisado_por'])
+            ->unsetEditFields(['fecha_creacion', 'revisado_por', 'firmado', 'visto'])
             ->unsetPrint()
-            ->unsetExport()
+            ->unsetExportPdf()
             ->unsetFilters()
             ->setDeleteMultiple()
             ->setRelation('id_usuario', 'usuarios', 'nombres')
@@ -26,11 +26,32 @@ class Amonestaciones extends BaseController
             ->displayAs('fecha_retorno', 'FECHA DE RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('goce_haber', 'GOCE DE HABER')
+            ->displayAs('firmado', 'FIRMADO')
+            ->displayAs('visto', 'VISTO')
             ->fieldType('goce_haber', 'dropdown', [
                 0 => 'NO',
                 1 => 'SI'
             ])
-            ->setRead()
+            ->fieldType('firmado', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
+            ->fieldType('visto', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ]);
+            if ($this->gc->getState() === 'Export') {
+                $this->gc->callbackColumn('firmado', function ($value, $row) {
+                    return ($value == '0') ? 'NO' : 'SI';
+                });
+                $this->gc->callbackColumn('visto', function ($value, $row) {
+                    return ($value == '0') ? 'NO' : 'SI';
+                });
+                $this->gc->callbackColumn('goce_haber', function ($value, $row) {
+                    return ($value == '0') ? 'NO' : 'SI';
+                });
+            }
+            $this->gc->setRead()
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date')
             ->fieldType('fecha_retorno', 'native_date')
@@ -98,7 +119,8 @@ class Amonestaciones extends BaseController
                     return $stateParameters;
                 }
             )
-            ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_creacion',]);
+            ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_creacion', 'firmado', 'visto'])
+            ->addFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_retorno']);
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
