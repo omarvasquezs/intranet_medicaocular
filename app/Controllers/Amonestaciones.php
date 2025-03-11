@@ -120,7 +120,9 @@ class Amonestaciones extends BaseController
                 }
             )
             ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_creacion', 'firmado', 'visto'])
-            ->addFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'goce_haber', 'fecha_retorno']);
+            ->addFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'goce_haber', 'fecha_retorno'])
+            ->defaultOrdering('fecha_creacion', 'desc'); // Add default ordering - newest first
+            
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
@@ -164,7 +166,9 @@ class Amonestaciones extends BaseController
                 [
                     'id_usuario' => session()->get('user_id')
                 ]
-            );
+            )
+            ->defaultOrdering('fecha_creacion', 'desc'); // Add default ordering - newest first
+            
         $output = $this->gc->render();
         return $this->mainOutput($output);
     }
@@ -280,10 +284,11 @@ class Amonestaciones extends BaseController
             }
             
             // Get the count/order number of this amonestacion for this user
+            // Update the query to count position properly with descending order
             $countQuery = $db->query(
                 "SELECT COUNT(*) as position FROM amonestaciones 
-                 WHERE id_usuario = ? AND fecha_creacion <= ? 
-                 ORDER BY fecha_creacion ASC",
+                 WHERE id_usuario = ? AND fecha_creacion >= ? 
+                 ORDER BY fecha_creacion DESC",
                 [$amonestacion->id_usuario, $amonestacion->fecha_creacion]
             );
             
