@@ -290,12 +290,12 @@ class Amonestaciones extends BaseController
             }
             
             // Get the count/order number of this amonestacion for this user
-            // Update the query to count position properly with descending order
+            // Fix the query to properly count the position in descending order
             $countQuery = $db->query(
                 "SELECT COUNT(*) as position FROM amonestaciones 
-                 WHERE id_usuario = ? AND fecha_creacion >= ? 
-                 ORDER BY fecha_creacion DESC",
-                [$amonestacion->id_usuario, $amonestacion->fecha_creacion]
+                 WHERE id_usuario = ? AND id <= ? 
+                 ORDER BY id DESC",
+                [$amonestacion->id_usuario, $id]
             );
             
             $position = $countQuery->getRow()->position;
