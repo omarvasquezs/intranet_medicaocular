@@ -121,7 +121,10 @@ class Amonestaciones extends BaseController
             )
             ->columns(['id_usuario', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'goce_haber', 'fecha_creacion', 'firmado', 'visto'])
             ->addFields(['id_usuario', 'sustentacion', 'fecha_inicio', 'fecha_fin', 'goce_haber', 'fecha_retorno'])
-            ->defaultOrdering('fecha_creacion', 'desc'); // Add default ordering - newest first
+            ->setActionButton('PRE-VISUALIZAR', 'fa fa-file-pdf', function ($row) {
+                return base_url("generate_amonestacion_pdf/{$row->id}") . "?view=inline";
+            }, true)
+            ->defaultOrdering('fecha_creacion', 'desc');
             
         $output = $this->gc->render();
         return $this->mainOutput($output);

@@ -37,7 +37,7 @@ $(document).ready(function() {
     });
 
     // Also listen for standard GroceryCRUD action buttons as a fallback
-    $(document).on('click', 'a.btn-outline-dark[href*="generate_amonestacion_pdf"]', function(e) {
+    $(document).on('click', 'a.btn-outline-dark[href*="generate_amonestacion_pdf"], a.dropdown-item[href*="generate_amonestacion_pdf"]', function(e) {
         e.preventDefault();
         
         const pdfUrl = $(this).attr('href');
