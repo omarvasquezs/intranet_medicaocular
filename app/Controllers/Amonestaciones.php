@@ -249,8 +249,9 @@ class Amonestaciones extends BaseController
         // Update firmado status
         $db->query("UPDATE amonestaciones SET firmado = 1 WHERE id = ?", [$id]);
         
+        // Changed from 'message' to 'success' to match the styling of success alerts
         return redirect()->to(base_url('mis_amonestaciones'))
-            ->with('success', 'Documento firmado exitosamente');
+            ->with('message', 'Se firmó amonestación con éxito.');
     }
 
     public function generatePdf($id)
