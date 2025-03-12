@@ -142,6 +142,7 @@ class Amonestaciones extends BaseController
             ->displayAs('fecha_retorno', 'FECHA DE RETORNO')
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('goce_haber', 'GOCE DE HABER')
+            ->displayAs('firmado', 'FIRMADO')  // Add display name for firmado column
             ->fieldType('goce_haber', 'boolean')
             ->callbackReadField(
                 'revisado_por',
@@ -149,6 +150,10 @@ class Amonestaciones extends BaseController
                     return $this->usuarios->find($fieldValue)['nombres'];
                 }
             )
+            ->fieldType('firmado', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->unsetExport()
             ->unsetPrint()
             ->unsetFilters()
@@ -158,7 +163,7 @@ class Amonestaciones extends BaseController
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date')
             ->fieldType('fecha_retorno', 'native_date')
-            ->columns(['fecha_inicio', 'fecha_fin', 'fecha_retorno', 'fecha_creacion'])
+            ->columns(['fecha_inicio', 'fecha_fin', 'fecha_retorno', 'fecha_creacion', 'firmado'])  // Add firmado to visible columns
             ->setActionButton('VER', 'as fa-file-pdf', function ($row) {
                 return base_url("generate_amonestacion_pdf/{$row->id}") . "?view=inline";
             }, true)
