@@ -71,7 +71,7 @@ class Amonestaciones extends BaseController
                     $fecha_fin = $stateParameters->data['fecha_fin'];
                     $fecha_retorno = $stateParameters->data['fecha_retorno'];
 
-                    $stateParameters->data['revisado_por'] = session()->get('user_id');
+                    $stateParameters->data['revisado_por'] = model('ConfiguracionModel')->first()['id_usuario_doc_firma'];
 
                     $errorMessage = new \GroceryCrud\Core\Error\ErrorMessage();
 
