@@ -165,6 +165,24 @@
                         </a>
                     </li>
 
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() ?>permisos_aprobados" data-toggle="tooltip"
+                            data-placement="bottom">
+                            <i class="fa fa-fw fa-check"></i>
+                            <span>APROBADOS</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() ?>permisos_rechazados" data-toggle="tooltip"
+                            data-placement="bottom">
+                            <i class="fa fa-fw fa-times"></i>
+                            <span>RECHAZADOS</span>
+                        </a>
+                    </li>
+
                     <!-- Divider -->
                     <hr class="sidebar-divider">
 
@@ -464,7 +482,7 @@
     if (!empty($js_files)) {
         foreach ($js_files as $file) { ?>
             <script src="<?php echo $file; ?>"></script>
-        <?php }
+    <?php }
     }
     ?>
     <!-- end -->
