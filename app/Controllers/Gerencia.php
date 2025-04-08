@@ -302,9 +302,12 @@ class Gerencia extends BaseController
             ])
             ->fieldType('fecha_fin', 'native_date');
 
-        if (!in_array(1, session()->get('roles'))) {
-            $this->gc->setModel(new PermisosGerenciaCustom($this->getDbData()));
-        }
+        // Check if the user does not have admin role (role ID 1) in their session
+        //if (!in_array(1, session()->get('roles'))) {
+            // For non-admin users, set a custom model that likely implements 
+            // additional data access restrictions based on user permissions
+            //$this->gc->setModel(new PermisosGerenciaCustom($this->getDbData()));
+        //}
 
         $output = $this->gc->render();
 
