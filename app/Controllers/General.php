@@ -33,6 +33,7 @@ class General extends BaseController
     {
         $usuarios = $this->usuarios;
         $this->gc->setTable("registro_permisos")
+            ->defaultOrdering('registro_permisos.id', 'desc')
             ->setSubject("PERMISO", "PERMISOS")
             ->unsetFilters()
             ->unsetPrint()
@@ -78,7 +79,8 @@ class General extends BaseController
                     'sustentacion',
                     'adjunto',
                     'observaciones',
-                    'revisado_por'
+                    'revisado_por',
+                    'goce_haber'
                 ]
             )
             ->columns(
@@ -88,7 +90,8 @@ class General extends BaseController
                     'rango',
                     'fecha_inicio',
                     'fecha_retorno',
-                    'fecha_creacion'
+                    'fecha_creacion',
+                    'goce_haber'
                 ]
             )
             ->fieldTypeColumn('rango', 'varchar')
@@ -123,6 +126,7 @@ class General extends BaseController
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('adjunto', 'CITT (NO ES OBLIGATORIO PARA VACACIONES)')
             ->displayAs('rango', 'RANGO DE FECHAS')
+            ->displayAs('goce_haber', 'GOCE DE HABER')
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('revisado_por', 'usuarios', 'nombres')
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
@@ -172,6 +176,10 @@ class General extends BaseController
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date')
             ->fieldType('fecha_retorno', 'native_date')
+            ->fieldType('goce_haber', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->callbackReadField(
                 'revisado_por',
                 function ($fieldValue, $primaryKeyValue) use ($usuarios) {

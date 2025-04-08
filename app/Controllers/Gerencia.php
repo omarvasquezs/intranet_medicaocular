@@ -9,6 +9,7 @@ class Gerencia extends BaseController
     public function permisos_pendientes()
     {
         $this->gc->setTable("registro_permisos")
+            ->defaultOrdering('registro_permisos.id', 'desc')
             ->setSubject("PERMISOS PENDIENTES DE APROBACION", "PERMISOS PENDIENTES DE APROBACION")
             ->unsetFilters()
             ->unsetPrint()
@@ -68,8 +69,8 @@ class Gerencia extends BaseController
             ->where([
                 'registro_permisos.id_estado_permiso' => 1
             ])
-            ->requiredFields(['id_estado_permiso'])
-            ->editFields(['id_usuario', 'id_tipo_permiso', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'id_estado_permiso', 'observaciones', 'adjunto'])
+            ->requiredFields(['id_estado_permiso', 'goce_haber'])
+            ->editFields(['id_usuario', 'id_tipo_permiso', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'id_estado_permiso', 'observaciones', 'adjunto', 'goce_haber'])
             ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
             ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno'])
             ->readOnlyEditFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion'])
@@ -97,10 +98,15 @@ class Gerencia extends BaseController
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('adjunto', 'CITT o ADJUNTOS')
             ->displayAs('rango', 'DURACION DEL PERMISO')
+            ->displayAs('goce_haber', 'GOCE DE HABER')
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
             ->setRelation('id_estado_permiso', 'estado_permisos', 'estado_permiso')
             ->setRelation('revisado_por', 'usuarios', 'nombres')
+            ->fieldType('goce_haber', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->fieldType('sustentacion', 'text')
             ->fieldType('observaciones', 'text')
             ->fieldType('fecha_inicio', 'native_date')
@@ -117,6 +123,7 @@ class Gerencia extends BaseController
     public function permisos_aprobados()
     {
         $this->gc->setTable("registro_permisos")
+            ->defaultOrdering('registro_permisos.id', 'desc')
             ->setSubject("PERMISOS APROBADOS", "HISTORICO DE PERMISOS APROBADOS")
             ->unsetFilters()
             ->unsetPrint()
@@ -165,10 +172,14 @@ class Gerencia extends BaseController
             ->where([
                 'registro_permisos.id_estado_permiso' => 2
             ])
-            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
-            ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno'])
+            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'goce_haber', 'revisado_por'])
+            ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno', 'goce_haber'])
             ->fieldTypeColumn('rango', 'varchar')
             ->fieldTypeColumn('fecha_inicio', 'invisible')
+            ->fieldType('goce_haber', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->mapColumn('rango', 'fecha_fin')
             ->callbackColumn('rango', function ($value, $row) {
                 // the $value in our case is fecha_fin
@@ -186,6 +197,7 @@ class Gerencia extends BaseController
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('adjunto', 'CITT o ADJUNTO')
             ->displayAs('rango', 'DURACION DEL PERMISO')
+            ->displayAs('goce_haber', 'GOCE DE HABER')
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
             ->setRelation('id_estado_permiso', 'estado_permisos', 'estado_permiso')
@@ -206,6 +218,7 @@ class Gerencia extends BaseController
     public function permisos_rechazados()
     {
         $this->gc->setTable("registro_permisos")
+            ->defaultOrdering('registro_permisos.id', 'desc')
             ->setSubject("PERMISOS RECHAZADOS", "HISTORICO DE PERMISOS RECHAZADOS")
             ->unsetFilters()
             ->unsetPrint()
@@ -254,8 +267,8 @@ class Gerencia extends BaseController
             ->where([
                 'registro_permisos.id_estado_permiso' => 3
             ])
-            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'revisado_por'])
-            ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno'])
+            ->readFields(['id_usuario', 'id_tipo_permiso', 'fecha_creacion', 'fecha_inicio', 'fecha_fin', 'fecha_retorno', 'sustentacion', 'adjunto', 'observaciones', 'goce_haber', 'revisado_por'])
+            ->columns(['id_tipo_permiso', 'id_usuario', 'fecha_creacion', 'rango', 'fecha_inicio', 'fecha_retorno', 'goce_haber'])
             ->fieldTypeColumn('rango', 'varchar')
             ->fieldTypeColumn('fecha_inicio', 'invisible')
             ->mapColumn('rango', 'fecha_fin')
@@ -275,6 +288,7 @@ class Gerencia extends BaseController
             ->displayAs('revisado_por', 'REVISADO POR')
             ->displayAs('adjunto', 'CITT')
             ->displayAs('rango', 'DURACION DEL PERMISO')
+            ->displayAs('goce_haber', 'GOCE DE HABER')
             ->setRelation('id_usuario', 'usuarios', 'nombres')
             ->setRelation('id_tipo_permiso', 'tipo_permisos', 'permiso')
             ->setRelation('id_estado_permiso', 'estado_permisos', 'estado_permiso')
@@ -282,6 +296,10 @@ class Gerencia extends BaseController
             ->fieldType('sustentacion', 'text')
             ->fieldType('observaciones', 'text')
             ->fieldType('fecha_inicio', 'native_date')
+            ->fieldType('goce_haber', 'dropdown', [
+                0 => 'NO',
+                1 => 'SI'
+            ])
             ->fieldType('fecha_fin', 'native_date');
 
         if (!in_array(1, session()->get('roles'))) {
