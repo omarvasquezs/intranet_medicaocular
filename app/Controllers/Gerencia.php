@@ -207,9 +207,9 @@ class Gerencia extends BaseController
             ->fieldType('fecha_inicio', 'native_date')
             ->fieldType('fecha_fin', 'native_date');
 
-        if (!in_array(1, session()->get('roles'))) {
-            $this->gc->setModel(new PermisosGerenciaCustom($this->getDbData()));
-        }
+        //if (!in_array(1, session()->get('roles'))) {
+            //$this->gc->setModel(new PermisosGerenciaCustom($this->getDbData()));
+        //}
 
         $output = $this->gc->render();
 
