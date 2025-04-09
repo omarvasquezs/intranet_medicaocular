@@ -85,7 +85,6 @@
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <a class="collapse-item" href="<?= base_url() ?>registrar_permiso/add">Permiso o
                                     Descanso</a>
-                                <a class="collapse-item" href="<?= base_url() ?>registrar_licencia/add">Licencia</a>
                             </div>
                         </div>
                     </li>
