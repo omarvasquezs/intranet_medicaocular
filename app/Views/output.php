@@ -67,6 +67,7 @@
                                 <a class="collapse-item" href="<?= base_url() ?>mis_cts">Mis Depósitos CTS</a>
                                 <a class="collapse-item" href="<?= base_url() ?>registrar_permiso">Mis Permisos y
                                     Descansos</a>
+                                <a class="collapse-item" href="<?= base_url() ?>mis_licencias">Mis Licencias</a>
                                 <a class="collapse-item" href="<?= base_url() ?>mis_amonestaciones">Mis Amonestaciones</a>
                             </div>
                         </div>
@@ -84,6 +85,7 @@
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <a class="collapse-item" href="<?= base_url() ?>registrar_permiso/add">Permiso o
                                     Descanso</a>
+                                <a class="collapse-item" href="<?= base_url() ?>registrar_licencia/add">Licencia</a>
                             </div>
                         </div>
                     </li>
@@ -159,6 +161,13 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() ?>licencias_all">
+                            <i class="fas fa-fw fa-clipboard-list"></i>
+                            <span>TODAS LAS LICENCIAS</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="<?= base_url() ?>amonestaciones" class="nav-link">
                             <i class="fas fa-fw fa-angry"></i>
                             <span>AMONESTACIONES</span>
@@ -213,6 +222,14 @@
                         <a href="<?= base_url() ?>amonestaciones" class="nav-link">
                             <i class="fas fa-fw fa-angry"></i>
                             <span>AMONESTACIONES</span>
+                        </a>
+                    </li>
+
+                    <!-- Licencias -->
+                    <li class="nav-item">
+                        <a href="<?= base_url() ?>licencias_admin" class="nav-link">
+                            <i class="fas fa-fw fa-calendar-check"></i>
+                            <span>LICENCIAS</span>
                         </a>
                     </li>
 
@@ -464,7 +481,7 @@
     if (!empty($js_files)) {
         foreach ($js_files as $file) { ?>
             <script src="<?php echo $file; ?>"></script>
-        <?php }
+    <?php }
     }
     ?>
     <!-- end -->

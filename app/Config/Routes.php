@@ -53,6 +53,22 @@ $routes->post('documentos/(:any)', 'Informativo::documentos');
 // PASSWORD RESET
 $routes->get('reset_pass/(:num)', 'Admin::reset_pass/$1');
 
+// LICENCIAS
+$routes->get('licencias_admin', 'Licencias::licenciasAdmin');
+$routes->get('licencias_admin/(:any)', 'Licencias::licenciasAdmin/$1');
+$routes->post('licencias_admin', 'Licencias::licenciasAdmin');
+$routes->post('licencias_admin/(:any)', 'Licencias::licenciasAdmin');
+
+$routes->get('licencias_all', 'Licencias::licenciasAll');
+$routes->get('licencias_all/(:any)', 'Licencias::licenciasAll/$1');
+$routes->post('licencias_all', 'Licencias::licenciasAll');
+$routes->post('licencias_all/(:any)', 'Licencias::licenciasAll');
+
+$routes->get('mis_licencias', 'Licencias::misLicencias');
+$routes->get('mis_licencias/(:any)', 'Licencias::misLicencias/$1');
+$routes->post('mis_licencias', 'Licencias::misLicencias');
+$routes->post('mis_licencias/(:any)', 'Licencias::misLicencias');
+
 // REGISTRAR PERMISO / DESCANSO
 $routes->get('registrar_permiso', 'General::registrarPermiso');
 $routes->get('registrar_permiso/(:any)', 'General::registrarPermiso/$1');
