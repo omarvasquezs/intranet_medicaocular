@@ -68,56 +68,50 @@ class Contabilidad extends BaseController
             ->callbackAfterInsert(function ($stateParameters) use ($firmaUserId) {
                 $existingPdfPath = FCPATH . 'assets/uploads/boletas/' . $this->boletas->find($stateParameters->insertId)['adjunto'];
 
-                // Create new FPDI instance
                 $pdf = new Fpdi();
-
-                // Disable automatic page break
                 $pdf->SetAutoPageBreak(false, 0);
-
                 $pdf->setPrintHeader(false);
 
-                // Import the existing PDF
-                $pdf->setSourceFile($existingPdfPath);
+                // Try to import the PDF, rasterize if needed
+                try {
+                    $pdf->setSourceFile($existingPdfPath);
+                } catch (\Exception $e) {
+                    $rasterizedPath = str_replace('.pdf', '_rasterized.pdf', $existingPdfPath);
+                    if (self::rasterize_pdf($existingPdfPath, $rasterizedPath)) {
+                        rename($rasterizedPath, $existingPdfPath);
+                        $pdf = new Fpdi();
+                        $pdf->SetAutoPageBreak(false, 0);
+                        $pdf->setPrintHeader(false);
+                        $pdf->setSourceFile($existingPdfPath);
+                    } else {
+                        log_message('error', 'PDF rasterization failed: ' . $e->getMessage());
+                        throw $e;
+                    }
+                }
 
                 // We'll only work with the first page
                 $templateId = $pdf->importPage(1);
                 $size = $pdf->getTemplateSize($templateId);
 
-                // Add only one page
                 $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
-
-                // Use the template
                 $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
 
                 $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find($firmaUserId)['firma'];
 
                 if (is_file($firmaPath) && is_readable($firmaPath)) {
-                    // Get signature dimensions
                     list($sigWidth, $sigHeight) = getimagesize($firmaPath);
-
-                    // Calculate scaling factor to fit within 20x10
                     $scale = min(40 / $sigWidth, 20 / $sigHeight);
                     $newWidth = $sigWidth * $scale;
                     $newHeight = $sigHeight * $scale;
-
-                    $x = 47;  // Adjust this value to move left or right
-    
-                    // First signature position (adjust as needed)
-                    $y1 = 118;  // Adjust this value to move up or down
-    
-                    // Second signature position (adjust as needed)
-                    $y2 = 269; // Adjust this value to move up or down
-    
-                    // Add the first signature image
+                    $x = 47;
+                    $y1 = 118;
+                    $y2 = 269;
                     $pdf->Image($firmaPath, $x, $y1, $newWidth, $newHeight, 'PNG');
-
-                    // Add the second signature image
                     $pdf->Image($firmaPath, $x, $y2, $newWidth, $newHeight, 'PNG');
                 } else {
                     log_message('error', 'Signature file not found or not readable: ' . $firmaPath);
                 }
 
-                // Save the modified PDF
                 $pdf->Output($existingPdfPath, 'F');
                 return $stateParameters;
             })
@@ -202,25 +196,32 @@ class Contabilidad extends BaseController
         ->callbackAfterInsert(function ($stateParameters) use ($firmaUserId) {
             $existingPdfPath = FCPATH . 'assets/uploads/cts/' . $this->cts->find($stateParameters->insertId)['adjunto'];
 
-            // Create new FPDI instance
             $pdf = new Fpdi();
-
-            // Disable automatic page break
             $pdf->SetAutoPageBreak(false, 0);
-
             $pdf->setPrintHeader(false);
 
-            // Import the existing PDF
-            $pdf->setSourceFile($existingPdfPath);
+            // Try to import the PDF, rasterize if needed
+            try {
+                $pdf->setSourceFile($existingPdfPath);
+            } catch (\Exception $e) {
+                $rasterizedPath = str_replace('.pdf', '_rasterized.pdf', $existingPdfPath);
+                if (self::rasterize_pdf($existingPdfPath, $rasterizedPath)) {
+                    rename($rasterizedPath, $existingPdfPath);
+                    $pdf = new Fpdi();
+                    $pdf->SetAutoPageBreak(false, 0);
+                    $pdf->setPrintHeader(false);
+                    $pdf->setSourceFile($existingPdfPath);
+                } else {
+                    log_message('error', 'PDF rasterization failed: ' . $e->getMessage());
+                    throw $e;
+                }
+            }
 
             // We'll only work with the first page
             $templateId = $pdf->importPage(1);
             $size = $pdf->getTemplateSize($templateId);
 
-            // Add only one page
             $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
-
-            // Use the template
             $pdf->useTemplate($templateId, 0, 0, $size['width'], $size['height'], true);
 
             $firmaPath = FCPATH . 'assets/uploads/firmas/' . $this->usuarios->find($firmaUserId)['firma'];
@@ -265,5 +266,15 @@ class Contabilidad extends BaseController
         // Rendering the CRUD
         $output = $this->gc->render();
         return $this->mainOutput($output);
+    }
+
+    // Helper function to rasterize a PDF using ImageMagick's convert
+    private static function rasterize_pdf($inputPdf, $outputPdf)
+    {
+        $cmd = "convert -density 150 " . escapeshellarg($inputPdf) . " -quality 90 " . escapeshellarg($outputPdf) . " 2>&1";
+        $output = [];
+        $result = 0;
+        exec($cmd, $output, $result);
+        return $result === 0 && file_exists($outputPdf);
     }
 }
