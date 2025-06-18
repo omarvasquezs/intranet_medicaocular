@@ -389,7 +389,13 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Médica Ocular &copy; <?= date('Y') ?></span>
+                        <span>
+                            Médica Ocular &copy; <?= date('Y') ?> &nbsp;|&nbsp;
+                            Desarrollado por 
+                            <a href="https://beacons.ai/omarvasquez" target="_blank" rel="noopener noreferrer">
+                                Omar Vásquez Sahuanay
+                            </a>
+                        </span>
                     </div>
                 </div>
             </footer>
