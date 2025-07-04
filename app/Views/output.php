@@ -391,10 +391,7 @@
                     <div class="copyright text-center my-auto">
                         <span>
                             Médica Ocular &copy; <?= date('Y') ?> &nbsp;|&nbsp;
-                            Desarrollado por 
-                            <a href="https://beacons.ai/omarvasquez" target="_blank" rel="noopener noreferrer">
-                                Omar Vásquez Sahuanay
-                            </a>
+                            Desarrollado por Omar Vásquez Sahuanay
                         </span>
                     </div>
                 </div>
