@@ -64,7 +64,7 @@
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">HISTORICO:</h6>
                                 <a class="collapse-item" href="<?= base_url() ?>mis_boletas">Mis Boletas</a>
-                                <a class="collapse-item" href="<?= base_url() ?>mis_cts">Mis Depósitos CTS</a>
+                                <a class="collapse-item" href="<?= base_url() ?>mis_cts">Mis Depósitos CTS y Utilidades</a>
                                 <a class="collapse-item" href="<?= base_url() ?>registrar_permiso">Mis Permisos y
                                     Descansos</a>
                                 <a class="collapse-item" href="<?= base_url() ?>mis_licencias">Mis Licencias</a>
@@ -141,7 +141,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url() ?>contabilidad_boletas_cts/add">
                             <i class="fas fa-fw fa-upload"></i>
-                            <span>SUBIR DEPÓSITO CTS</span>
+                            <span>SUBIR DEPÓSITO CTS Y UTILIDADES</span>
                         </a>
                     </li>
 
@@ -155,7 +155,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url() ?>contabilidad_boletas_cts">
                             <i class="fas fa-fw fa-history"></i>
-                            <span>TODAS LAS CTS</span>
+                            <span>TODAS LAS CTS Y UTILIDADES</span>
                         </a>
                     </li>
 
