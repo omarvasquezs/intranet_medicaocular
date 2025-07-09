@@ -141,7 +141,7 @@ class Contabilidad extends BaseController
         $firmaUserId = $config['id_usuario_doc_firma'] ?? 5; // Fallback to 5 if not found
 
         $this->gc->setTable('boletas_cts')
-            ->setSubject('CTS', 'HISTORICO CTS')
+            ->setSubject('CTS Y UTILIDADES', 'HISTORICO CTS Y UTILIDADES')
             ->defaultOrdering('boletas_cts.fecha_creacion', 'desc')
             ->unsetEdit()
             ->unsetExportPdf()  // Changed from unsetExport() to unsetExportPdf()
